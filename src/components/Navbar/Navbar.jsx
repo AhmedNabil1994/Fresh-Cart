@@ -6,8 +6,8 @@ import { IoCartOutline } from "react-icons/io5";
 export default function NavbarComp() {
   return (
     <>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between md:justify-evenly lg:justify-between mx-auto p-4">
+      <nav className="bg-white border-gray-200 border-b">
+        <div className="gap-y-4 max-w-screen-xl flex flex-wrap items-center justify-center min-400:justify-between md:justify-evenly lg:justify-between mx-auto p-4">
           <Link
             to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -42,7 +42,7 @@ export default function NavbarComp() {
               </svg>
               <span className="sr-only">Search</span>
             </button>
-            <div className="flex  items-center gap-2 md:mt-6 lg:mt-0 justify-between">
+            <div className="flex items-center gap-2 justify-between">
               <div className="relative hidden md:block">
                 <div className="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none ">
                   <svg

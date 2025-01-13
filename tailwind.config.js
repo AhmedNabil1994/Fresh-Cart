@@ -10,6 +10,9 @@ export default {
     // set your own classes and remove tailwind classes
     extend: {
       // set your own classes and keep tailwind classes
+      screens: {
+        "min-400": "400px",
+      },
     },
   },
   plugins: [
