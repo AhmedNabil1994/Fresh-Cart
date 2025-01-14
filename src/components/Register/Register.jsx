@@ -242,10 +242,10 @@ export default function Register() {
         </div>
         <div className="w-full md:w-1/2 lg:w-1/3">
           <form className="md:ps-2 lg:ps-0">
-            <h2 className="text-start text-2xl sm:text-4xl mb-3 font-medium">
+            <h2 className="text-2xl sm:text-4xl mb-3 font-medium">
               Create an account
             </h2>
-            <p className="text-start mb-6">Enter your details below</p>
+            <p className="mb-6">Enter your details below</p>
             <div className="relative z-0 w-full mb-5 group">
               <input
                 type="name"
@@ -327,7 +327,7 @@ export default function Register() {
               </button>
             </div>
           </form>
-          <p>
+          <p className="text-center">
             Already have account?
             <Link
               className="font-medium underline ms-2 underline-offset-[6px]"
