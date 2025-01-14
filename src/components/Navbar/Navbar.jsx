@@ -6,7 +6,7 @@ import { IoCartOutline } from "react-icons/io5";
 export default function NavbarComp() {
   return (
     <>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900">
+      <nav className="bg-white border-gray-200 ">
         <div className="gap-y-2 min-414:gap-y-0 max-w-screen-xl flex flex-wrap items-center justify-center min-414:justify-between md:justify-evenly lg:justify-between mx-auto p-4">
           <Link
             to="/"
