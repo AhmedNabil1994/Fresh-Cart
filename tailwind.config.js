@@ -11,8 +11,12 @@ export default {
     extend: {
       // set your own classes and keep tailwind classes
       screens: {
-        "min-400": "400px",
+        "min-414": "414px",
       },
+      colors:{
+        "secondary": "#DB4444"
+      }
+      
     },
   },
   plugins: [

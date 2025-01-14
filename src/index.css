@@ -4,5 +4,5 @@
 @tailwind utilities;
 
 .active {
-  @apply text-teal-600;
+  @apply text-secondary;
 }
