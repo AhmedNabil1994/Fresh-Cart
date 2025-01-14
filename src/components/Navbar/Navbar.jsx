@@ -7,12 +7,12 @@ export default function NavbarComp() {
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
-        <div className="max-w-screen-xl flex flex-wrap items-center justify-between md:justify-evenly lg:justify-between mx-auto p-4">
+        <div className="gap-y-2 min-414:gap-y-0 max-w-screen-xl flex flex-wrap items-center justify-center min-414:justify-between md:justify-evenly lg:justify-between mx-auto p-4">
           <Link
             to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <i className="fa-solid fa-cart-shopping text-teal-600 text-3xl"></i>
+            <i className="fa-solid fa-cart-shopping text-secondary text-3xl"></i>
             <span className="capitalize self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               fresh cart
             </span>
@@ -69,8 +69,8 @@ export default function NavbarComp() {
                   placeholder="What are you looking for?"
                 />
               </div>
-              <i className="fa fa-regular fa-heart text-2xl"></i>
-              <IoCartOutline size={30} />
+              <i className="fa fa-regular fa-heart text-2xl cursor-pointer"></i>
+              <IoCartOutline size={30} className="cursor-pointer" />
             </div>
             <button
               data-collapse-toggle="navbar-search"
