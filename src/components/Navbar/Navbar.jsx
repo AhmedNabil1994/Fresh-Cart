@@ -6,8 +6,9 @@ import { IoCartOutline } from "react-icons/io5";
 export default function NavbarComp() {
   return (
     <>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900">
-        <div className="gap-y-2 min-414:gap-y-0 max-w-screen-xl flex flex-wrap items-center justify-center min-414:justify-between md:justify-evenly lg:justify-between mx-auto p-4">
+
+      <nav className="bg-white border-gray-200 border-b ">
+        <div className="gap-y-4 max-w-screen-xl flex flex-wrap items-center justify-center min-400:justify-between md:justify-evenly lg:justify-between mx-auto p-4">
           <Link
             to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -42,7 +43,7 @@ export default function NavbarComp() {
               </svg>
               <span className="sr-only">Search</span>
             </button>
-            <div className="flex  items-center gap-2 md:mt-6 lg:mt-0 justify-between">
+            <div className="flex items-center gap-2 justify-between">
               <div className="relative hidden md:block">
                 <div className="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none ">
                   <svg
@@ -122,7 +123,7 @@ export default function NavbarComp() {
               <input
                 type="text"
                 id="search-navbar-2"
-                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-2  text-sm text-gray-900 border border-[#F5F5F5] shadow-sm rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="What are you looking for?"
               />
             </div>

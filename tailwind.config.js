@@ -16,7 +16,7 @@ export default {
       colors:{
         "secondary": "#DB4444"
       }
-      
+     
     },
   },
   plugins: [
