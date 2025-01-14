@@ -14,7 +14,7 @@ export default function Login() {
         </div>
         <div className="w-full md:w-1/2 lg:w-1/3">
           <form className="md:ps-2 lg:ps-0">
-            <h2 className="text-start text-2xl sm:text-4xl mb-3">
+            <h2 className="text-start text-2xl sm:text-4xl mb-3 font-medium">
               Log in to Fresh Cart
             </h2>
             <p className="text-start mb-6">Enter your details below</p>
