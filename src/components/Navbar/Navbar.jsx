@@ -165,6 +165,22 @@ export default function NavbarComp() {
                   Signup
                 </NavLink>
               </li>
+              <li>
+                <NavLink
+                  to="login"
+                  className="inline-block py-2 px-3 md:p-0"
+                >
+                  Login
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="logout"
+                  className="inline-block py-2 px-3 md:p-0"
+                >
+                  Logout
+                </NavLink>
+              </li>
             </ul>
           </div>
         </div>
