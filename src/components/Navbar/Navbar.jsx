@@ -71,6 +71,7 @@ export default function NavbarComp() {
               </div>
               <i className="fa fa-regular fa-heart text-2xl cursor-pointer"></i>
               <IoCartOutline size={30} className="cursor-pointer" />
+              <i className="fa-regular fa-user text-2xl cursor-pointer"></i>
             </div>
             <button
               data-collapse-toggle="navbar-search"
@@ -166,18 +167,12 @@ export default function NavbarComp() {
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="login"
-                  className="inline-block py-2 px-3 md:p-0"
-                >
+                <NavLink to="login" className="inline-block py-2 px-3 md:p-0">
                   Login
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="logout"
-                  className="inline-block py-2 px-3 md:p-0"
-                >
+                <NavLink to="logout" className="inline-block py-2 px-3 md:p-0">
                   Logout
                 </NavLink>
               </li>
