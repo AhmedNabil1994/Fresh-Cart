@@ -27,7 +27,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="w-full text-center sm:text-start sm:w-1/2 md:w-1/4 lg:w-1/5">
-            <div>
+            <div className="sm:ps-5 md:ps-10 lg:ps-20">
               <h2 className="text-xl font-medium mb-4">Support</h2>
               <ul>
                 <li className="mb-2">
@@ -43,7 +43,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="w-full text-center sm:text-start sm:w-1/2 md:w-1/4 lg:w-1/5">
-            <div>
+            <div className="sm:ps-5 md:ps-10 lg:ps-20">
               <h2 className="text-xl font-medium mb-4">Account</h2>
               <ul>
                 <li className="mb-3">
@@ -63,7 +63,7 @@ export default function Footer() {
             </div>
           </div>
           <div className="w-full text-center sm:text-start sm:w-1/2 md:w-1/4 lg:w-1/5">
-            <div>
+            <div className="sm:ps-5 md:ps-10 lg:ps-20">
               <h2 className="text-xl font-medium mb-4">Quick Link</h2>
               <ul>
                 <li className="mb-3">
