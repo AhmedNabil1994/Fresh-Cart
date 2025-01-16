@@ -20,7 +20,6 @@ export default {
     },
   },
   plugins: [
-    // read the docs
     require("flowbite/plugin"),
   ],
 };
