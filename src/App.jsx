@@ -7,8 +7,8 @@ import Products from "./components/Products/Products";
 import Cart from "./components/Cart/Cart";
 import Brands from "./components/Brands/Brands";
 import Categories from "./components/Categories/Categories";
-import Register from "./components/Register/Register";
-import Login from "./components/Login/Login";
+import Register from "./components/Forms/Register/Register";
+import Login from "./components/Forms/Login/Login";
 import NotFound from "./components/NotFound/NotFound";
 
 const router = createBrowserRouter([
