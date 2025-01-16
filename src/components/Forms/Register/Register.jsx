@@ -3,8 +3,7 @@ import style from "./Register.module.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import img from "../../../assets/forms/bg.png";
+import { useNavigate } from "react-router-dom";
 import googleIcon from "../../../assets/forms/Icon-Google.png";
 import FormWrapper from "../FormWrapper/FormWrapper";
 
@@ -12,15 +11,14 @@ export default function Register() {
   const navigate = useNavigate();
 
   const handleRegister = async (formData) => {
-    // formdata carries the object with new values
     const { data } = await axios.post(
       `https://ecommerce.routemisr.com/api/v1/auth/signup`,
       formData
     );
     console.log(data);
     if (data.message === "success") {
-      // home page
-      navigate("/");
+      // login page
+      navigate("/login");
     } else {
       //show error
     }
