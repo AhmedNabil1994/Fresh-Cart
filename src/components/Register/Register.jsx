@@ -102,7 +102,7 @@ export default function Register() {
         <div className="w-full md:w-1/2 lg:w-1/3">
           <form className="md:ps-3 lg:ps-0" onSubmit={formik.handleSubmit}>
             <h2 className="text-2xl sm:text-4xl mb-3 font-medium">
-              Create an account
+              Create an account Edittttt
             </h2>
             <p className="mb-6">Enter your details below</p>
             <div className="relative z-0 w-full mb-3 group">
