@@ -1,9 +1,15 @@
-import React from "react";
+import { useEffect } from "react";
+
 import style from "./Navbar.module.css";
 import { Link, NavLink } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 
 export default function NavbarComp() {
+  useEffect(() => {
+    import("flowbite").then(() => {
+      console.log("Flowbite initialized");
+    });
+  }, []);
   return (
     <>
       <nav className="bg-white border-gray-200 border-b ">
