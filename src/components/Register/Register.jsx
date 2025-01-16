@@ -5,7 +5,7 @@ import * as yup from "yup";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import img from "../../assets/forms/bg.png";
-import googleIcon from "../../assets/forms/icon-google.png";
+import googleIcon from "../../assets/forms/Icon-Google.png";
 
 
 export default function Register() {
