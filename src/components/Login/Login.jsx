@@ -1,20 +1,21 @@
 import React from "react";
 import style from "./Login.module.css";
 import { Link } from "react-router-dom";
-import img from "../../assets/register-bg.JPG";
+import img from "../../assets/forms/bg.png";
+
 
 export default function Login() {
   return (
     <>
-      <section className="login flex flex-wrap justify-between items-center gap-y-8 md:gap-y-0">
-        <div className="w-full md:w-1/2 lg:w-2/3">
-          <div className="md:pe-2 lg:pe-0">
-            <img src={img} alt="register image" className="w-full lg:w-auto" />
+      <section className="login flex flex-wrap justify-around items-center gap-y-8 md:gap-y-0">
+        <div className="w-full md:w-1/2">
+          <div className="md:pe-3 lg:pe-0">
+            <img src={img} alt="register image" className="w-full" />
           </div>
         </div>
         <div className="w-full md:w-1/2 lg:w-1/3">
-          <form className="md:ps-2 lg:ps-0">
-            <h2 className="text-2xl sm:text-4xl mb-3 font-medium">
+          <form className="md:ps-3 lg:ps-0">
+            <h2 className="text-2xl sm:text-4xl mb-6 font-medium">
               Log in to Fresh Cart
             </h2>
             <p className="mb-6">Enter your details below</p>
@@ -34,7 +35,7 @@ export default function Login() {
                 Email
               </label>
             </div>
-            <div className="relative z-0 w-full mb-5 group">
+            <div className="relative z-0 w-full mb-10 group">
               <input
                 type="password"
                 name="password"
@@ -53,7 +54,7 @@ export default function Login() {
             <div className="flex flex-wrap justify-between items-center">
               <button
                 type="submit"
-                className="text-base text-white bg-secondary focus:outline-none font-medium rounded px-8 py-2.5 text-center"
+                className="text-base text-white bg-secondary focus:outline-none font-medium rounded px-12 py-4 text-center"
               >
                 Log in
               </button>

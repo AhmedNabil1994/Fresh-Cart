@@ -4,7 +4,9 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import img from "../../assets/register-bg.JPG";
+import img from "../../assets/forms/bg.png";
+import googleIcon from "../../assets/forms/icon-google.png";
+
 
 export default function Register() {
   const navigate = useNavigate();
@@ -91,14 +93,14 @@ export default function Register() {
 
   return (
     <>
-      <section className="register flex flex-wrap justify-between items-center gap-y-8 md:gap-y-0">
-        <div className="w-full md:w-1/2 lg:w-2/3">
-          <div className="md:pe-2 lg:pe-0">
-            <img src={img} alt="register image" className="w-full lg:w-auto" />
+      <section className="register flex flex-wrap justify-around items-center gap-y-8 md:gap-y-0">
+        <div className="w-full md:w-1/2">
+          <div className="md:pe-3 lg:pe-0">
+            <img src={img} alt="register image" className="w-full" />
           </div>
         </div>
         <div className="w-full md:w-1/2 lg:w-1/3">
-          <form className="md:ps-2 lg:ps-0" onSubmit={formik.handleSubmit}>
+          <form className="md:ps-3 lg:ps-0" onSubmit={formik.handleSubmit}>
             <h2 className="text-2xl sm:text-4xl mb-3 font-medium">
               Create an account
             </h2>
@@ -199,7 +201,7 @@ export default function Register() {
                 </div>
               )}
             </div>
-            <div className="relative z-0 w-full mb-3 group">
+            <div className="relative z-0 w-full mb-10 group">
               <input
                 value={formik.values.rePassword}
                 onChange={formik.handleChange}
@@ -225,7 +227,7 @@ export default function Register() {
                 </div>
               )}
             </div>
-            <div>
+            <div className="">
               <button
                 type="submit"
                 className="text-base text-white bg-secondary focus:outline-none font-medium rounded w-full  px-5 py-2.5 text-center mb-4"
@@ -234,8 +236,10 @@ export default function Register() {
               </button>
             </div>
             <div>
-              <button className="text-base capitalize text-black border-2 border-[#00000040] focus:outline-none font-medium rounded w-full px-5 py-2.5 text-center mb-4">
-                <i className="align-bottom text-2xl me-3 fa-brands fa-google text-transparent bg-[conic-gradient(from_90deg,_#4285F4_15%,_#34A853_15%_40%,_#FBBC04_40%_55%,_#EA4335_55%_90%,_#4285F4_90%)] bg-clip-text"></i>
+              <button className="text-base capitalize text-black border-2 border-[#00000040] focus:outline-none font-medium rounded w-full px-5 py-2.5 text-center mb-8
+              flex justify-center gap-x-4">
+                {/* <i className="align-bottom text-2xl me-3 fa-brands fa-google text-transparent bg-[conic-gradient(from_90deg,_#4285F4_15%,_#34A853_15%_40%,_#FBBC04_40%_55%,_#EA4335_55%_90%,_#4285F4_90%)] bg-clip-text"></i> */}
+                <img src={googleIcon} alt="google icon" />
                 sign up with google
               </button>
             </div>
@@ -243,7 +247,7 @@ export default function Register() {
           <p className="text-center">
             Already have account?
             <Link
-              className="font-medium underline ms-2 underline-offset-[6px]"
+              className="font-medium underline ms-4 underline-offset-[6px]"
               to="/login"
             >
               Login
