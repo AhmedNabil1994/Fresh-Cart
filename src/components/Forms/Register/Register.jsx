@@ -23,7 +23,7 @@ export default function Register() {
       //show error
     }
   };
-  
+
   let validationSchema = yup.object().shape({
     name: yup
       .string()
@@ -57,9 +57,6 @@ export default function Register() {
       rePassword: "",
       phone: "",
     },
-    // custom validation
-    // validate: myValidation,
-
     /* 
      using yup
      validationSchema: validationSchema ===> validationSchema only
