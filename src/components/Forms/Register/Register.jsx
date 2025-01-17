@@ -16,34 +16,14 @@ export default function Register() {
       formData
     );
     console.log(data);
-    if (data.message === "success") {
+    if (data.message === "success") { 
       // login page
       navigate("/login");
     } else {
       //show error
     }
   };
-
-  // custom validation
-
-  /* const myValidation = (formData) => {
-    let errors = {};
-    if (formData.name == "") {
-      errors.name = "Name is required";
-    } else if (!/^[a-zA-Z]{3,10}$/.test(formData.name)) {
-      errors.name = "Name is not valid";
-    }
-    if (formData.phone == "") {
-      errors.phone = "Phone is required";
-    } else if (!/^01[1250][0-9]{8}$/.test(formData.phone)) {
-      errors.phone = "Phone is not valid";
-    }
-    return errors;
-  };
- */
-
-  // yup validation
-
+  
   let validationSchema = yup.object().shape({
     name: yup
       .string()
