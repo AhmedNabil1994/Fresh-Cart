@@ -21,7 +21,7 @@ export default function FormWrapper({
         </div>
         <div className="w-full md:w-1/2 lg:w-1/3">
           <div className="md:ps-3 lg:ps-0">
-            <h2 className="text-2xl sm:text-4xl mb-3 font-medium">
+            <h2 className="text-2xl sm:text-4xl mb-3 font-medium font-inter">
               {headerTitle}
             </h2>
             <p className="mb-6">Enter your details below</p>

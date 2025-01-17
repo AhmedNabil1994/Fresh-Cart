@@ -8,18 +8,19 @@ export default {
 
   theme: {
     // set your own classes and remove tailwind classes
+    fontFamily: {
+      poppins: ["Poppins", "serif"],
+      inter: ["Inter", "sans-serif"],
+    },
     extend: {
       // set your own classes and keep tailwind classes
       screens: {
         "min-414": "414px",
       },
-      colors:{
-        "secondary": "#DB4444"
-      }
-      
+      colors: {
+        secondary: "#DB4444",
+      },
     },
   },
-  plugins: [
-    require("flowbite/plugin"),
-  ],
+  plugins: [require("flowbite/plugin")],
 };

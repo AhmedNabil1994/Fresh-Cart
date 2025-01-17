@@ -10,11 +10,13 @@ import Categories from "./components/Categories/Categories";
 import Register from "./components/Forms/Register/Register";
 import Login from "./components/Forms/Login/Login";
 import NotFound from "./components/NotFound/NotFound";
+import Error from "./components/Error/Error";
 
 const router = createBrowserRouter([
   {
     path: "",
     element: <Layout />,
+    errorElement: <Error />,
     children: [
       { index: true, element: <Home /> },
       { path: "products", element: <Products /> },
@@ -27,13 +29,6 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-
-
-
-
-
-
-
 
 function App() {
   return <RouterProvider router={router} />;

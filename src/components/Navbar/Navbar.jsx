@@ -13,7 +13,7 @@ export default function NavbarComp() {
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <i className="fa-solid fa-cart-shopping text-secondary text-3xl"></i>
-            <span className="capitalize self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="capitalize self-center text-2xl font-inter font-bold whitespace-nowrap">
               fresh cart
             </span>
           </Link>
@@ -131,7 +131,7 @@ export default function NavbarComp() {
               <li>
                 <NavLink
                   to="/"
-                  className="inline-block py-2 px-3 md:p-0"
+                  className="font-normal  inline-block py-2 px-3 md:p-0"
                   aria-current="page"
                 >
                   Home
@@ -140,7 +140,7 @@ export default function NavbarComp() {
               <li>
                 <NavLink
                   to="products"
-                  className="inline-block py-2 px-3 md:p-0"
+                  className="font-normal  inline-block py-2 px-3 md:p-0"
                 >
                   Products
                 </NavLink>
@@ -148,31 +148,40 @@ export default function NavbarComp() {
               <li>
                 <NavLink
                   to="categories"
-                  className="inline-block py-2 px-3 md:p-0"
+                  className="font-normal  inline-block py-2 px-3 md:p-0"
                 >
                   Categories
                 </NavLink>
               </li>
               <li>
-                <NavLink to="brands" className="inline-block py-2 px-3 md:p-0">
+                <NavLink 
+                  to="brands" 
+                  className="font-normal  inline-block py-2 px-3 md:p-0"
+                  >
                   Brands
                 </NavLink>
               </li>
               <li>
                 <NavLink
                   to="register"
-                  className="inline-block py-2 px-3 md:p-0"
+                  className="font-normal  inline-block py-2 px-3 md:p-0"
                 >
-                  Signup
+                  Sign Up
                 </NavLink>
               </li>
               <li>
-                <NavLink to="login" className="inline-block py-2 px-3 md:p-0">
+                <NavLink 
+                 to="login" 
+                 className="font-normal  inline-block py-2 px-3 md:p-0"
+                 >
                   Login
                 </NavLink>
               </li>
               <li>
-                <NavLink to="logout" className="inline-block py-2 px-3 md:p-0">
+                <NavLink 
+                  to="logout"
+                  className="font-normal  inline-block py-2 px-3 md:p-0"
+                  >
                   Logout
                 </NavLink>
               </li>

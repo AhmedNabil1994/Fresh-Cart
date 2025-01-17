@@ -4,6 +4,8 @@ import "./index.css";
 import App from "./App.jsx";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "../node_modules/flowbite/dist/flowbite.min.js"
+import '@fontsource/inter';
+import '@fontsource/poppins';
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
