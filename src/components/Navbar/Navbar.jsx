@@ -99,7 +99,7 @@ export default function NavbarComp() {
             </button>
           </div>
           <div
-            className="overflow-y-auto max-h-screen items-center justify-between hidden w-full md:flex md:w-auto md:order-1 "
+            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 "
             id="navbar-search"
           >
             <div className="relative mt-3 md:hidden">
