@@ -19,3 +19,7 @@ input:-webkit-autofill:active {
 body {
   @apply font-poppins
 }
+
+.row {
+  @apply flex flex-wrap
+}

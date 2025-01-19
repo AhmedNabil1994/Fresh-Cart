@@ -13,7 +13,7 @@ export default function FormWrapper({
 }) {
   return (
     <>
-      <section className="form-wrapper flex flex-wrap justify-around items-center gap-y-8 md:gap-y-0">
+      <section className="form-wrapper row justify-around items-center gap-y-8 md:gap-y-0">
         <div className="w-full md:w-1/2">
           <div className="md:pe-3 lg:pe-0">
             <img src={img} alt="register image" className="w-full" />

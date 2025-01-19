@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <>
       <footer className="bg-black text-[#FAFAFA] p-14">
-        <div className="flex flex-wrap justify-between gap-y-3">
+        <div className="row justify-between gap-y-3">
           <div className="w-full text-center sm:text-start sm:w-1/2 md:w-1/4 lg:w-1/5">
             <div>
               <h2 className="text-2xl font-bold mb-4 font-inter">Fresh Cart</h2>

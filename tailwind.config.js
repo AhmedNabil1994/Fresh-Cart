@@ -20,6 +20,9 @@ export default {
       colors: {
         secondary: "#DB4444",
       },
+      container: {
+        center: true,
+      },
     },
   },
   plugins: [require("flowbite/plugin")],

@@ -9,7 +9,7 @@ export default function Layout() {
     <>
       <Navbar />
       <section className="px-4 py-32 my-3">
-        <div className="container mx-auto">
+        <div className="container">
           <Outlet />
         </div>
       </section>
