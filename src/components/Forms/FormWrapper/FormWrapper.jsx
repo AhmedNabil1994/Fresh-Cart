@@ -10,7 +10,7 @@ export default function FormWrapper({
   headerTitle,
   footerTitle,
   navigate,
-  error
+  apiError
 }) {
   return (
     <>
@@ -21,9 +21,9 @@ export default function FormWrapper({
           </div>
         </div>
         <div className="w-full md:w-1/2 lg:w-1/3">
-          {error && (
+          {apiError && (
             <div className="bg-red-600 text-white font-bold rounded-lg p-3 mb-3 text-center">
-              {error}
+              {apiError}
             </div>
           )}
           <div className="md:ps-3 lg:ps-0">
