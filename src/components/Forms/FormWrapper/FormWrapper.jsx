@@ -10,6 +10,7 @@ export default function FormWrapper({
   headerTitle,
   footerTitle,
   navigate,
+  error
 }) {
   return (
     <>
@@ -20,6 +21,11 @@ export default function FormWrapper({
           </div>
         </div>
         <div className="w-full md:w-1/2 lg:w-1/3">
+          {error && (
+            <div className="bg-red-600 text-white font-bold rounded-lg p-3 mb-3 text-center">
+              {error}
+            </div>
+          )}
           <div className="md:ps-3 lg:ps-0">
             <h2 className="text-2xl sm:text-4xl mb-3 font-medium font-inter">
               {headerTitle}
