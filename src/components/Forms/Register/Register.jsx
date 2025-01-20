@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import style from "./Register.module.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -9,19 +9,27 @@ import FormWrapper from "../FormWrapper/FormWrapper";
 
 export default function Register() {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleRegister = async (formData) => {
-    const { data } = await axios.post(
-      `https://ecommerce.routemisr.com/api/v1/auth/signup`,
-      formData
-    );
-    console.log(data);
-    if (data.message === "success") { 
-      // login page
-      navigate("/login");
-    } else {
-      //show error
-    }
+  const handleRegister = (formData) => {
+    setIsLoading(true);
+    axios
+      .post(`https://ecommerce.routemisr.com/api/v1/auth/signup`, formData)
+      .then((res) => {
+        setIsLoading(false);
+        if (res.data.message === "success") {
+          localStorage.setItem("token", res.data.token);
+          setError("");
+          navigate("/login");
+          console.log(res);
+          console.log(formData);
+        }
+      })
+      .catch((res) => {
+        setIsLoading(false);
+        setError(res.response.data.message);
+      });
   };
 
   let validationSchema = yup.object().shape({
@@ -72,6 +80,7 @@ export default function Register() {
         headerTitle="Create an account"
         footerTitle="Already have account?"
         navigate="login"
+        error={error}
       >
         <form onSubmit={formik.handleSubmit}>
           <div className="relative z-0 w-full mb-3 group">
@@ -195,10 +204,22 @@ export default function Register() {
             )}
           </div>
           <button
+            /* 
+              disabled
+                when loading true
+                when form not valid and still empty
+             */
+            disabled={!(formik.isValid && formik.dirty) || isLoading}
             type="submit"
-            className="text-base text-white bg-secondary focus:outline-none font-medium rounded w-full  px-5 py-2.5 text-center mb-4"
+            className={`text-base text-white ${
+              !(formik.isValid && formik.dirty) || isLoading ? "bg-secondary/50" : "bg-secondary"
+            }  focus:outline-none font-medium rounded w-full  px-5 py-2.5 text-center mb-4`}
           >
-            Create Account
+            {isLoading ? (
+              <i className="fas fa-spinner fa-spin"></i>
+            ) : (
+              "Create Account"
+            )}
           </button>
           <button
             className="text-base capitalize text-black border-2 border-[#00000040] focus:outline-none font-medium rounded w-full px-5 py-2.5 text-center mb-8

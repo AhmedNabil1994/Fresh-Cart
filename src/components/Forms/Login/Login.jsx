@@ -1,28 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 // import style from "./Login.module.css";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import FormWrapper from "../FormWrapper/FormWrapper";
 import { useFormik } from "formik";
-import  axios from 'axios';
+import axios from "axios";
 
 export default function Login() {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = async (formData) => {
-    const { data } = await axios.post(
-      `https://ecommerce.routemisr.com/api/v1/auth/signin`,
-      formData
-    );
-    console.log(data);
-    if (data.message === "success") {
-      // home page
-      navigate("/");
-    } else {
-      //show error
-    }
+  const handleLogin = (formData) => {
+    setIsLoading(true);
+    axios
+      .post(`https://ecommerce.routemisr.com/api/v1/auth/signin`, formData)
+      .then((res) => {
+        setIsLoading(false);
+        if (res.data.message === "success") {
+          localStorage.setItem("token", res.data.token);
+          setError("");
+          navigate("/");
+          console.log(res);
+          console.log(formData);
+        }
+      })
+      .catch((res) => {
+        setIsLoading(false);
+        setError(res.response.data.message);
+      });
   };
-  
+
   let validationSchema = yup.object().shape({
     email: yup.string().email("Email is invalid").required("Email is required"),
     password: yup
@@ -49,6 +57,7 @@ export default function Login() {
         headerTitle="Log in to Fresh Cart"
         footerTitle="Don't have an account?"
         navigate="register"
+        error = {error}
       >
         <form onSubmit={formik.handleSubmit}>
           <div className="relative z-0 w-full mb-5 group">
@@ -101,8 +110,13 @@ export default function Login() {
           </div>
           <div className="flex flex-wrap justify-between items-center mb-8">
             <button
+              disabled={!(formik.isValid && formik.dirty) || isLoading}
               type="submit"
-              className="text-base text-white bg-secondary focus:outline-none font-medium rounded px-12 py-4 text-center"
+              className={`text-base text-white ${
+                !(formik.isValid && formik.dirty) || isLoading
+                  ? "bg-secondary/50"
+                  : "bg-secondary"
+              } focus:outline-none font-medium rounded px-12 py-4 text-center`}
             >
               Log in
             </button>
