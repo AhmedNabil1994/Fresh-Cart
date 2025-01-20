@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 // import style from "./Register.module.css";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -6,10 +6,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import googleIcon from "../../../assets/forms/Icon-Google.png";
 import FormWrapper from "../FormWrapper/FormWrapper";
+import { UserContext } from "../../../context/UserContext";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [apiError, setApiError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = (formData) => {
@@ -19,8 +20,7 @@ export default function Register() {
       .then((res) => {
         setIsLoading(false);
         if (res.data.message === "success") {
-          localStorage.setItem("token", res.data.token);
-          setError("");
+          setApiError("");
           navigate("/login");
           console.log(res);
           console.log(formData);
@@ -28,7 +28,7 @@ export default function Register() {
       })
       .catch((res) => {
         setIsLoading(false);
-        setError(res.response.data.message);
+        setApiError(res.response.data.message);
       });
   };
 
@@ -80,7 +80,7 @@ export default function Register() {
         headerTitle="Create an account"
         footerTitle="Already have account?"
         navigate="login"
-        error={error}
+        apiError={apiError}
       >
         <form onSubmit={formik.handleSubmit}>
           <div className="relative z-0 w-full mb-3 group">
@@ -212,7 +212,9 @@ export default function Register() {
             disabled={!(formik.isValid && formik.dirty) || isLoading}
             type="submit"
             className={`text-base text-white ${
-              !(formik.isValid && formik.dirty) || isLoading ? "bg-secondary/50" : "bg-secondary"
+              !(formik.isValid && formik.dirty) || isLoading
+                ? "bg-secondary/50"
+                : "bg-secondary"
             }  focus:outline-none font-medium rounded w-full  px-5 py-2.5 text-center mb-4`}
           >
             {isLoading ? (

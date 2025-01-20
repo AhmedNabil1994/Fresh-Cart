@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 // import style from "./Login.module.css";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import FormWrapper from "../FormWrapper/FormWrapper";
 import { useFormik } from "formik";
 import axios from "axios";
+import { UserContext } from "../../../context/UserContext";
+import Cookies from "js-cookie";
 
 export default function Login() {
+  let { setUserToken } = useContext(UserContext);
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [apiError, setApiError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = (formData) => {
@@ -18,8 +21,10 @@ export default function Login() {
       .then((res) => {
         setIsLoading(false);
         if (res.data.message === "success") {
-          localStorage.setItem("token", res.data.token);
-          setError("");
+          // using cookies to last for an hour only
+          Cookies.set("token", res.data.token, { expires: 1/24 });
+          setUserToken(res.data.token);
+          setApiError("");
           navigate("/");
           console.log(res);
           console.log(formData);
@@ -27,7 +32,7 @@ export default function Login() {
       })
       .catch((res) => {
         setIsLoading(false);
-        setError(res.response.data.message);
+        setApiError(res.response.data.message);
       });
   };
 
@@ -57,7 +62,7 @@ export default function Login() {
         headerTitle="Log in to Fresh Cart"
         footerTitle="Don't have an account?"
         navigate="register"
-        error = {error}
+        apiError={apiError}
       >
         <form onSubmit={formik.handleSubmit}>
           <div className="relative z-0 w-full mb-5 group">

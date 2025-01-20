@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 // import style from "./Navbar.module.css";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
+import { UserContext } from "../../context/UserContext";
+import Cookies from "js-cookie";
 
 export default function NavbarComp() {
+  const navigate = useNavigate();
+  let { userToken, setUserToken } = useContext(UserContext);
+  
+  const handleLogout = () => {
+    Cookies.remove("token");
+    setUserToken(null);
+    navigate("/login");
+  };
+
   return (
     <>
       <nav className="bg-white border-b border-gray-200  fixed top-0 inset-x-0 z-50">
@@ -69,9 +80,13 @@ export default function NavbarComp() {
                   placeholder="What are you looking for?"
                 />
               </div>
-              <i className="fa fa-regular fa-heart text-2xl cursor-pointer"></i>
-              <IoCartOutline size={30} className="cursor-pointer" />
-              <i className="fa-regular fa-user text-2xl cursor-pointer"></i>
+              {userToken && (
+                <>
+                  <i className="fa fa-regular fa-heart text-2xl cursor-pointer"></i>
+                  <IoCartOutline size={30} className="cursor-pointer" />
+                </>
+              )}
+              {/* <i className="fa-regular fa-user text-2xl cursor-pointer"></i> */}
             </div>
             <button
               data-collapse-toggle="navbar-search"
@@ -128,7 +143,7 @@ export default function NavbarComp() {
               />
             </div>
             <ul className="text-center flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700 ">
-              <li>
+              {/* <li>
                 <NavLink
                   to="/"
                   className="font-normal  inline-block py-2 px-3 md:p-0"
@@ -139,52 +154,88 @@ export default function NavbarComp() {
               </li>
               <li>
                 <NavLink
-                  to="products"
+                  to="/contact"
                   className="font-normal  inline-block py-2 px-3 md:p-0"
+                  aria-current="page"
                 >
-                  Products
+                  Contact
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="categories"
+                  to="/about"
                   className="font-normal  inline-block py-2 px-3 md:p-0"
+                  aria-current="page"
                 >
-                  Categories
+                  About
                 </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="brands"
-                  className="font-normal  inline-block py-2 px-3 md:p-0"
-                >
-                  Brands
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="register"
-                  className="font-normal  inline-block py-2 px-3 md:p-0"
-                >
-                  Sign Up
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="login"
-                  className="font-normal  inline-block py-2 px-3 md:p-0"
-                >
-                  Login
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="logout"
-                  className="font-normal  inline-block py-2 px-3 md:p-0"
-                >
-                  Logout
-                </NavLink>
-              </li>
+              </li> */}
+              {userToken && (
+                <>
+                  <li>
+                    <NavLink
+                      to="/"
+                      className="font-normal  inline-block py-2 px-3 md:p-0"
+                      aria-current="page"
+                    >
+                      Home
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="products"
+                      className="font-normal  inline-block py-2 px-3 md:p-0"
+                    >
+                      Products
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="categories"
+                      className="font-normal  inline-block py-2 px-3 md:p-0"
+                    >
+                      Categories
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="brands"
+                      className="font-normal  inline-block py-2 px-3 md:p-0"
+                    >
+                      Brands
+                    </NavLink>
+                  </li>
+                </>
+              )}
+              {userToken ? (
+                <li>
+                  <span
+                    onClick={handleLogout}
+                    className="font-normal inline-block py-2 px-3 md:p-0 cursor-pointer hover:text-secondary transition-colors"
+                  >
+                    Logout
+                  </span>
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <NavLink
+                      to="register"
+                      className="font-normal  inline-block py-2 px-3 md:p-0"
+                    >
+                      Sign Up
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to="login"
+                      className="font-normal  inline-block py-2 px-3 md:p-0"
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

@@ -11,6 +11,7 @@ import Register from "./components/Forms/Register/Register";
 import Login from "./components/Forms/Login/Login";
 import NotFound from "./components/NotFound/NotFound";
 import Error from "./components/Error/Error";
+import UserContextProvider from "./context/UserContext";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <UserContextProvider>
+      <RouterProvider router={router} />
+    </UserContextProvider>
+  );
 }
 
 export default App;
