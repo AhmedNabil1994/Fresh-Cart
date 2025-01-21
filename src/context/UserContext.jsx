@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 export let UserContext = createContext();
 
 export default function UserContextProvider({ children }) {
-    Cookies
   const [userToken, setUserToken] = useState(
     Cookies.get("token") && Cookies.get("token")
   );

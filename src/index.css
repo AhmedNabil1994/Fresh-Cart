@@ -17,9 +17,13 @@ input:-webkit-autofill:active {
 }
 
 body {
-  @apply font-poppins
+  @apply font-poppins;
 }
 
 .row {
-  @apply flex flex-wrap
+  @apply flex flex-wrap;
+}
+
+.alert-error {
+  @apply bg-red-100 text-red-600 border border-red-300 p-3 text-center;
 }
