@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 export default function NavbarComp() {
   const navigate = useNavigate();
   let { userToken, setUserToken } = useContext(UserContext);
-  
+
   const handleLogout = () => {
     Cookies.remove("token");
     setUserToken(null);
@@ -76,7 +76,7 @@ export default function NavbarComp() {
                 <input
                   type="text"
                   id="search-navbar-1"
-                  className="block w-full p-2 pe-10 text-sm text-gray-900 border border-[#F5F5F5] shadow-sm rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full md:w-[250px]  p-2 pe-10 text-sm text-gray-900 border border-[#F5F5F5] shadow-sm rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="What are you looking for?"
                 />
               </div>

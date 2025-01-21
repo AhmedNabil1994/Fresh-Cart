@@ -12,6 +12,7 @@ import Login from "./components/Forms/Login/Login";
 import NotFound from "./components/NotFound/NotFound";
 import Error from "./components/Error/Error";
 import UserContextProvider from "./context/UserContext";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -19,11 +20,46 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <Error />,
     children: [
-      { index: true, element: <Home /> },
-      { path: "products", element: <Products /> },
-      { path: "cart", element: <Cart /> },
-      { path: "brands", element: <Brands /> },
-      { path: "categories", element: <Categories /> },
+      {
+        index: true,
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "products",
+        element: (
+          <ProtectedRoute>
+            <Products />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "cart",
+        element: (
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "brands",
+        element: (
+          <ProtectedRoute>
+            <Brands />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "categories",
+        element: (
+          <ProtectedRoute>
+            <Categories />
+          </ProtectedRoute>
+        ),
+      },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "*", element: <NotFound /> },
