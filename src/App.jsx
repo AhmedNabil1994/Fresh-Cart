@@ -13,6 +13,7 @@ import NotFound from "./components/NotFound/NotFound";
 import Error from "./components/Error/Error";
 import UserContextProvider from "./context/UserContext";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import ProductDetails from './components/Products/ProductDetails/ProductDetails';
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Categories />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "productdetails/:id",
+        element: (
+          <ProtectedRoute>
+            <ProductDetails />
           </ProtectedRoute>
         ),
       },
