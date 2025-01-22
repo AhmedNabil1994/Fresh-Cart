@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Product from "../Product/Product";
 import axios from "axios";
 import Loader from "../../shared/Loader/Loader";
+import ApiError from "../../shared/ApiError/ApiError";
 // css module
 // import style from "./RecentProducts.module.css";
 
@@ -35,7 +36,7 @@ export default function RecentProducts() {
       {isloading ? (
         <Loader />
       ) : apiError ? (
-        <div className="alert-error">{apiError}</div>
+        <ApiError error={apiError} />
       ) : (
         <div className="row">
           {products.map((product) => (
