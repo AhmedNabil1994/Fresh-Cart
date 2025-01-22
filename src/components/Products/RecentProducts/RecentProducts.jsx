@@ -9,20 +9,20 @@ import ApiError from "../../shared/ApiError/ApiError";
 export default function RecentProducts() {
   const [products, setProducts] = useState([]);
   const [apiError, setApiError] = useState(null);
-  const [isloading, setIsloading] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
 
   const getProducts = () => {
-    setIsloading(true);
+    setIsLoading(true);
     axios
       .get(`https://ecommerce.routemisr.com/api/v1/products`)
       .then(({ data }) => {
-        setIsloading(false);
+        setIsLoading(false);
         setProducts(data.data);
         console.log(data.data);
         setApiError(null);
       })
       .catch((error) => {
-        setIsloading(false);
+        setIsLoading(false);
         console.log(error);
         setApiError(error.response.data.message);
         setProducts([]);
@@ -38,7 +38,7 @@ export default function RecentProducts() {
       ) : apiError ? (
         <ApiError error={apiError} />
       ) : (
-        <div className="row">
+        <div className="row mx-[-15px]">
           {products.map((product) => (
             <Product product={product} key={product.id} />
           ))}
