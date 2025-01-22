@@ -15,8 +15,10 @@ export default function Product({ product }) {
   };
   return (
     <>
-      <div className="w-full sm:w-6/12 md:w-4/12 lg:w-3/12 sm:px-[15px] mb-[60px] group">
-        <Link to={`productdetails/${product.id}`}>
+      <div
+        className="w-full sm:w-6/12 md:w-4/12 lg:w-3/12 mb-[60px] group px-[15px]"
+      >
+        <Link to={`/productdetails/${product.id}/${product.category.name}`}>
           <div>
             <div className="bg-[#F5F5F5] relative rounded mb-4">
               <i className="fa-regular fa-heart absolute top-3 end-3 p-2 "></i>
@@ -26,8 +28,9 @@ export default function Product({ product }) {
                 className="p-8"
               />
               <button
-              onClick={handleAddToCart}
-               className="absolute inset-x-0 bottom-0 capitalize bg-black text-white text-center w-full py-2 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition duration-500">
+                onClick={handleAddToCart}
+                className="absolute inset-x-0 bottom-0 capitalize bg-black text-white text-center w-full py-2 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition duration-500"
+              >
                 add to cart
               </button>
             </div>
