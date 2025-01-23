@@ -23,7 +23,6 @@ export default function ProductDetails() {
       .then(({ data }) => {
         setIsLoading(false);
         setProduct(data.data);
-        console.log(data.data);
         setApiError(null);
       })
       .catch((error) => {
@@ -43,12 +42,10 @@ export default function ProductDetails() {
           (product) => product.category.name === category
         );
         setRelatedProducts(related);
-        console.log(related, "relatedProducts");
         setApiError(null);
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log(error);
         setApiError(error.response.data.message);
       });
   };
