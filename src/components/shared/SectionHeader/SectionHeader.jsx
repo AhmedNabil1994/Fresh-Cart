@@ -3,7 +3,7 @@ import { useState } from "react";
 // css module
 // import style from "./ProductsHeader.module.css";
 
-export default function ProductsHeader({ title, subtitle }) {
+export default function SectionHeader({ title, subtitle }) {
   return (
     <>
       <div>

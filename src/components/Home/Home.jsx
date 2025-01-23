@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import RecentProducts from "../Products/RecentProducts/RecentProducts";
-import ProductsHeader from "../Products/ProductsHeader/ProductsHeader";
+import SectionHeader from "../shared/SectionHeader/SectionHeader";
+
 
 // css module
 // import style from "./Home.module.css";
@@ -25,7 +26,7 @@ export default function Home() {
   return (
     <>
       <section className="lg:mx-16">
-        <ProductsHeader
+        <SectionHeader
           title="Recent Products"
           subtitle="Explore Our Products"
         />

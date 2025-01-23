@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ApiError from "../../shared/ApiError/ApiError";
 import Loader from "../../shared/Loader/Loader";
-import ProductsHeader from "../ProductsHeader/ProductsHeader";
 import Product from "../Product/Product";
+import SectionHeader from "../../shared/SectionHeader/SectionHeader";
 
 // css module
 // import style from "./ProductDetails.module.css";
@@ -85,7 +85,7 @@ export default function ProductDetails() {
                   <img
                     src={product.imageCover}
                     alt={product.title}
-                    className="w-full md:w-[500px] aspect-[500/600] mx-auto"
+                    className="object-cover w-full md:w-[500px] aspect-[500/600] mx-auto"
                   />
                 </div>
               </div>
@@ -138,7 +138,7 @@ export default function ProductDetails() {
             </div>
           )}
           <div className="">
-            <ProductsHeader title="Related Item" subtitle="Related Products" />
+            <SectionHeader title="Related Item" subtitle="Related Products" />
           </div>
           <div className="row mx-[-15px]">
             {relatedProducts.map((product) => (
