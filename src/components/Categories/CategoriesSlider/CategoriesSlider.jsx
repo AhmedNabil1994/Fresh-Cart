@@ -39,7 +39,7 @@ export default function CategoriesSlider() {
     speed: 500,
     slidesToShow: 6,
     slidesToScroll: 3,
-    autoplay: true,
+    // autoplay: true,
     responsive: [
       {
         breakpoint: 1024,
@@ -89,7 +89,7 @@ export default function CategoriesSlider() {
                 <img
                   src={category.image}
                   alt={category.name}
-                  className="w-full h-[200px] object-cover"
+                  className="w-full object-cover aspect-square"
                 />
                 <h2 className="text-center mt-2 hover:text-secondary transition duration-500">
                   {category.name}
