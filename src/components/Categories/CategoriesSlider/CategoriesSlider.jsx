@@ -39,7 +39,7 @@ export default function CategoriesSlider() {
     speed: 500,
     slidesToShow: 6,
     slidesToScroll: 3,
-    // autoplay: true,
+    autoplay: true,
     responsive: [
       {
         breakpoint: 1024,
