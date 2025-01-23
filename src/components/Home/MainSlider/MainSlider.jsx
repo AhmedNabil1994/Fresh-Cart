@@ -5,16 +5,30 @@ import img2 from "../../../assets/home/slider-image-2-Xt88XJy9.jpeg";
 import img3 from "../../../assets/home/slider-image-3-BtMvVf4V.jpeg";
 
 // css module
-// import style from "./MainSlider.module.css";
+import style from "./MainSlider.module.css";
 
 export default function MainSlider() {
+  const [activeSlide, setActiveSlide] = useState(0);
+
   let settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
+    // autoplay: true,
+    customPaging: (i) => (
+      <div
+        className={`h-4 w-4 rounded-full 
+        ${
+          i === activeSlide
+            ? "bg-secondary outline-[3px] outline outline-white"
+            : "bg-[#808080] "
+        }`}
+      ></div>
+    ),
+    dotsClass: `slick-dots ${style.custom}`,
+    beforeChange: (current, next) => setActiveSlide(next),
   };
 
   const images = [

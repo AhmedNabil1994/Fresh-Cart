@@ -1,1 +1,5 @@
-.MainSlider {}
+.MainSlider {
+}
+.custom {
+  bottom: 0 !important;
+}
