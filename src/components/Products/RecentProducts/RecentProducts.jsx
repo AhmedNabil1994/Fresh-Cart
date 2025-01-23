@@ -18,12 +18,10 @@ export default function RecentProducts() {
       .then(({ data }) => {
         setIsLoading(false);
         setProducts(data.data);
-        console.log(data.data);
         setApiError(null);
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log(error);
         setApiError(error.response.data.message);
         setProducts([]);
       });

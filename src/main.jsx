@@ -6,6 +6,8 @@ import "../node_modules/flowbite/dist/flowbite.min.js"
 import '@fontsource/inter';
 import '@fontsource/poppins';
 import "./index.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
