@@ -7,6 +7,8 @@ import Product from "../Product/Product";
 import SectionHeader from "../../shared/SectionHeader/SectionHeader";
 import StarRatings from "react-star-ratings";
 
+import "@smastrom/react-rating/style.css";
+
 // css module
 // import style from "./ProductDetails.module.css";
 
