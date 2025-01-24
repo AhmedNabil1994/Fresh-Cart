@@ -16,7 +16,7 @@ export default function MainSlider() {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    // autoplay: true,
+    autoplay: true,
     customPaging: (i) => (
       <div
         className={`h-4 w-4 rounded-full 
