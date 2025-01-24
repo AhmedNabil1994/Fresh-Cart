@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import StarRatings from "react-star-ratings";
 // css module
 // import style from "./Product.module.css";
 
@@ -35,18 +36,25 @@ export default function Product({ product }) {
             <h3 className="font-semibold text-xl text-secondary mb-2 line-clamp-1">
               {product.category.name}
             </h3>
-            <h3 className="font-medium mb-2 line-clamp-1">{product.title}</h3>
-            <div className="flex">
+            <div className="flex justify-between">
+              <h3 className="font-medium mb-2 line-clamp-1">{product.title}</h3>
+              <span className="opacity-50">({product.quantity})</span>
+            </div>
+            <div className="flex justify-between sm:justify-start">
               <span className="text-secondary me-2">${product.price}</span>
-              <div className="">
-                <i className="fas fa-star text-[#FFAD33]"></i>
-                <i className="fas fa-star text-[#FFAD33]"></i>
-                <i className="fas fa-star text-[#FFAD33]"></i>
-                <i className="fas fa-star opacity-25"></i>
-                <i className="fas fa-star opacity-25"></i>
-                
+              <div className="flex">
+                <div className="shrink-0 -mt-[2px]">
+                  <StarRatings
+                    rating={product.ratingsAverage}
+                    starRatedColor="#FFAD33"
+                    starDimension="20px"
+                    starSpacing="2px"
+                  />
+                </div>
+                <span className="ms-2">
+                  (<span className="text-secondary">{product.ratingsAverage}</span>)
+                </span>
               </div>
-              <span className="opacity-50 ms-2">({product.quantity})</span>
             </div>
           </div>
         </Link>
