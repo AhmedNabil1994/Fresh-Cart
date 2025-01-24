@@ -5,6 +5,7 @@ import ApiError from "../../shared/ApiError/ApiError";
 import Loader from "../../shared/Loader/Loader";
 import Product from "../Product/Product";
 import SectionHeader from "../../shared/SectionHeader/SectionHeader";
+import StarRatings from "react-star-ratings";
 
 // css module
 // import style from "./ProductDetails.module.css";
@@ -91,16 +92,17 @@ export default function ProductDetails() {
                   <h2 className="text-2xl font-semibold font-inter">
                     {product.title}
                   </h2>
-                  <div className="row my-4">
-                    <div className="stars">
-                      <i className="fas fa-star text-[#FFAD33]"></i>
-                      <i className="fas fa-star text-[#FFAD33]"></i>
-                      <i className="fas fa-star text-[#FFAD33]"></i>
-                      <i className="fas fa-star opacity-25"></i>
-                      <i className="fas fa-star opacity-25"></i>
+                  <div className="row my-4 gap-x-2">
+                    <div className="-mt-[2px]">
+                      <StarRatings
+                        rating={product.ratingsAverage}
+                        starRatedColor="#FFAD33"
+                        starDimension="20px"
+                        starSpacing="2px"
+                      />
                     </div>
-                    <p className="ms-2 opacity-50 me-4">
-                      ({product.reviews.length || 150} Reviews)
+                    <p className=" opacity-50">
+                      ({product.ratingsQuantity} Reviews)
                     </p>
                     <p>
                       <span className="opacity-50">|</span>
@@ -134,7 +136,7 @@ export default function ProductDetails() {
               </div>
             </div>
           )}
-          <div className="">
+          <div>
             <SectionHeader title="Related Item" subtitle="Related Products" />
           </div>
           <div className="row mx-[-15px]">
