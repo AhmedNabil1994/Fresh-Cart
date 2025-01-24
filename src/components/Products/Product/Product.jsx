@@ -15,9 +15,7 @@ export default function Product({ product }) {
   };
   return (
     <>
-      <div
-        className="w-full sm:w-6/12 md:w-4/12 lg:w-3/12 mb-[60px] group px-[15px]"
-      >
+      <div className="w-full sm:w-6/12 md:w-4/12 lg:w-3/12 mb-[60px] group px-[15px]">
         <Link to={`/productdetails/${product.id}/${product.category.name}`}>
           <div>
             <div className="bg-[#F5F5F5] relative rounded mb-4">
@@ -40,12 +38,13 @@ export default function Product({ product }) {
             <h3 className="font-medium mb-2 line-clamp-1">{product.title}</h3>
             <div className="flex">
               <span className="text-secondary me-2">${product.price}</span>
-              <div className="stars">
+              <div className="">
                 <i className="fas fa-star text-[#FFAD33]"></i>
                 <i className="fas fa-star text-[#FFAD33]"></i>
                 <i className="fas fa-star text-[#FFAD33]"></i>
                 <i className="fas fa-star opacity-25"></i>
                 <i className="fas fa-star opacity-25"></i>
+                
               </div>
               <span className="opacity-50 ms-2">({product.quantity})</span>
             </div>
