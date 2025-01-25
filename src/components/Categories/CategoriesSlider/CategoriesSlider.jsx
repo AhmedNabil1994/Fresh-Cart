@@ -11,6 +11,7 @@ export default function CategoriesSlider() {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState(null);
+  const [isFocused, setIsFocused] = useState(false);
 
   const getCategories = () => {
     setIsLoading(true);
@@ -28,6 +29,9 @@ export default function CategoriesSlider() {
         setCategories([]);
       });
   };
+
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(false);
 
   useEffect(() => {
     getCategories();
@@ -85,7 +89,13 @@ export default function CategoriesSlider() {
         <div className="mb-36">
           <Slider {...settings}>
             {categories.map((category) => (
-              <div key={category._id} className="focus-visible:outline-none">
+              <div
+                aria-hidden={isFocused ? "false" : "true"}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                key={category._id}
+                className="focus-visible:outline-none"
+              >
                 <img
                   src={category.image}
                   alt={category.name}
