@@ -6,62 +6,38 @@ import Loader from "../../shared/Loader/Loader";
 import Product from "../Product/Product";
 import SectionHeader from "../../shared/SectionHeader/SectionHeader";
 import StarRatings from "react-star-ratings";
+import RelatedProducts from "../RelatedProducts/RelatedProducts";
+import { useQuery } from "@tanstack/react-query";
 
 // css module
 // import style from "./ProductDetails.module.css";
 
 export default function ProductDetails() {
-  const [product, setProduct] = useState(null);
-  const [apiError, setApiError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [relatedProducts, setRelatedProducts] = useState([]);
-  let { id, category } = useParams();
+  let { id } = useParams();
 
   const getProduct = (id) => {
-    setIsLoading(true);
-    axios
-      .get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
-      .then(({ data }) => {
-        setIsLoading(false);
-        setProduct(data.data);
-        setApiError(null);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        setApiError(error.response.data.message);
-        setProduct(null);
-      });
+    return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
   };
 
-  const getProducts = () => {
-    setIsLoading(true);
-    axios
-      .get(`https://ecommerce.routemisr.com/api/v1/products`)
-      .then(({ data }) => {
-        setIsLoading(false);
-        let related = data.data.filter(
-          (product) => product.category.name === category
-        );
-        setRelatedProducts(related);
-        setApiError(null);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        setApiError(error.response.data.message);
-      });
-  };
+  const {
+    data: product,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["productDetails", id],
+    queryFn: () => getProduct(id),
+    select: (product) => product.data.data,
+  });
 
-  useEffect(() => {
-    getProduct(id);
-    getProducts();
-  }, [id, category]);
+  // console.log(product);
 
   return (
     <>
       {isLoading ? (
         <Loader />
-      ) : apiError ? (
-        <ApiError error={apiError} />
+      ) : isError ? (
+        <ApiError error={error.response.data.message} />
       ) : (
         <>
           {product && (
@@ -136,14 +112,7 @@ export default function ProductDetails() {
               </div>
             </div>
           )}
-          <div>
-            <SectionHeader title="Related Item" subtitle="Related Products" />
-          </div>
-          <div className="row mx-[-15px]">
-            {relatedProducts.map((product) => (
-              <Product product={product} key={product.id} />
-            ))}
-          </div>
+          <RelatedProducts />
         </>
       )}
     </>

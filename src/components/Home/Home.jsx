@@ -9,24 +9,10 @@ import MainSlider from "./MainSlider/MainSlider";
 // import style from "./Home.module.css";
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
-
-  const getProducts = () => {
-    axios
-      .get(`https://ecommerce.routemisr.com/api/v1/products`)
-      .then(({ data }) => {
-        setProducts(data.data);
-      })
-      .catch(() => {});
-  };
-  useEffect(() => {
-    getProducts();
-  }, []);
-
   return (
     <>
       <section className="lg:mx-16">
-        <div className="overflow-hidden">
+      <div className="overflow-hidden">
           <MainSlider />
         </div>
         <SectionHeader title="Categories" subtitle="Explore Our Categories" />

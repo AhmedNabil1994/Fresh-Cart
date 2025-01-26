@@ -22,8 +22,8 @@ export default function Register() {
         if (res.data.message === "success") {
           setApiError("");
           navigate("/login");
-          console.log(res);
-          console.log(formData);
+          // console.log(res);
+          // console.log(formData);
         }
       })
       .catch((res) => {
