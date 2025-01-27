@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import { CartContext } from "../../../context/CartContext";
-import { toast } from "react-hot-toast";
+import  toast  from "react-hot-toast";
 // css module
 // import style from "./Product.module.css";
 
@@ -13,7 +13,7 @@ export default function Product({ product }) {
   */
   const { addToCart } = useContext(CartContext);
 
-  const handleAddToCart = async (e, id) => {
+  const handleClick = async (e, id) => {
     e.preventDefault();
     e.stopPropagation();
     const toastId = toast.loading("Adding product to cart...");
@@ -32,6 +32,7 @@ export default function Product({ product }) {
           id: toastId,
         });
   };
+
   return (
     <>
       <div className="w-full sm:w-6/12 md:w-4/12 lg:w-3/12 mb-[60px] group px-[15px]">
@@ -45,8 +46,8 @@ export default function Product({ product }) {
                 className="p-8"
               />
               <button
-                onClick={(e) => handleAddToCart(e, product.id)}
-                className="absolute inset-x-0 bottom-0 capitalize bg-black text-white text-center w-full py-2 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 transition duration-500"
+                onClick={(e) => handleClick(e, product.id)}
+                className="absolute inset-x-0 bottom-0 capitalize bg-black text-white text-center w-full py-2 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 hover:bg-secondary transition duration-500"
               >
                 add to cart
               </button>
