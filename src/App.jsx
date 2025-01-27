@@ -16,6 +16,8 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import ProductDetails from "./components/Products/ProductDetails/ProductDetails";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devtools/src/index";
+import CartContextProvider from "./context/CartContext";
+import { Toaster } from "react-hot-toast";
 
 const query = new QueryClient();
 
@@ -82,12 +84,15 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <QueryClientProvider client={query}>
-      <UserContextProvider>
-        <RouterProvider router={router} />
+    <UserContextProvider>
+      <QueryClientProvider client={query}>
+        <CartContextProvider>
+          <RouterProvider router={router} />
+          <Toaster/>
+        </CartContextProvider>
         <ReactQueryDevtools />
-      </UserContextProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </UserContextProvider>
   );
 }
 

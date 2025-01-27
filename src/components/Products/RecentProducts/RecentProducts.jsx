@@ -31,7 +31,7 @@ export default function RecentProducts() {
         <ApiError error={error.response.data.message} />
       ) : (
         <div className="row mx-[-15px]">
-          {products?.map((product) => (
+          {products.map((product) => (
             <Product product={product} key={product.id} />
           ))}
         </div>
