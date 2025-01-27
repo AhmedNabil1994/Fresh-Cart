@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ApiError from "../../shared/ApiError/ApiError";
 import Loader from "../../shared/Loader/Loader";
@@ -8,6 +7,7 @@ import SectionHeader from "../../shared/SectionHeader/SectionHeader";
 import StarRatings from "react-star-ratings";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 // css module
 // import style from "./ProductDetails.module.css";
@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function ProductDetails() {
   let { id } = useParams();
 
-  const getProduct = (id) => {
+  const getProductDetails = () => {
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
   };
 
@@ -26,11 +26,14 @@ export default function ProductDetails() {
     error,
   } = useQuery({
     queryKey: ["productDetails", id],
-    queryFn: () => getProduct(id),
+    queryFn: getProductDetails,
     select: (product) => product.data.data,
   });
 
   // console.log(product);
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [id]);
 
   return (
     <>

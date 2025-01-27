@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-
 // css module
-import style from "./RelatedProducts.module.css";
+// import style from "./RelatedProducts.module.css";
 import { useParams } from "react-router-dom";
 import Product from "../Product/Product";
 import ApiError from "../../shared/ApiError/ApiError";
