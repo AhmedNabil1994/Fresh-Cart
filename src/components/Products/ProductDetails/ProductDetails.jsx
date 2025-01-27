@@ -130,12 +130,15 @@ export default function ProductDetails() {
                     </button>
                     <i className="fa fa-regular fa-heart border-2 border-slate-400 opacity-75 rounded text-xl p-1"></i>
                   </div> */}
-                  <button
-                    onClick={() => handleClick(product?.id)}
-                    className="font-medium bg-secondary text-white rounded py-2 px-12 w-full mt-6 hover:bg-opacity-90 transition duration-500"
-                  >
-                    Add to Cart
-                  </button>
+                  <div className="flex justify-between mt-6 items-center">
+                    <button
+                      onClick={() => handleClick(product?.id)}
+                      className="w-4/5 font-medium bg-secondary text-white rounded py-2 px-12 hover:bg-opacity-90 transition duration-500"
+                    >
+                      Add to Cart
+                    </button>
+                    <i className="fa fa-regular fa-heart border-2 border-slate-400 opacity-75 rounded text-xl p-1"></i>
+                  </div>
                 </div>
               </div>
             </div>
