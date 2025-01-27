@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Product from "../Product/Product";
 import axios from "axios";
 import Loader from "../../shared/Loader/Loader";

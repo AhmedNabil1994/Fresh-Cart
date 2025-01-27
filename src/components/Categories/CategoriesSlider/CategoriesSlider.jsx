@@ -1,43 +1,32 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loader from "../../shared/Loader/Loader";
 import ApiError from "../../shared/ApiError/ApiError";
 import Slider from "react-slick";
+import { useQuery } from "@tanstack/react-query";
 
 // css module
 // import style from "./CategoriesSlider.module.css";
 
 export default function CategoriesSlider() {
-  const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiError, setApiError] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
 
   const getCategories = () => {
-    setIsLoading(true);
-    axios
-      .get(`https://ecommerce.routemisr.com/api/v1/categories`)
-      .then(({ data }) => {
-        setIsLoading(false);
-        setCategories(data.data);
-        setApiError(null);
-        // console.log(data.data, "categories");
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        setApiError(error.response.data.message);
-        setCategories([]);
-      });
+    return axios.get(`https://ecommerce.routemisr.com/api/v1/categories`);
   };
 
-  const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
+  const {
+    data: categories,
+    error,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ["getCategories"],
+    queryFn: getCategories,
+    select: (categories) => categories.data.data,
+  });
 
-  useEffect(() => {
-    getCategories();
-  }, []);
-
-  let settings = {
+  const settings = {
     dots: true,
     infinite: true,
     speed: 500,
@@ -83,16 +72,16 @@ export default function CategoriesSlider() {
     <>
       {isLoading ? (
         <Loader />
-      ) : apiError ? (
-        <ApiError error={apiError} />
+      ) : isError ? (
+        <ApiError error={error.response.data.message} />
       ) : (
         <div className="mb-36">
           <Slider {...settings}>
             {categories.map((category) => (
               <div
                 aria-hidden={isFocused ? "false" : "true"}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 key={category._id}
                 className="focus-visible:outline-none"
               >
