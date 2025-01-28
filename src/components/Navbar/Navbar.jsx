@@ -83,7 +83,9 @@ export default function NavbarComp() {
               {userToken && (
                 <>
                   <i className="fa fa-regular fa-heart text-2xl cursor-pointer"></i>
-                  <IoCartOutline size={30} className="cursor-pointer" />
+                  <Link to="cart">
+                    <IoCartOutline size={30} className="cursor-pointer" />
+                  </Link>
                 </>
               )}
               {/* <i className="fa-regular fa-user text-2xl cursor-pointer"></i> */}

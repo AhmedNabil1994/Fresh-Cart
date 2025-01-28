@@ -14,13 +14,19 @@ export default function CartContextProvider({ children }) {
         { productId },
         { headers }
       )
-      // toast.loading("Adding to cart")
+      .then(({ data }) => data)
+      .catch((error) => error);
+  };
+
+  const getLoggedUserCart = async () => {
+    return await axios
+      .get(`https://ecommerce.routemisr.com/api/v1/cart`, { headers })
       .then(({ data }) => data)
       .catch((error) => error);
   };
 
   return (
-    <CartContext.Provider value={{ addToCart }}>
+    <CartContext.Provider value={{ addToCart, getLoggedUserCart }}>
       {children}
     </CartContext.Provider>
   );
