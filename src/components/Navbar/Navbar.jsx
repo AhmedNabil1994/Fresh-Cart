@@ -4,10 +4,12 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
 import { UserContext } from "../../context/UserContext";
 import Cookies from "js-cookie";
+import { CartContext } from "../../context/CartContext";
 
 export default function NavbarComp() {
   const navigate = useNavigate();
-  let { userToken, setUserToken } = useContext(UserContext);
+  const { userToken, setUserToken } = useContext(UserContext);
+  const { cart } = useContext(CartContext);
 
   const handleLogout = () => {
     Cookies.remove("token");
@@ -83,7 +85,23 @@ export default function NavbarComp() {
               {userToken && (
                 <>
                   <i className="fa fa-regular fa-heart text-2xl cursor-pointer"></i>
-                  <IoCartOutline size={30} className="cursor-pointer" />
+                  <Link
+                    to="cart"
+                    className="relative inline-flex items-center p-3 text-sm"
+                  >
+                    <IoCartOutline size={30} className="cursor-pointer" />
+                    <span className="sr-only">Notifications</span>
+                    {cart?.numOfCartItems > 0 && (
+                      <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-secondary rounded-full -top-1 -end-1">
+                        {cart.numOfCartItems}
+                      </div>
+                    )}
+                  </Link>
+
+                  {/* <Link to="cart">
+                    <IoCartOutline size={30} className="cursor-pointer" />
+                    {numOfCartItems}
+                  </Link> */}
                 </>
               )}
               {/* <i className="fa-regular fa-user text-2xl cursor-pointer"></i> */}
