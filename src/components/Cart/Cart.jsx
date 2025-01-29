@@ -4,11 +4,13 @@ import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import Loader from "../shared/Loader/Loader";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+import EmptyCart from "./EmptyCart/EmptyCart";
 
 export default function Cart() {
   const [cartDetails, setCartDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { getLoggedUserCart, updateCartProductQty, deleteCartItem } =
+  const { getLoggedUserCart, updateCartProductQty, deleteCartItem, clearCart } =
     useContext(CartContext);
 
   const getCartItems = async () => {
@@ -54,6 +56,27 @@ export default function Cart() {
       });
     } else {
       toast.error("Error during deleting, try again.", {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        id: toastId,
+      });
+    }
+  };
+
+  const clearUserCart = async () => {
+    const toastId = toast.loading("Clearing your cart...");
+    const res = await clearCart();
+    console.log(res, "clear cart response");
+    if (res.message === "success") {
+      setCartDetails({ products: [] });
+      toast.success("Your cart cleared successfully", {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        duration: 3000,
+        id: toastId,
+      });
+    } else {
+      toast.error("Error during clearing, try again.", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
         id: toastId,
@@ -148,7 +171,10 @@ export default function Cart() {
                   <button className="w-full sm:w-auto capitalize mt-6 rounded border border-slate-400 px-12 py-4 font-medium hover:bg-slate-100 transition-colors duration-300">
                     update cart
                   </button>
-                  <button className="w-full sm:w-auto capitalize mt-6 rounded bg-secondary text-white px-12 py-4 font-medium hover:bg-opacity-90 transition-colors duration-500">
+                  <button
+                    onClick={clearUserCart}
+                    className="w-full sm:w-auto capitalize mt-6 rounded bg-secondary text-white px-12 py-4 font-medium hover:bg-opacity-90 transition-colors duration-500"
+                  >
                     clear cart
                   </button>
                 </div>
@@ -179,12 +205,7 @@ export default function Cart() {
               </>
             ) : (
               <>
-                <section className="text-center">
-                  <h2 className="mb-10 font-medium text-4xl sm:text-6xl md:text-7xl">
-                    Your Cart is Empty
-                  </h2>
-                  <p className="mb-8">Add products to view items.</p>
-                </section>
+                <EmptyCart />
               </>
             )}
           </>

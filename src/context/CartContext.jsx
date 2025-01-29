@@ -19,7 +19,6 @@ export default function CartContextProvider({ children }) {
         if (data.status === "success") {
           console.log(data);
           setCart(data);
-          // console.log(cart,"cart");
         }
         return data;
       })
@@ -38,18 +37,18 @@ export default function CartContextProvider({ children }) {
       .catch((error) => error);
   };
 
-  const updateCartProductQty = async (productId, newQty) => {
-    return await axios
-      .put(
-        `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
-        {
-          count: newQty,
-        },
-        { headers }
-      )
-      .then(({ data }) => data)
-      .catch((error) => error);
-  };
+  // const updateCartProductQty = async (productId, newQty) => {
+  //   return await axios
+  //     .put(
+  //       `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
+  //       {
+  //         count: newQty,
+  //       },
+  //       { headers }
+  //     )
+  //     .then(({ data }) => data)
+  //     .catch((error) => error);
+  // };
 
   const deleteCartItem = async (productId) => {
     return await axios
@@ -65,6 +64,20 @@ export default function CartContextProvider({ children }) {
       .catch((error) => error);
   };
 
+  const clearCart = async () => {
+    return await axios
+      .delete(`https://ecommerce.routemisr.com/api/v1/cart`, {
+        headers,
+      })
+      .then(({ data }) => {
+        if (data.message === "success") {
+          setCart(data);
+        }
+        return data;
+      })
+      .catch((error) => error);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -72,8 +85,9 @@ export default function CartContextProvider({ children }) {
         setCart,
         addToCart,
         getLoggedUserCart,
-        updateCartProductQty,
+        // updateCartProductQty,
         deleteCartItem,
+        clearCart,
       }}
     >
       {children}
