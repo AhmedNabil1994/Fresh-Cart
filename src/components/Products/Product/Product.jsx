@@ -7,19 +7,22 @@ import toast from "react-hot-toast";
 // import style from "./Product.module.css";
 
 export default function Product({ product }) {
+  const [isLoading, setIsLoading] = useState(false);
   /* 
     prevent link behavior in add to cart
     add the logic here--
   */
   const { addToCart } = useContext(CartContext);
 
-  const handleClick = async (e, id) => {
+  const handleAddToCart = async (e, id) => {
+    setIsLoading(true);
     e.preventDefault();
     e.stopPropagation();
     const toastId = toast.loading("Adding product to cart...");
     const data = await addToCart(id);
     console.log("data", data);
     if (data.status === "success") {
+      setIsLoading(false);
       toast.success(data.message, {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
@@ -27,6 +30,7 @@ export default function Product({ product }) {
         id: toastId,
       });
     } else {
+      setIsLoading(false);
       toast.error(data.message, {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
@@ -48,10 +52,14 @@ export default function Product({ product }) {
                 className="p-8"
               />
               <button
-                onClick={(e) => handleClick(e, product.id)}
+                onClick={(e) => handleAddToCart(e, product.id)}
                 className="absolute inset-x-0 bottom-0 capitalize bg-black text-white text-center w-full py-2 opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0 hover:bg-secondary transition duration-500"
               >
-                add to cart
+                {isLoading ? (
+                  <i className="fas fa-spinner fa-spin"></i>
+                ) : (
+                  "add to cart"
+                )}
               </button>
             </div>
             <h3 className="font-semibold text-xl text-secondary mb-2 line-clamp-1">

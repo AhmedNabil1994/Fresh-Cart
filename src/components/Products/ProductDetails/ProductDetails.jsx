@@ -6,13 +6,14 @@ import StarRatings from "react-star-ratings";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
 import { CartContext } from "../../../context/CartContext";
 import { useQuery } from "@tanstack/react-query";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 // css module
 // import style from "./ProductDetails.module.css";
 
 export default function ProductDetails() {
+  const [btnLoading, setBtnLoading] = useState(false);
   const { addToCart } = useContext(CartContext);
   let { id } = useParams();
 
@@ -36,11 +37,13 @@ export default function ProductDetails() {
     window.scrollTo({ top: 0 });
   }, [id]);
 
-  const handleClick = async (id) => {
+  const handleAddToCart = async (id) => {
+    setBtnLoading(true);
     const toastId = toast.loading("Adding product to cart...");
     const data = await addToCart(id);
     console.log("data", data);
     if (data.status === "success") {
+      setBtnLoading(false);
       toast.success(data.message, {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
@@ -48,6 +51,7 @@ export default function ProductDetails() {
         id: toastId,
       });
     } else {
+      setBtnLoading(false);
       toast.error(data.message, {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
@@ -134,10 +138,14 @@ export default function ProductDetails() {
                   </div> */}
                   <div className="flex justify-between mt-6 items-center">
                     <button
-                      onClick={() => handleClick(product?.id)}
-                      className="w-4/5 font-medium bg-secondary text-white rounded py-2 px-12 hover:bg-opacity-90 transition duration-500"
+                      onClick={() => handleAddToCart(product?.id)}
+                      className="capitalize w-4/5 font-medium bg-secondary text-white rounded py-2 px-12 hover:bg-opacity-90 transition duration-500"
                     >
-                      Add to Cart
+                      {btnLoading ? (
+                        <i className="fas fa-spinner fa-spin"></i>
+                      ) : (
+                        "add to cart"
+                      )}
                     </button>
                     <i className="fa fa-regular fa-heart border-2 border-slate-400 opacity-75 rounded text-xl p-1"></i>
                   </div>

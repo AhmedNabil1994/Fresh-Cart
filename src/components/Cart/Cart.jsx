@@ -10,6 +10,7 @@ import EmptyCart from "./EmptyCart/EmptyCart";
 export default function Cart() {
   const [cartDetails, setCartDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
   const { getLoggedUserCart, updateCartProductQty, deleteCartItem, clearCart } =
     useContext(CartContext);
 
@@ -74,10 +75,12 @@ export default function Cart() {
   };
 
   const clearUserCart = async () => {
+    setBtnLoading(true);
     const toastId = toast.loading("Clearing your cart...");
     const res = await clearCart();
     console.log(res, "clear cart response");
     if (res.message === "success") {
+      setBtnLoading(false);
       setCartDetails({ products: [] });
       toast.success("Your cart cleared successfully", {
         position: "top-center",
@@ -86,6 +89,7 @@ export default function Cart() {
         id: toastId,
       });
     } else {
+      setBtnLoading(false);
       toast.error("Error during clearing, try again.", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
@@ -215,9 +219,13 @@ export default function Cart() {
                   </button> */}
                   <button
                     onClick={clearUserCart}
-                    className="w-full sm:w-auto capitalize mt-6 rounded bg-secondary text-white px-12 py-4 font-medium hover:bg-opacity-90 transition-colors duration-500"
+                    className="w-full md:w-1/4 lg:w-1/5 capitalize mt-6 rounded bg-secondary text-white px-12 py-4 font-medium hover:bg-opacity-90 transition-colors duration-500"
                   >
-                    clear cart
+                    {btnLoading ? (
+                      <i className="fas fa-spinner fa-spin"></i>
+                    ) : (
+                      "clear cart"
+                    )}
                   </button>
                 </div>
                 <div className="flex flex-col md:items-end ">
