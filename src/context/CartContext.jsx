@@ -1,10 +1,11 @@
 import axios from "axios";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import Cookies from "js-cookie";
 
 export const CartContext = createContext();
 
 export default function CartContextProvider({ children }) {
+  const [cart, setCart] = useState(null);
   const headers = { token: Cookies.get("token") };
 
   const addToCart = async (productId) => {
@@ -14,14 +15,26 @@ export default function CartContextProvider({ children }) {
         { productId },
         { headers }
       )
-      .then(({ data }) => data)
+      .then(({ data }) => {
+        if (data.status === "success") {
+          console.log(data);
+          setCart(data);
+          // console.log(cart,"cart");
+        }
+        return data;
+      })
       .catch((error) => error);
   };
 
   const getLoggedUserCart = async () => {
     return await axios
       .get(`https://ecommerce.routemisr.com/api/v1/cart`, { headers })
-      .then(({ data }) => data)
+      .then(({ data }) => {
+        if (data.status === "success") {
+          setCart(data);
+        }
+        return data;
+      })
       .catch((error) => error);
   };
 
@@ -43,13 +56,20 @@ export default function CartContextProvider({ children }) {
       .delete(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
         headers,
       })
-      .then(({ data }) => data)
+      .then(({ data }) => {
+        if (data.status === "success") {
+          setCart(data);
+        }
+        return data;
+      })
       .catch((error) => error);
   };
 
   return (
     <CartContext.Provider
       value={{
+        cart,
+        setCart,
         addToCart,
         getLoggedUserCart,
         updateCartProductQty,

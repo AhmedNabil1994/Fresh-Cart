@@ -40,18 +40,20 @@ export default function ProductDetails() {
     const toastId = toast.loading("Adding product to cart...");
     const data = await addToCart(id);
     console.log("data", data);
-    data.status === "success"
-      ? toast.success(data.message, {
-          position: "top-center",
-          style: { fontFamily: "sans-serif" },
-          duration: 3000,
-          id: toastId,
-        })
-      : toast.error(data.message, {
-          position: "top-center",
-          style: { fontFamily: "sans-serif" },
-          id: toastId,
-        });
+    if (data.status === "success") {
+      toast.success(data.message, {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        duration: 3000,
+        id: toastId,
+      });
+    } else {
+      toast.error(data.message, {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        id: toastId,
+      });
+    }
   };
 
   return (

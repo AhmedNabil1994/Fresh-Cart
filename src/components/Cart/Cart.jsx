@@ -180,10 +180,10 @@ export default function Cart() {
             ) : (
               <>
                 <section className="text-center">
-                  <h2 className="mb-10 font-medium text-4xl sm:text-6xl md:text-8xl">
+                  <h2 className="mb-10 font-medium text-4xl sm:text-6xl md:text-7xl">
                     Your Cart is Empty
                   </h2>
-                  <p>Add products to view items.</p>
+                  <p className="mb-8">Add products to view items.</p>
                 </section>
               </>
             )}
