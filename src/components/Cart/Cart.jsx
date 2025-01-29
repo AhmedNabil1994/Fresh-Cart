@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import Loader from "../shared/Loader/Loader";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import EmptyCart from "./EmptyCart/EmptyCart";
 
 export default function Cart() {
@@ -27,20 +27,30 @@ export default function Cart() {
     getCartItems();
   }, []);
 
-  /*   const updateProduct = async (id, quantity) => {
-    if (quantity === 0) {
+  const updateProduct = async (id, count) => {
+    const toastId = toast.loading("Updating product in cart...");
+    if (count === 0) {
       deleteItem(id);
     } else {
-      const res = await updateCartProductQty(id, quantity);
-      console.log(res);
-      if (res.status === "success") {
-        setCartDetails(res.data);
-        toast.success("Product updated successfully.");
+      const data = await updateCartProductQty(id, count);
+      console.log(data);
+      if (data.status === "success") {
+        setCartDetails(data.data);
+        toast.success("Product updated successfully.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
       } else {
-        toast.error("An error occured try again.");
+        toast.error("An error occured try again.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
       }
     }
-  }; */
+  };
 
   const deleteItem = async (id) => {
     const toastId = toast.loading("Deleting product from cart...");
@@ -140,6 +150,35 @@ export default function Cart() {
                             ${product.price}
                           </td>
                           <td className="px-6 py-4">
+                            <div className="flex justify-between items-center bg-gray-50 w-24 border border-slate-400 text-gray-900 text-sm rounded-lg px-3 py-[6px] ">
+                              <span>
+                                {product.count < 10
+                                  ? `0${product.count}`
+                                  : product.count}
+                              </span>
+                              <div className="flex flex-col">
+                                <i
+                                  onClick={() =>
+                                    updateProduct(
+                                      product.product.id,
+                                      product.count + 1
+                                    )
+                                  }
+                                  className="mb-2 text-xs cursor-pointer fa-solid fa-chevron-up"
+                                ></i>
+                                <i
+                                  onClick={() =>
+                                    updateProduct(
+                                      product.product.id,
+                                      product.count - 1
+                                    )
+                                  }
+                                  className="mt-2 text-xs cursor-pointer fa-solid fa-chevron-down"
+                                ></i>
+                              </div>
+                            </div>
+                          </td>
+                          {/* <td className="px-6 py-4">
                             <div className="flex items-center">
                               <div>
                                 <input
@@ -147,10 +186,11 @@ export default function Cart() {
                                   id={`product_${product._id}`}
                                   className="bg-gray-50 w-14 border border-slate-400 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 "
                                   placeholder={product.count}
+                                  min="1"
                                 />
                               </div>
                             </div>
-                          </td>
+                          </td> */}
                           <td className="px-6 py-4  text-gray-900 ">
                             ${product.price * product.count}
                           </td>
@@ -168,9 +208,11 @@ export default function Cart() {
                   </table>
                 </div>
                 <div className="row justify-between">
-                  <button className="w-full sm:w-auto capitalize mt-6 rounded border border-slate-400 px-12 py-4 font-medium hover:bg-slate-100 transition-colors duration-300">
+                  {/* <button
+                    className="w-full sm:w-auto capitalize mt-6 rounded border border-slate-400 px-12 py-4 font-medium hover:bg-slate-100 transition-colors duration-300"
+                  >
                     update cart
-                  </button>
+                  </button> */}
                   <button
                     onClick={clearUserCart}
                     className="w-full sm:w-auto capitalize mt-6 rounded bg-secondary text-white px-12 py-4 font-medium hover:bg-opacity-90 transition-colors duration-500"
