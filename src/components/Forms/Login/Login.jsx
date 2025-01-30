@@ -13,16 +13,19 @@ export default function Login() {
   const navigate = useNavigate();
   const [apiError, setApiError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
 
   const handleLogin = (formData) => {
     setIsLoading(true);
+    setBtnLoading(true);
     axios
       .post(`https://ecommerce.routemisr.com/api/v1/auth/signin`, formData)
       .then((res) => {
         setIsLoading(false);
+        setBtnLoading(false);
         if (res.data.message === "success") {
           // using cookies to last for an hour only
-          Cookies.set("token", res.data.token, { expires: 1/24 });
+          Cookies.set("token", res.data.token, { expires: 1 / 24 });
           setUserToken(res.data.token);
           setApiError("");
           navigate("/");
@@ -32,6 +35,7 @@ export default function Login() {
       })
       .catch((res) => {
         setIsLoading(false);
+        setBtnLoading(false);
         setApiError(res.response.data.message);
       });
   };
@@ -113,7 +117,7 @@ export default function Login() {
               </div>
             )}
           </div>
-          <div className="flex flex-wrap justify-between items-center mb-8">
+          <div className="row justify-center sm:justify-between items-center mb-8 gap-y-2">
             <button
               disabled={!(formik.isValid && formik.dirty) || isLoading}
               type="submit"
@@ -121,9 +125,13 @@ export default function Login() {
                 !(formik.isValid && formik.dirty) || isLoading
                   ? "bg-secondary/50"
                   : "bg-secondary"
-              } focus:outline-none font-medium rounded px-12 py-4 text-center`}
+              } focus:outline-none font-medium rounded px-12 py-4 text-center w-full sm:w-1/2`}
             >
-              Log in
+              {btnLoading ? (
+                <i className="fas fa-spinner fa-spin"></i>
+              ) : (
+                "Log in"
+              )}
             </button>
             <Link to="/forget" className="text-secondary">
               Forget Password?

@@ -1,10 +1,10 @@
 // import style from "./Cart.module.css";
 
+import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import Loader from "../shared/Loader/Loader";
 import toast from "react-hot-toast";
-// import { Link } from "react-router-dom";
 import EmptyCart from "./EmptyCart/EmptyCart";
 
 export default function Cart() {
@@ -247,9 +247,11 @@ export default function Cart() {
                       <p>Total:</p>
                       <p>${cartDetails.totalCartPrice}</p>
                     </div>
-                    <button className=" mt-6 rounded bg-secondary sm:px-12 py-4 font-medium hover:bg-opacity-90  transition-colors duration-500 text-white w-full sm:w-auto mx-auto block">
-                      Procees to checkout
-                    </button>
+                    <Link to="/checkout">
+                      <button className=" mt-6 rounded bg-secondary sm:px-12 py-4 font-medium hover:bg-opacity-90  transition-colors duration-500 text-white w-full sm:w-auto mx-auto block">
+                        Procees to checkout
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </>
