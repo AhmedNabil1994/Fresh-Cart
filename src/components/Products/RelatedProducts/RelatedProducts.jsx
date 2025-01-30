@@ -21,7 +21,7 @@ export default function RelatedProducts() {
     isError,
     error,
   } = useQuery({
-    queryKey: ["recentProducts"],
+    queryKey: ["products"],
     queryFn: () => getRelatedProducts(),
     select: (products) =>
       products.data.data.filter(

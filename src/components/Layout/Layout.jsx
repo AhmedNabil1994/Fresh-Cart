@@ -10,7 +10,9 @@ export default function Layout() {
       <Navbar />
       <section className="px-4 pt-32 my-3">
         <div className="container">
-          <Outlet />
+          <div className="lg:mx-16">
+            <Outlet />
+          </div>
         </div>
       </section>
       <Footer />

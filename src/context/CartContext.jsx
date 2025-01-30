@@ -6,7 +6,12 @@ export const CartContext = createContext();
 
 export default function CartContextProvider({ children }) {
   const [cart, setCart] = useState(null);
-  const headers = { token: Cookies.get("token") };
+  const userToken = Cookies.get("token");
+  const headers = { token: userToken };
+  const getHeaders = () => {
+    const userToken = Cookies.get("token");
+    return userToken ? { token: userToken } : {};
+  };
 
   const addToCart = async (productId) => {
     return await axios
@@ -59,7 +64,9 @@ export default function CartContextProvider({ children }) {
 
   const getLoggedUserCart = async () => {
     return await axios
-      .get(`https://ecommerce.routemisr.com/api/v1/cart`, { headers })
+      .get(`https://ecommerce.routemisr.com/api/v1/cart`, {
+        headers: getHeaders(),
+      })
       .then(({ data }) => {
         if (data.status === "success") {
           setCart(data);
@@ -117,8 +124,11 @@ export default function CartContextProvider({ children }) {
   };
 
   useEffect(() => {
-    getLoggedUserCart();
-  }, [Cookies.get("token")]);
+    // userToken && getLoggedUserCart();
+    if (Cookies.get("token")) {
+      getLoggedUserCart();
+    }
+  }, []);
 
   return (
     <CartContext.Provider

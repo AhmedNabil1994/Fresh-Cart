@@ -7,7 +7,7 @@ export default function EmptyCart() {
         Your Cart is Empty
       </h2>
       <p className="mb-8">
-        <Link to="/" className="text-secondary font-semibold me-2">
+        <Link to="/products" className="text-secondary font-semibold me-2">
           Add products
         </Link>
         to view items.

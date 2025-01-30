@@ -10,6 +10,8 @@ export default function NavbarComp() {
   const navigate = useNavigate();
   const { userToken, setUserToken } = useContext(UserContext);
   const { cart } = useContext(CartContext);
+  // console.log(cart);
+  
 
   const handleLogout = () => {
     Cookies.remove("token");
