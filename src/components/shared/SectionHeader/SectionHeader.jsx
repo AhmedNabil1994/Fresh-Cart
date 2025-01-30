@@ -23,17 +23,10 @@ export default function SectionHeader({
           <h3 className="font-semibold text-lg sm:text-4xl">{subtitle}</h3>
           {hasArrow && (
             <div className="flex">
-              <button
-                onClick={handlePrev}
-                disabled={currentPage === 0}
-                // className="disabled:bg-opacity-75 disabled:hover:bg-opacity-75"
-              >
+              <button onClick={handlePrev} disabled={currentPage === 0}>
                 <i className="bg-[#f5f5f5] fa-solid fa-arrow-left me-2 p-2 sm:p-4 rounded-full hover:bg-secondary hover:text-white transition duration-500"></i>
               </button>
-              <button
-                onClick={()=>handleNext()}
-                disabled={currentPage === lastPage ? true : false}
-              >
+              <button onClick={handleNext} disabled={currentPage === lastPage}>
                 <i className="bg-[#f5f5f5] fa-solid fa-arrow-right p-2 sm:p-4 rounded-full hover:bg-secondary hover:text-white transition duration-500"></i>
               </button>
             </div>
