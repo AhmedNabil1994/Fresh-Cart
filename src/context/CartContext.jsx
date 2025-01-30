@@ -41,10 +41,10 @@ export default function CartContextProvider({ children }) {
       .catch((error) => error);
   };
 
-  const onlinePayment = async ( formData) => {
+  const onlinePayment = async (formData) => {
     return await axios
       .post(
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=http://localhost:5173`,
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=http://https://fresh-cart-hazel.vercel.app`,
         { shippingAddress: formData },
         { headers }
       )
