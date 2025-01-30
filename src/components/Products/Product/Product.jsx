@@ -45,11 +45,11 @@ export default function Product({ product }) {
         <Link to={`/productdetails/${product.id}/${product.category.name}`}>
           <div>
             <div className="bg-[#F5F5F5] relative rounded mb-4">
-              <i className="fa-regular fa-heart absolute top-3 end-3 p-2 "></i>
+              <i className="fa-regular fa-heart absolute top-2 end-2 p-2 fa-lg"></i>
               <img
                 src={product.imageCover}
                 alt={product.title}
-                className="p-8"
+                className="p-8 group-hover:scale-105 transition duration-500"
               />
               <button
                 onClick={(e) => handleAddToCart(e, product.id)}
