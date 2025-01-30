@@ -11,8 +11,7 @@ import MainSlider from "./MainSlider/MainSlider";
 export default function Home() {
   return (
     <>
-      <section className="lg:mx-16">
-      <div className="overflow-hidden">
+        <div className="overflow-hidden">
           <MainSlider />
         </div>
         <SectionHeader title="Categories" subtitle="Explore Our Categories" />
@@ -24,7 +23,7 @@ export default function Home() {
           subtitle="Explore Our Products"
         />
         <RecentProducts />
-      </section>
+    
     </>
   );
 }
