@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 export const CartContext = createContext();
@@ -19,6 +19,38 @@ export default function CartContextProvider({ children }) {
         if (data.status === "success") {
           console.log(data);
           setCart(data);
+        }
+        return data;
+      })
+      .catch((error) => error);
+  };
+
+  const cashPayment = async (formData) => {
+    return await axios
+      .post(
+        `https://ecommerce.routemisr.com/api/v1/orders/${cart.cartId}`,
+        { shippingAddress: formData },
+        { headers }
+      )
+      .then(({ data }) => {
+        if (data.status === "success") {
+          console.log(data);
+        }
+        return data;
+      })
+      .catch((error) => error);
+  };
+
+  const onlinePayment = async ( formData) => {
+    return await axios
+      .post(
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=http://localhost:5173`,
+        { shippingAddress: formData },
+        { headers }
+      )
+      .then(({ data }) => {
+        if (data.status === "success") {
+          console.log(data);
         }
         return data;
       })
@@ -84,6 +116,10 @@ export default function CartContextProvider({ children }) {
       .catch((error) => error);
   };
 
+  useEffect(() => {
+    getLoggedUserCart();
+  }, [Cookies.get("token")]);
+
   return (
     <CartContext.Provider
       value={{
@@ -94,6 +130,8 @@ export default function CartContextProvider({ children }) {
         updateCartProductQty,
         deleteCartItem,
         clearCart,
+        cashPayment,
+        onlinePayment,
       }}
     >
       {children}

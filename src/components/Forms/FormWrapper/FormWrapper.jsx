@@ -36,7 +36,7 @@ export default function FormWrapper({
           <p className="text-center">
             {footerTitle}
             <Link
-              className="capitalize font-medium underline ms-4 underline-offset-[6px]"
+              className="capitalize font-medium underline ms-4 underline-offset-[6px] hover:text-secondary transition-colors duration-300"
               to={`/${navigate}`}
             >
               {navigate}
