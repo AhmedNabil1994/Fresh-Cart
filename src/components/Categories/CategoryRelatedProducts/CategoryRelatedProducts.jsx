@@ -37,7 +37,7 @@ export default function CategoryRelatedProducts() {
 
   return (
     <>
-      {isLoading ? (
+      {isFetching ? (
         <Loader />
       ) : isError ? (
         <ApiError error={error.response?.data.message} />

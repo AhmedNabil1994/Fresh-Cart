@@ -6,8 +6,12 @@ import { CartContext } from "../../context/CartContext";
 import Loader from "../shared/Loader/Loader";
 import toast from "react-hot-toast";
 import EmptyCart from "./EmptyCart/EmptyCart";
+import { UserContext } from "../../context/UserContext";
+import Cookies from "js-cookie";
 
 export default function Cart() {
+  const userToken = Cookies.get("token");
+
   const [cartDetails, setCartDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
@@ -26,7 +30,7 @@ export default function Cart() {
 
   useEffect(() => {
     getCartItems();
-  }, []);
+  }, [userToken]);
 
   const updateProduct = async (id, count) => {
     const toastId = toast.loading("Updating product in cart...");

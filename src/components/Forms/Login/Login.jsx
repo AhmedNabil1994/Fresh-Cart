@@ -26,6 +26,7 @@ export default function Login() {
         if (res.data.message === "success") {
           // using cookies to last for an hour only
           Cookies.set("token", res.data.token, { expires: 1 / 24 });
+          // Cookies.remove("token");
           setUserToken(res.data.token);
           setApiError("");
           navigate("/");

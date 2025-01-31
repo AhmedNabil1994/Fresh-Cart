@@ -32,7 +32,7 @@ export default function NavbarComp() {
               fresh cart
             </span>
           </Link>
-          <div className="flex md:order-2">
+          <div className="flex md:order-2 items-center">
             <button
               type="button"
               data-collapse-toggle="navbar-search"
