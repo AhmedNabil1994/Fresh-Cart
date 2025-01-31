@@ -18,8 +18,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devtools/src/index";
 import CartContextProvider from "./context/CartContext";
 import { Toaster } from "react-hot-toast";
-import Checkout from './components/Checkout/Checkout';
-import Orders from './components/Orders/Orders';
+import Checkout from "./components/Checkout/Checkout";
+import Orders from "./components/Orders/Orders";
+import CategoryRelatedProducts from "./components/Categories/CategoryRelatedProducts/CategoryRelatedProducts";
 
 const query = new QueryClient();
 
@@ -93,6 +94,14 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
+      {
+        path: "category/:categoryId/:category",
+        element: (
+          <ProtectedRoute>
+            <CategoryRelatedProducts />
+          </ProtectedRoute>
+        ),
+      },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
       { path: "*", element: <NotFound /> },
@@ -106,7 +115,7 @@ function App() {
       <QueryClientProvider client={query}>
         <CartContextProvider>
           <RouterProvider router={router} />
-          <Toaster/>
+          <Toaster />
         </CartContextProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>

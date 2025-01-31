@@ -10,7 +10,6 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function RelatedProducts() {
   let { category } = useParams();
-
   const getRelatedProducts = () => {
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products`);
   };
@@ -22,7 +21,7 @@ export default function RelatedProducts() {
     error,
   } = useQuery({
     queryKey: ["products"],
-    queryFn: () => getRelatedProducts(),
+    queryFn: getRelatedProducts,
     select: (products) =>
       products.data.data.filter(
         (product) => product.category.name === category

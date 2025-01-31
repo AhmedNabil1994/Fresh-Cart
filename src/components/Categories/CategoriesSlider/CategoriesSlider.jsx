@@ -21,10 +21,12 @@ export default function CategoriesSlider() {
     isError,
     isLoading,
   } = useQuery({
-    queryKey: ["getCategories"],
+    queryKey: ["allCategories"],
     queryFn: getCategories,
     select: (categories) => categories.data.data,
   });
+  // console.log(categories,"categories");
+  
 
   const settings = {
     dots: true,
