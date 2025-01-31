@@ -11,11 +11,16 @@ export default function SectionHeader({
   handleNext,
   lastPage,
   currentPage,
+  relatedCategory,
 }) {
   return (
     <>
       <section>
-        <div className="flex gap-x-[10px] mb-[30px] items-center">
+        <div
+          className={`flex gap-x-[10px] mb-[30px] ${
+            relatedCategory ? "items-start" : "items-center"
+          } `}
+        >
           <div className="w-5 h-10 bg-secondary"></div>
           <h2 className="font-semibold text-secondary ">{title}</h2>
         </div>
