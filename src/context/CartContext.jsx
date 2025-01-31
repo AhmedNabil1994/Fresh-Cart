@@ -12,6 +12,7 @@ export default function CartContextProvider({ children }) {
     const userToken = Cookies.get("token");
     return userToken ? { token: userToken } : {};
   };
+  console.log(userToken);
 
   const addToCart = async (productId) => {
     return await axios
@@ -124,11 +125,11 @@ export default function CartContextProvider({ children }) {
   };
 
   useEffect(() => {
-    // userToken && getLoggedUserCart();
-    if (Cookies.get("token")) {
+    if (userToken) {
       getLoggedUserCart();
+      console.log("token here");
     }
-  }, []);
+  }, [userToken]);
 
   return (
     <CartContext.Provider
