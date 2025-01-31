@@ -28,7 +28,7 @@ export default function CategoryRelatedProducts() {
     queryKey: ["products"],
     queryFn: getRelatedProducts,
     select: (products) => products.data.data,
-    placeholderData: keepPreviousData,
+    // placeholderData: keepPreviousData,
   });
 
   useEffect(() => {
