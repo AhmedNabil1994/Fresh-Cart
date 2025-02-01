@@ -22,7 +22,8 @@ export default function Categories() {
     queryFn: getCategories,
     select: (categories) => categories.data.data,
   });
-  console.log(categories, "all categories in cat component");
+  // console.log(categories, "all categories in cat component");
+
   return (
     <>
       {isLoading ? (
