@@ -11,19 +11,15 @@ import MainSlider from "./MainSlider/MainSlider";
 export default function Home() {
   return (
     <>
-        <div className="overflow-hidden">
-          <MainSlider />
-        </div>
-        <SectionHeader title="Categories" subtitle="Explore Our Categories" />
-        <div className="overflow-hidden">
-          <CategoriesSlider />
-        </div>
-        <SectionHeader
-          title="Recent Products"
-          subtitle="Explore Our Products"
-        />
-        <RecentProducts />
-    
+      <div className="overflow-hidden">
+        <MainSlider />
+      </div>
+      <SectionHeader title="Categories" subtitle="Explore Our Categories" />
+      <div className="overflow-hidden">
+        <CategoriesSlider />
+      </div>
+      <SectionHeader title="Recent Products" subtitle="Explore Our Products" />
+      <RecentProducts />
     </>
   );
 }
