@@ -6,8 +6,27 @@ import toast from "react-hot-toast";
 // css module
 // import style from "./Product.module.css";
 
-export default function Product({ product }) {
+export default function Product({ product, search }) {
   const [isLoading, setIsLoading] = useState(false);
+
+  const highlightMatch = (titleText, search) => {
+    if (!search) return titleText;
+    /* 
+      () in regex is a capturing group
+      to extract and show the searhed text when we split the title 
+    */
+    const regex = new RegExp(`(${search})`, "gi");
+    return titleText.split(regex).map((match, index) =>
+      match.toLowerCase() === search.toLowerCase() ? (
+        <span key={index} className="text-emerald-500 font-bold">
+          {match}
+        </span>
+      ) : (
+        match
+      )
+    );
+  };
+
   /* 
     prevent link behavior in add to cart
     add the logic here--
@@ -66,7 +85,9 @@ export default function Product({ product }) {
               {product.category.name}
             </h3>
             <div className="flex justify-between">
-              <h3 className="font-medium mb-2 line-clamp-1">{product.title}</h3>
+              <h3 className="font-medium mb-2 line-clamp-1">
+                {highlightMatch(product.title, search)}
+              </h3>
               <span className="opacity-50">({product.quantity})</span>
             </div>
             <div className="flex justify-between sm:justify-start">
