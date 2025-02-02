@@ -5,6 +5,9 @@ import Cookies from "js-cookie";
 export const CartContext = createContext();
 
 export default function CartContextProvider({ children }) {
+  // const cartFromCookies = Cookies.get("cart") ? JSON.parse(Cookies.get("cart")) : null;
+  // const [cart, setCart] = useState(cartFromCookies);
+  
   const [cart, setCart] = useState(null);
   const userToken = Cookies.get("token");
   const headers = { token: userToken };
@@ -12,19 +15,20 @@ export default function CartContextProvider({ children }) {
     const userToken = Cookies.get("token");
     return userToken ? { token: userToken } : {};
   };
-  // console.log(userToken);
+  console.log(cart, "cart in cart context file");
+  // console.log(cartFromCookies, "cart stored in session");
 
   const addToCart = async (productId) => {
     return await axios
       .post(
         `https://ecommerce.routemisr.com/api/v1/cart`,
         { productId },
-        { headers }
+        { headers: getHeaders() }
       )
       .then(({ data }) => {
         if (data.status === "success") {
-          console.log(data);
           setCart(data);
+          // Cookies.set("cart", JSON.stringify(data), { expires: 1 / 24 });
         }
         return data;
       })
@@ -88,7 +92,6 @@ export default function CartContextProvider({ children }) {
       )
       .then(({ data }) => {
         if (data.status === "success") {
-          // console.log(data);
           setCart(data);
         }
         return data;
@@ -104,6 +107,7 @@ export default function CartContextProvider({ children }) {
       .then(({ data }) => {
         if (data.status === "success") {
           setCart(data);
+          // Cookies.set("cart", JSON.stringify(data), { expires: 1 / 24 });
         }
         return data;
       })
@@ -118,6 +122,7 @@ export default function CartContextProvider({ children }) {
       .then(({ data }) => {
         if (data.message === "success") {
           setCart(data);
+          // Cookies.remove("cart");
         }
         return data;
       })
@@ -127,7 +132,7 @@ export default function CartContextProvider({ children }) {
   useEffect(() => {
     if (userToken) {
       getLoggedUserCart();
-      // console.log("token here");
+      // addToCart();
     }
   }, [userToken]);
 
