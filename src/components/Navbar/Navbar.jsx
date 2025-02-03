@@ -5,13 +5,14 @@ import { IoCartOutline } from "react-icons/io5";
 import { UserContext } from "../../context/UserContext";
 import Cookies from "js-cookie";
 import { CartContext } from "../../context/CartContext";
+import { WishlistContext } from "../../context/WishlistContext";
 
 export default function NavbarComp() {
   const navigate = useNavigate();
   const { userToken, setUserToken } = useContext(UserContext);
   const { cart } = useContext(CartContext);
-  // console.log(cart);
-  
+  const { wishlist } = useContext(WishlistContext);
+  console.log(wishlist, "wishlist in navbar");
 
   const handleLogout = () => {
     Cookies.remove("token");
@@ -86,7 +87,17 @@ export default function NavbarComp() {
               </div>
               {userToken && (
                 <>
-                  <i className="fa fa-regular fa-heart text-2xl cursor-pointer"></i>
+                  <Link
+                    to="wishlist"
+                    className="relative inline-flex items-center p-3 text-sm"
+                  >
+                    <i className="fa fa-regular fa-heart text-2xl cursor-pointer"></i>
+                    {wishlist?.data?.length > 0 && (
+                      <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-secondary rounded-full top-1 end-0">
+                        {wishlist.data?.length}
+                      </div>
+                    )}
+                  </Link>
                   <Link
                     to="cart"
                     className="relative inline-flex items-center p-3 text-sm"
@@ -94,7 +105,7 @@ export default function NavbarComp() {
                     <IoCartOutline size={30} className="cursor-pointer" />
                     <span className="sr-only">Notifications</span>
                     {cart?.numOfCartItems > 0 && (
-                      <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-secondary rounded-full -top-1 -end-1">
+                      <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-secondary rounded-full top-1 end-0">
                         {cart.numOfCartItems}
                       </div>
                     )}

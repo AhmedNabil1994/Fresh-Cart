@@ -1,13 +1,20 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import { CartContext } from "../../../context/CartContext";
 import toast from "react-hot-toast";
+import { WishlistContext } from "../../../context/WishlistContext";
 // css module
 // import style from "./Product.module.css";
 
 export default function Product({ product, search }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const { addToCart } = useContext(CartContext);
+  const { addToWishlist, deleteWishlistItem, wishlist } =
+    useContext(WishlistContext);
+
+  // console.log("wishlist in product comp", wishlist);
 
   const highlightMatch = (titleText, search) => {
     if (!search) return titleText;
@@ -31,7 +38,6 @@ export default function Product({ product, search }) {
     prevent link behavior in add to cart
     add the logic here--
   */
-  const { addToCart } = useContext(CartContext);
 
   const handleAddToCart = async (e, id) => {
     setIsLoading(true);
@@ -39,7 +45,7 @@ export default function Product({ product, search }) {
     e.stopPropagation();
     const toastId = toast.loading("Adding product to cart...");
     const data = await addToCart(id);
-    console.log("data", data);
+    // console.log("data", data);
     if (data.status === "success") {
       setIsLoading(false);
       toast.success(data.message, {
@@ -58,13 +64,76 @@ export default function Product({ product, search }) {
     }
   };
 
+  const handleAddToWishlist = async (id) => {
+    const toastId = toast.loading("Adding product to wishlist...");
+    const data = await addToWishlist(id);
+    // console.log("heart clicked", data);
+    if (data.status === "success") {
+      toast.success("Product added successfully.", {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        duration: 3000,
+        id: toastId,
+      });
+    } else {
+      toast.error(data.message, {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        id: toastId,
+      });
+    }
+  };
+
+  const handleDeleteWishlistItem = async (id) => {
+    const toastId = toast.loading("Deleting product from wishlist...");
+    const data = await deleteWishlistItem(id);
+    if (data.status === "success") {
+      // setWishlistItems(data.data);
+      // console.log(data, "data in delete");
+      toast.success("Product deleted successfully.", {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        duration: 3000,
+        id: toastId,
+      });
+    } else {
+      toast.error("Error during deleting, try again.", {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        id: toastId,
+      });
+    }
+  };
+
+  const handleWishlist = (id) => {
+    setIsInWishlist(!isInWishlist);
+    isInWishlist ? handleDeleteWishlistItem(id) : handleAddToWishlist(id);
+  };
+
+  useEffect(() => {
+    setIsInWishlist(
+      wishlist?.data?.some((item) => item?.id === product.id) ||
+        wishlist?.data?.some((item) => item === product.id)
+    );
+    // console.log(wishlist?.data?.some((item) => item.id === product.id));
+
+    // if (
+    //   wishlist?.data?.some((item) => {
+    //     console.log(item,"item");
+    //     // console.log(product.id,"product");
+    //     return item.id === product.id;
+    //   })
+    // ) {
+    //   setIsInWishlist(true);
+    // }
+  }, [product.id]);
+
   return (
     <>
-      <div className="w-full sm:w-6/12 md:w-4/12 lg:w-3/12 mb-[60px] group px-[15px]">
+      <div className="relative w-full sm:w-6/12 md:w-4/12 lg:w-3/12 mb-[60px] group px-[15px]">
         <Link to={`/productdetails/${product.id}/${product.category.name}`}>
           <div>
             <div className="bg-[#F5F5F5] relative rounded mb-4">
-              <i className="fa-regular fa-heart absolute top-2 end-2 p-2 fa-lg"></i>
               <img
                 src={product.imageCover}
                 alt={product.title}
@@ -112,6 +181,16 @@ export default function Product({ product, search }) {
             </div>
           </div>
         </Link>
+        <button
+          onClick={() => handleWishlist(product.id)}
+          className="absolute top-3 end-3"
+        >
+          <i
+            className={`${
+              isInWishlist ? "fa-solid text-secondary" : "fa-regular"
+            }  fa-heart p-2 fa-xl`}
+          ></i>
+        </button>
       </div>
     </>
   );

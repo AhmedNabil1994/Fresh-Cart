@@ -28,10 +28,6 @@ export default function Cart() {
     }
   };
 
-  useEffect(() => {
-    getCartItems();
-  }, [userToken]);
-
   const updateProduct = async (id, count) => {
     const toastId = toast.loading("Updating product in cart...");
     if (count === 0) {
@@ -61,7 +57,7 @@ export default function Cart() {
     const toastId = toast.loading("Deleting product from cart...");
     const res = await deleteCartItem(id);
     if (res.status === "success") {
-      console.log(res.data);
+      console.log(res.data,"data delete cart");
       setCartDetails(res.data);
       toast.success("Product deleted successfully from cart", {
         position: "top-center",
@@ -101,6 +97,10 @@ export default function Cart() {
       });
     }
   };
+
+  useEffect(() => {
+    getCartItems();
+  }, [userToken]);
 
   return (
     <>
@@ -261,7 +261,7 @@ export default function Cart() {
               </>
             ) : (
               <>
-                <EmptyCart />
+                <EmptyCart msg1="cart" msg2="to view items." />
               </>
             )}
           </>
