@@ -64,7 +64,7 @@ export default function Products() {
       {isLoading ? (
         <Loader />
       ) : isError ? (
-        <ApiError error={error.response.data.message} />
+        <ApiError error={error.response.data?.message} />
       ) : (
         <>
           {filteredProducts && (

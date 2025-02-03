@@ -8,11 +8,14 @@ import card_3 from "../../assets/checkout/Nagad.png";
 import card_4 from "../../assets/checkout/Visa.png";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { WishlistContext } from "../../context/WishlistContext";
 
 export default function Checkout() {
   const [btnLoading, setBtnLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("online");
   const { cart, setCart, cashPayment, onlinePayment } = useContext(CartContext);
+  const { setWishlist } = useContext(WishlistContext);
+
   const navigate = useNavigate();
 
   let validationSchema = yup.object().shape({
@@ -39,6 +42,7 @@ export default function Checkout() {
     if (data.status === "success") {
       setBtnLoading(false);
       setCart(null);
+      setWishlist(null);
       toast.success("Payment was done successfully.", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
@@ -63,6 +67,7 @@ export default function Checkout() {
     console.log(data, "online");
     if (data.status === "success") {
       setBtnLoading(false);
+      setWishlist(null);
       toast.success("Payment was done successfully.", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
@@ -217,7 +222,7 @@ export default function Checkout() {
                       type="radio"
                       value="online"
                       onChange={(e) => setPaymentMethod(e.target.value)}
-                      checked = {paymentMethod === "online"}
+                      checked={paymentMethod === "online"}
                       name="default-radio"
                       className=" w-4 h-4 border-black focus:ring-transparent checked:bg-black"
                     />
@@ -234,7 +239,7 @@ export default function Checkout() {
                       type="radio"
                       value="cash"
                       onChange={(e) => setPaymentMethod(e.target.value)}
-                      checked = {paymentMethod === "cash"}
+                      checked={paymentMethod === "cash"}
                       name="default-radio"
                       className=" w-4 h-4 border-black focus:ring-transparent checked:bg-black"
                     />

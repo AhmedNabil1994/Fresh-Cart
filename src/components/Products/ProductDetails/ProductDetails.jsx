@@ -8,14 +8,18 @@ import { CartContext } from "../../../context/CartContext";
 import { useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { WishlistContext } from "../../../context/WishlistContext";
 
 // css module
 // import style from "./ProductDetails.module.css";
 
 export default function ProductDetails() {
   const [btnLoading, setBtnLoading] = useState(false);
+  const [isInWishlist, setIsInWishlist] = useState(false);
   const { addToCart } = useContext(CartContext);
   let { id } = useParams();
+  const { addToWishlist, deleteWishlistItem, wishlist } =
+    useContext(WishlistContext);
 
   const getProductDetails = () => {
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
@@ -35,13 +39,17 @@ export default function ProductDetails() {
   // console.log(product);
   useEffect(() => {
     window.scrollTo({ top: 0 });
-  }, [id]);
+    setIsInWishlist(
+      wishlist?.data?.some((item) => item?.id === product?.id) ||
+        wishlist?.data?.some((item) => item === product?.id)
+    );
+  }, [product?.id]);
 
   const handleAddToCart = async (id) => {
     setBtnLoading(true);
     const toastId = toast.loading("Adding product to cart...");
     const data = await addToCart(id);
-    console.log("data", data);
+    // console.log("data", data);
     if (data.status === "success") {
       setBtnLoading(false);
       toast.success(data.message, {
@@ -58,6 +66,52 @@ export default function ProductDetails() {
         id: toastId,
       });
     }
+  };
+
+  const handleAddToWishlist = async (id) => {
+    const toastId = toast.loading("Adding product to wishlist...");
+    const data = await addToWishlist(id);
+    // console.log("heart clicked", data);
+    if (data.status === "success") {
+      toast.success("Product deleted successfully.", {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        duration: 3000,
+        id: toastId,
+      });
+    } else {
+      toast.error(data.message, {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        id: toastId,
+      });
+    }
+  };
+
+  const handleDeleteWishlistItem = async (id) => {
+    const toastId = toast.loading("Deleting product from wishlist...");
+    const data = await deleteWishlistItem(id);
+    if (data.status === "success") {
+      // setWishlistItems(data.data);
+      // console.log(data, "data in delete");
+      toast.success("Product deleted successfully.", {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        duration: 3000,
+        id: toastId,
+      });
+    } else {
+      toast.error("Error during deleting, try again.", {
+        position: "top-center",
+        style: { fontFamily: "sans-serif" },
+        id: toastId,
+      });
+    }
+  };
+
+  const handleWishlist = (id) => {
+    setIsInWishlist(!isInWishlist);
+    isInWishlist ? handleDeleteWishlistItem(id) : handleAddToWishlist(id);
   };
 
   return (
@@ -147,7 +201,15 @@ export default function ProductDetails() {
                         "add to cart"
                       )}
                     </button>
-                    <i className="fa fa-regular fa-heart border-2 border-slate-400 opacity-75 rounded text-xl p-1"></i>
+                    <button onClick={() => handleWishlist(product?.id)}>
+                      <i
+                        className={` ${
+                          isInWishlist
+                            ? "fa-solid text-secondary"
+                            : "fa-regular"
+                        } fa fa-heart border-2 border-slate-400  rounded text-2xl p-1`}
+                      ></i>
+                    </button>
                   </div>
                 </div>
               </div>
