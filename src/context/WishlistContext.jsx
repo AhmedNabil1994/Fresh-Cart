@@ -1,16 +1,22 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { UserContext } from "./UserContext";
 
 export const WishlistContext = createContext();
 
 export default function WishlistContextProvider({ children }) {
   const [wishlist, setWishlist] = useState(null);
-  const userToken = Cookies.get("token");
+  // const userToken = Cookies.get("token");
+  // const headers = { token: userToken };
+  // const getHeaders = () => {
+  //   const userToken = Cookies.get("token");
+  //   return userToken ? { token: userToken } : {};
+  // };
+  const { userToken } = useContext(UserContext);
   const headers = { token: userToken };
   const getHeaders = () => {
-    const userToken = Cookies.get("token");
-    return userToken ? { token: userToken } : {};
+    return userToken ? { token: userToken } : null;
   };
 
   const addToWishlist = async (productId) => {
@@ -63,8 +69,7 @@ export default function WishlistContextProvider({ children }) {
     if (userToken) {
       getLoggedUserWishlist();
     }
- 
-  }, []);
+  }, [userToken]);
 
   return (
     <WishlistContext.Provider

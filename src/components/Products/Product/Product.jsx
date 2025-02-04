@@ -14,7 +14,8 @@ export default function Product({ product, search }) {
   const { addToWishlist, deleteWishlistItem, wishlist } =
     useContext(WishlistContext);
 
-  // console.log("wishlist in product comp", wishlist);
+  console.log("wishlist in product comp", wishlist);
+  
 
   const highlightMatch = (titleText, search) => {
     if (!search) return titleText;
@@ -112,21 +113,19 @@ export default function Product({ product, search }) {
 
   useEffect(() => {
     setIsInWishlist(
-      wishlist?.data?.some((item) => item?.id === product.id) ||
-        wishlist?.data?.some((item) => item === product.id)
+      wishlist?.data?.some((item) => item?.id === product?.id) ||
+        wishlist?.data?.some((item) => item === product?.id)
     );
-    // console.log(wishlist?.data?.some((item) => item.id === product.id));
-
     // if (
     //   wishlist?.data?.some((item) => {
     //     console.log(item,"item");
     //     // console.log(product.id,"product");
-    //     return item.id === product.id;
+    //     return item === product.id;
     //   })
     // ) {
     //   setIsInWishlist(true);
     // }
-  }, [product.id]);
+  }, [wishlist]);
 
   return (
     <>

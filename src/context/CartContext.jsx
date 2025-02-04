@@ -1,19 +1,20 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { useContext } from "react";
+import { UserContext } from "./UserContext";
 
 export const CartContext = createContext();
 
 export default function CartContextProvider({ children }) {
   // const cartFromCookies = Cookies.get("cart") ? JSON.parse(Cookies.get("cart")) : null;
   // const [cart, setCart] = useState(cartFromCookies);
-  
+  // const userToken = Cookies.get("token");
+  const { userToken } = useContext(UserContext);
   const [cart, setCart] = useState(null);
-  const userToken = Cookies.get("token");
   const headers = { token: userToken };
   const getHeaders = () => {
-    const userToken = Cookies.get("token");
-    return userToken ? { token: userToken } : {};
+    return userToken ? { token: userToken } : null;
   };
   console.log(cart, "cart in cart context file");
   // console.log(cartFromCookies, "cart stored in session");
