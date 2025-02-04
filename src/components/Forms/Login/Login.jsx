@@ -61,6 +61,9 @@ export default function Login() {
     validationSchema,
     onSubmit: handleLogin,
   });
+
+
+  
   return (
     <>
       <FormWrapper
@@ -134,7 +137,7 @@ export default function Login() {
                 "Log in"
               )}
             </button>
-            <Link to="/forget" className="text-secondary">
+            <Link to="/forgetpassword" className="text-secondary">
               Forget Password?
             </Link>
           </div>
