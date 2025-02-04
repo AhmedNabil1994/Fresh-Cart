@@ -23,6 +23,9 @@ import Orders from "./components/Orders/Orders";
 import CategoryRelatedProducts from "./components/Categories/CategoryRelatedProducts/CategoryRelatedProducts";
 import Wishlist from "./components/Wishlist/Wishlist";
 import WishlistContextProvider from "./context/WishlistContext";
+import ForgetPassword from './components/Forms/ResetPasswordFormWrapper/ForgetPassword/ForgetPassword';
+import SendCode from './components/Forms/ResetPasswordFormWrapper/SendCode/SendCode';
+import ResetPassword from './components/Forms/ResetPasswordFormWrapper/ResetPassword/ResetPassword';
 
 const query = new QueryClient();
 
@@ -114,6 +117,9 @@ const router = createBrowserRouter([
       },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
+      { path: "forgetpassword", element: <ForgetPassword /> },
+      { path: "verifyresetcode", element: <SendCode /> },
+      { path: "resetpassword", element: <ResetPassword /> },
       { path: "*", element: <NotFound /> },
     ],
   },

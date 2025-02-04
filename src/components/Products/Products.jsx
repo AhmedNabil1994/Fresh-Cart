@@ -7,7 +7,7 @@ import Loader from "../shared/Loader/Loader";
 import Product from "./Product/Product";
 import axios from "axios";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "../Search/Search";
 
 export default function Products() {
@@ -48,6 +48,10 @@ export default function Products() {
       ? product
       : product.title.toLowerCase().includes(search.toLowerCase())
   );
+
+  // useEffect(() => {
+  //   window.scrollTo({ top: 0 });
+  // }, []);
 
   return (
     <>
