@@ -23,9 +23,10 @@ import Orders from "./components/Orders/Orders";
 import CategoryRelatedProducts from "./components/Categories/CategoryRelatedProducts/CategoryRelatedProducts";
 import Wishlist from "./components/Wishlist/Wishlist";
 import WishlistContextProvider from "./context/WishlistContext";
-import ForgetPassword from './components/Forms/ResetPasswordFormWrapper/ForgetPassword/ForgetPassword';
-import SendCode from './components/Forms/ResetPasswordFormWrapper/SendCode/SendCode';
-import ResetPassword from './components/Forms/ResetPasswordFormWrapper/ResetPassword/ResetPassword';
+import ForgetPassword from "./components/Forms/ResetPasswordFormWrapper/ForgetPassword/ForgetPassword";
+import SendCode from "./components/Forms/ResetPasswordFormWrapper/SendCode/SendCode";
+import ResetPassword from "./components/Forms/ResetPasswordFormWrapper/ResetPassword/ResetPassword";
+import UnauthedRoute from "./components/UnauthedRoute/UnauthedRoute";
 
 const query = new QueryClient();
 
@@ -117,9 +118,30 @@ const router = createBrowserRouter([
       },
       { path: "register", element: <Register /> },
       { path: "login", element: <Login /> },
-      { path: "forgetpassword", element: <ForgetPassword /> },
-      { path: "verifyresetcode", element: <SendCode /> },
-      { path: "resetpassword", element: <ResetPassword /> },
+      {
+        path: "forgetpassword",
+        element: (
+          <UnauthedRoute>
+            <ForgetPassword />
+          </UnauthedRoute>
+        ),
+      },
+      {
+        path: "verifyresetcode",
+        element: (
+          <UnauthedRoute>
+            <SendCode />
+          </UnauthedRoute>
+        ),
+      },
+      {
+        path: "resetpassword",
+        element: (
+          <UnauthedRoute>
+            <ResetPassword />
+          </UnauthedRoute>
+        ),
+      },
       { path: "*", element: <NotFound /> },
     ],
   },
