@@ -8,13 +8,12 @@ import Loader from "../shared/Loader/Loader";
 // import style from "./Orders.module.css";
 
 export default function Orders() {
-  const { cart } = useContext(CartContext);
-  console.log(cart?.data?.cartOwner, "owner id");
+  const cartOwner = "678e75574e3f2254d6783fa2";
 
-  const getAllUserOrders = () => {
-    return axios.get(
-      `https://ecommerce.routemisr.com/api/v1/orders/user/${cart?.data?.cartOwner}`
-      // `https://ecommerce.routemisr.com/api/v1/orders/user/67a25424518151d803bbc0bf`
+  const getAllUserOrders = async () => {
+    if (!cartOwner) return [];
+    return await axios.get(
+      `https://ecommerce.routemisr.com/api/v1/orders/user/${cartOwner}`
     );
   };
 
@@ -24,8 +23,8 @@ export default function Orders() {
     isError,
     error,
   } = useQuery({
-    queryKey: ["orders"],
-    queryFn: () => getAllUserOrders(),
+    queryKey: ["orders", cartOwner],
+    queryFn: getAllUserOrders,
     select: (orders) => orders.data,
   });
   console.log(orders, "orders");
@@ -51,13 +50,16 @@ export default function Orders() {
                       <span className="">Order Number</span>
                     </th>
                     <th scope="col" className="px-6 py-3 font-normal">
+                      <span className=""> Type</span>
+                    </th>
+                    <th scope="col" className="px-6 py-3 font-normal">
                       <span className="">Product</span>
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 font-normal text-center"
                     >
-                      <span className="">Order Qty</span>
+                      <span className="">Product Qty</span>
                     </th>
                     <th scope="col" className="px-6 py-3 font-normal">
                       Ordered On
@@ -71,62 +73,96 @@ export default function Orders() {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((order, idx) => (
-                    <tr
-                      className="bg-white border-b border-gray-200 text-base font-normal"
-                      key={order._id}
-                    >
-                      <td className="px-6 py-4 ">
-                        <span>{idx + 1}</span>
-                      </td>
-                      <td className="px-6 py-4 ">
-                        {/* <img
-                          src={product.product.imageCover}
-                          className="w-16 md:w-32 max-w-full max-h-full"
-                          alt={product.product.title}
-                        /> */}
-                        {/* <span>{product.product.title}</span> */}
-                        <span>sth</span>
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <span>
-                          {order.cartItems.reduce(
-                            (sum, item) => sum + item.count,
-                            0
-                          )}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="me-2">
-                          {new Date(order.createdAt).toLocaleDateString(
-                            "en-GB",
-                            {
-                              day: "2-digit",
-                              month: "short",
-                              year: "numeric",
-                            }
-                          )}
-                          ,
-                        </span>
-                        <span>
-                          {new Date(order.createdAt).toLocaleTimeString(
-                            "en-US",
-                            {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              hour12: true,
-                            }
-                          )}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4  text-gray-900 ">
-                        ${order.totalOrderPrice}
-                      </td>
-                      <td className="px-6 py-4  text-gray-900 ">
-                        {order.isDelivered ? "Delivered" : "Pending"}
-                      </td>
-                    </tr>
-                  ))}
+                  {/*
+                    Removes rows of no images
+                    check if there is at least one cart item with image
+                      --using some method
+                    return it using filter
+                    return array of orders each one has cart items of an image
+                    map this array and render the row
+                  */}
+                  {orders
+                    .filter((order) =>
+                      order.cartItems.some(
+                        (cartItem) => cartItem.product?.imageCover
+                      )
+                    )
+                    .map((order, idx) => (
+                      <tr
+                        className="bg-white border-b border-gray-200 text-base font-normal"
+                        key={order._id}
+                      >
+                        <td className="px-6 py-4">
+                          <span>{idx + 1}</span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <span>{order.paymentMethodType}</span>
+                        </td>
+
+                        <td className="px-6 py-4">
+                          {order.cartItems.map((cartItem) => (
+                            <div
+                              className="flex items-center space-x-2"
+                              key={cartItem._id}
+                            >
+                              <img
+                                src={cartItem.product.imageCover}
+                                className="w-14 aspect-square"
+                                alt={cartItem.product.title}
+                              />
+                              <span className="line-clamp-2 lg:line-clamp-1 w-40">
+                                {cartItem.product.title}
+                              </span>
+                            </div>
+                          ))}
+                        </td>
+
+                        <td className="px-6 py-4 text-center">
+                          {order.cartItems
+                            .filter((cartItem) => cartItem.product?.imageCover)
+                            .map((cartItem) => (
+                              <div
+                                key={cartItem._id}
+                                className="h-14 flex justify-center items-center"
+                              >
+                                <span>{cartItem.count}</span>
+                              </div>
+                            ))}
+                        </td>
+
+                        <td className="px-6 py-4">
+                          <span className="me-2">
+                            {new Date(order.createdAt).toLocaleDateString(
+                              "en-GB",
+                              {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )}
+                            ,
+                          </span>
+                          <span>
+                            {new Date(order.createdAt).toLocaleTimeString(
+                              "en-US",
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              }
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="px-6 py-4 text-gray-900">
+                          ${order.totalOrderPrice}
+                        </td>
+
+                        <td className="px-6 py-4 text-gray-900">
+                          {order.isDelivered ? "Delivered" : "Pending"}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

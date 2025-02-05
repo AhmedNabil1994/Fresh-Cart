@@ -38,7 +38,7 @@ export default function Checkout() {
     const toastId = toast.loading("Payment is processing......");
     setBtnLoading(true);
     const data = await cashPayment(formik.values);
-    console.log(data, "cash");
+    // console.log(data, "cash");
     if (data.status === "success") {
       setBtnLoading(false);
       setCart(null);
