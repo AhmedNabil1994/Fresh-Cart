@@ -8,7 +8,7 @@ import SectionHeader from "../../shared/SectionHeader/SectionHeader";
 // css module
 // import style from "./CategorySubcategories.module.css";
 
-export default function CategorySubcategories({ catId }) {
+export default function CategorySubcategories({ catId, category }) {
   const getCategorySubcategories = () => {
     return axios.get(
       `https://ecommerce.routemisr.com/api/v1/categories/${catId}/subcategories`
@@ -45,9 +45,9 @@ export default function CategorySubcategories({ catId }) {
       ) : (
         <>
           <SectionHeader
-              title={`Men's Category`}
-              subtitle="All Subcategories"
-            />
+            title={`${category}'s Category`}
+            subtitle="All Subcategories"
+          />
           <section className="row mx-[-15px]">
             {categorySubcategories.map((subcat) => (
               <div className="w-full sm:w-6/12 md:w-4/12 lg:w-3/12 mb-[60px] group px-[15px]  ">
