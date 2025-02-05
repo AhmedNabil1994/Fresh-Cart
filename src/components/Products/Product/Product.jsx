@@ -14,7 +14,7 @@ export default function Product({ product, search }) {
   const { addToWishlist, deleteWishlistItem, wishlist } =
     useContext(WishlistContext);
 
-  console.log("wishlist in product comp", wishlist);
+  // console.log("wishlist in product comp", wishlist);
   
 
   const highlightMatch = (titleText, search) => {

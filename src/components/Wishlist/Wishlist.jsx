@@ -26,8 +26,8 @@ export default function Wishlist() {
   const { getLoggedUserWishlist, deleteWishlistItem, wishlist,setWishlist } =
     useContext(WishlistContext);
   const userToken = Cookies.get("token");
-  console.log("wishlist in wishlist comp", wishlist);
-  console.log("wishlistItems in wishlist comp", wishlistItems);
+  // console.log("wishlist in wishlist comp", wishlist);
+  // console.log("wishlistItems in wishlist comp", wishlistItems);
 
   // const getWishlistItems = async () => {
   //   return await getLoggedUserWishlist();

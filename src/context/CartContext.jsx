@@ -43,7 +43,7 @@ export default function CartContextProvider({ children }) {
       )
       .then(({ data }) => {
         if (data.status === "success") {
-          console.log(data);
+          console.log(data, "cash");
         }
         return data;
       })
@@ -53,16 +53,16 @@ export default function CartContextProvider({ children }) {
   const onlinePayment = async (formData) => {
     return await axios
       .post(
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=fresh-cart-hazel.vercel.app`,
-        // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=http://localhost:5173`,
+        // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=fresh-cart-hazel.vercel.app`,
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=http://localhost:5173`,
         { shippingAddress: formData },
         { headers }
       )
       .then(({ data }) => {
+        // console.log(data,"online");
         if (data.status === "success") {
-          console.log(data);
+          return data;
         }
-        return data;
       })
       .catch((error) => error);
   };
