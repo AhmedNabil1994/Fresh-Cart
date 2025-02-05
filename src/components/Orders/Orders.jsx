@@ -3,6 +3,7 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import Loader from "../shared/Loader/Loader";
+import SectionHeader from "../shared/SectionHeader/SectionHeader";
 
 // css module
 // import style from "./Orders.module.css";
@@ -30,18 +31,13 @@ export default function Orders() {
   console.log(orders, "orders");
 
   return (
-    // <>
-    //   <section className="flex justify-center items-center h-[30vh]">
-    //     Orders
-    //   </section>
-    // </>
-
     <>
       {isLoading ? (
         <Loader />
       ) : (
         orders && (
           <>
+            <SectionHeader title="Orders" subtitle="View All Orders" />
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="w-full text-sm text-center">
                 <thead className="text-base capitalize">
