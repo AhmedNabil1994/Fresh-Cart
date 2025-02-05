@@ -14,6 +14,8 @@ import CategorySubcategories from "../CategorySubcategories/CategorySubcategorie
 export default function CategoryRelatedProducts() {
   let { categoryId, category } = useParams();
 
+  // console.log(category,"cat");
+
   const getRelatedProducts = () => {
     return axios.get(
       `https://ecommerce.routemisr.com/api/v1/products?category=${categoryId}`
@@ -44,7 +46,7 @@ export default function CategoryRelatedProducts() {
         <ApiError error={error.response?.data.message} />
       ) : products?.length === 0 ? (
         <>
-          <CategorySubcategories catId={categoryId} />
+          <CategorySubcategories catId={categoryId} category={category} />
           <section className="text-center flex justify-center items-center flex-col">
             <h2 className="mb-6 font-medium text-xl sm:text-4xl">
               There is no current products for that category
@@ -63,7 +65,7 @@ export default function CategoryRelatedProducts() {
       ) : (
         <>
           <section className="sm:mt-6 mt-0">
-            <CategorySubcategories catId={categoryId} />
+            <CategorySubcategories catId={categoryId} category={category} />
             <div className="flex justify-between">
               <SectionHeader
                 title={`${category}'s Category`}
