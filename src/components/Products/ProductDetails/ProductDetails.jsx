@@ -16,6 +16,8 @@ import { WishlistContext } from "../../../context/WishlistContext";
 export default function ProductDetails() {
   const [btnLoading, setBtnLoading] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
+  const [imageIdx, setImageIdx] = useState(null);
   const { addToCart } = useContext(CartContext);
   let { id } = useParams();
   const { addToWishlist, deleteWishlistItem, wishlist } =
@@ -36,14 +38,7 @@ export default function ProductDetails() {
     select: (product) => product.data.data,
   });
 
-  // console.log(product);
-  useEffect(() => {
-    window.scrollTo({ top: 0 });
-    setIsInWishlist(
-      wishlist?.data?.some((item) => item?.id === product?.id) ||
-        wishlist?.data?.some((item) => item === product?.id)
-    );
-  }, [product?.id]);
+  console.log(product, "product");
 
   const handleAddToCart = async (id) => {
     setBtnLoading(true);
@@ -114,6 +109,23 @@ export default function ProductDetails() {
     isInWishlist ? handleDeleteWishlistItem(id) : handleAddToWishlist(id);
   };
 
+  const handleImageClick = (img, idx) => {
+    setSelectedImage(img);
+    setImageIdx(idx);
+  };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+    setIsInWishlist(
+      wishlist?.data?.some((item) => item?.id === product?.id) ||
+        wishlist?.data?.some((item) => item === product?.id)
+    );
+    if (product?.imageCover) {
+      setSelectedImage(product?.imageCover);
+      setImageIdx(null);
+    }
+  }, [product?.id]);
+
   return (
     <>
       {isLoading ? (
@@ -131,7 +143,12 @@ export default function ProductDetails() {
                       src={img}
                       alt={product.title}
                       key={idx}
-                      className="w-[170px] aspect-[170/138]"
+                      className={`w-[170px] aspect-[170/138] cursor-pointer transition duration-200 border-2 ${
+                        imageIdx === idx
+                          ? " border-secondary scale-105"
+                          : "opacity-85 border-slate-400 "
+                      }`}
+                      onClick={() => handleImageClick(img, idx)}
                     />
                   ))}
                 </div>
@@ -139,7 +156,7 @@ export default function ProductDetails() {
               <div className="w-full md:w-5/12">
                 <div>
                   <img
-                    src={product.imageCover}
+                    src={selectedImage ? selectedImage : product.imageCover}
                     alt={product.title}
                     className="object-cover w-full md:w-[500px] aspect-[500/600] mx-auto"
                   />
