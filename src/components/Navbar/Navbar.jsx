@@ -206,7 +206,7 @@ export default function NavbarComp() {
                   <li>
                     <NavLink
                       to="/"
-                      className="font-normal  inline-block py-2 px-3 md:p-0"
+                      className="hover:text-secondary transition-colors duration-300 font-normal  inline-block py-2 px-3 md:p-0"
                       aria-current="page"
                     >
                       Home
@@ -215,7 +215,7 @@ export default function NavbarComp() {
                   <li>
                     <NavLink
                       to="products"
-                      className="font-normal  inline-block py-2 px-3 md:p-0"
+                      className="hover:text-secondary transition-colors duration-300 font-normal  inline-block py-2 px-3 md:p-0"
                     >
                       Products
                     </NavLink>
@@ -223,7 +223,7 @@ export default function NavbarComp() {
                   <li>
                     <NavLink
                       to="categories"
-                      className="font-normal  inline-block py-2 px-3 md:p-0"
+                      className="hover:text-secondary transition-colors duration-300 font-normal  inline-block py-2 px-3 md:p-0"
                     >
                       Categories
                     </NavLink>
@@ -231,7 +231,7 @@ export default function NavbarComp() {
                   <li>
                     <NavLink
                       to="brands"
-                      className="font-normal  inline-block py-2 px-3 md:p-0"
+                      className="hover:text-secondary transition-colors duration-300 font-normal  inline-block py-2 px-3 md:p-0"
                     >
                       Brands
                     </NavLink>
@@ -242,7 +242,7 @@ export default function NavbarComp() {
                 <li>
                   <span
                     onClick={handleLogout}
-                    className="font-normal inline-block py-2 px-3 md:p-0 cursor-pointer hover:text-secondary transition-colors"
+                    className="duration-300 font-normal inline-block py-2 px-3 md:p-0 cursor-pointer hover:text-secondary transition-colors"
                   >
                     Logout
                   </span>
