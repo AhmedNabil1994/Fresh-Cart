@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import RecentProducts from "../Products/RecentProducts/RecentProducts";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
@@ -9,6 +9,11 @@ import MainSlider from "./MainSlider/MainSlider";
 // import style from "./Home.module.css";
 
 export default function Home() {
+
+  useEffect(() => {
+    scrollTo({ top: 0 });
+  }, []);
+  
   return (
     <>
       <div className="overflow-hidden">

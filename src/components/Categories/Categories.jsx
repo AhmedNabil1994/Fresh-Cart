@@ -7,6 +7,7 @@ import ApiError from "../shared/ApiError/ApiError";
 import Category from "./../Categories/Category/Category";
 import Product from "../Products/Product/Product";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
+import { useEffect } from "react";
 
 export default function Categories() {
   const getCategories = () => {
@@ -23,6 +24,10 @@ export default function Categories() {
     select: (categories) => categories.data.data,
   });
   console.log(categories, "all categories in cat component");
+
+  useEffect(() => {
+    scrollTo({ top: 0 });
+  }, []);
 
   return (
     <>

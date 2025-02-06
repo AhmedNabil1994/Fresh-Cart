@@ -49,9 +49,10 @@ export default function Products() {
       : product.title.toLowerCase().includes(search.toLowerCase())
   );
 
-  // useEffect(() => {
-  //   window.scrollTo({ top: 0 });
-  // }, []);
+  useEffect(() => {
+    scrollTo({ top: 0 });
+  }, []);
+
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import style from "./Brands.module.css";
 import Brand from "../Brands/Brand/Brand";
 import axios from "axios";
@@ -24,6 +24,10 @@ export default function Brands() {
   });
   console.log(brands, "all brands ");
 
+  useEffect(() => {
+    scrollTo({ top: 0 });
+  }, []);
+
   return (
     <>
       <>
@@ -34,10 +38,7 @@ export default function Brands() {
         ) : (
           brands && (
             <>
-              <SectionHeader
-                title="Brands"
-                subtitle="Explore Our All Brands"
-              />
+              <SectionHeader title="Brands" subtitle="Explore Our All Brands" />
               <section className="row mx-[-15px]">
                 {brands.map((brand) => (
                   <Brand key={brand._id} brand={brand} />
