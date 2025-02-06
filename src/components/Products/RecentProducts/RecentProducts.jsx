@@ -18,7 +18,7 @@ export default function RecentProducts() {
     error,
   } = useProducts(
     `https://ecommerce.routemisr.com/api/v1/products?limit=20`,
-    "recentProducts"
+    "recent-products"
   );
   // console.log(typeof error,"error");
 

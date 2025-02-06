@@ -24,7 +24,7 @@ export default function CategorySubcategories({ catId, category }) {
     error,
     isFetching,
   } = useQuery({
-    queryKey: ["CategorySubcategories"],
+    queryKey: ["category-subcategories"],
     queryFn: getCategorySubcategories,
     select: (subCats) => subCats.data.data,
   });

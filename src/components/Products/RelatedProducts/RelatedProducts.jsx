@@ -43,7 +43,7 @@ export default function RelatedProducts() {
   } = useProducts(
     ...[
       `https://ecommerce.routemisr.com/api/v1/products`,
-      "relatedProducts",
+      "related-products",
       ,
       ,
       filterByCategory,

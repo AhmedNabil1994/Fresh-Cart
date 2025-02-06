@@ -21,7 +21,7 @@ export default function CategoriesSlider() {
     isError,
     isLoading,
   } = useQuery({
-    queryKey: ["allCategories"],
+    queryKey: ["all-categories"],
     queryFn: getCategories,
     select: (categories) => categories.data.data,
   });

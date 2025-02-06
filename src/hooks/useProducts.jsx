@@ -5,10 +5,10 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 export default function useProducts(
   url,
   theQueryKey,
-  page = null,
-  id = null,
-  filterFn = null,
-  category = null
+  page,
+  id,
+  filterFn,
+  category
 ) {
   const getProducts = () => {
     return axios.get(url);
