@@ -13,10 +13,10 @@ export default function Brand({ brand }) {
             alt={brand.name}
             className="transition duration-700 w-full"
           />
-        </div>
-        <h2 className="text-center mt-2 group-hover:text-secondary font-semibold transition duration-500">
+        <h2 className="text-center group-hover:text-secondary font-semibold transition duration-500">
           {brand.name}
         </h2>
+        </div>
       </div>
     </>
   );

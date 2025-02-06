@@ -1,14 +1,13 @@
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import ApiError from "../../shared/ApiError/ApiError";
 import Loader from "../../shared/Loader/Loader";
 import StarRatings from "react-star-ratings";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
 import { CartContext } from "../../../context/CartContext";
-import { useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { WishlistContext } from "../../../context/WishlistContext";
+import useProducts from "../../../hooks/useProducts";
 
 // css module
 // import style from "./ProductDetails.module.css";
@@ -23,22 +22,20 @@ export default function ProductDetails() {
   const { addToWishlist, deleteWishlistItem, wishlist } =
     useContext(WishlistContext);
 
-  const getProductDetails = () => {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
-  };
-
   const {
     data: product,
     isLoading,
     isError,
     error,
-  } = useQuery({
-    queryKey: ["productDetails", id],
-    queryFn: getProductDetails,
-    select: (product) => product.data.data,
-  });
-
-  console.log(product, "product");
+  } = useProducts(
+    ...[
+      `https://ecommerce.routemisr.com/api/v1/products/${id}`,
+      "productDetails",
+      ,
+      id,
+    ]
+  );
+  // console.log(error, "error");
 
   const handleAddToCart = async (id) => {
     setBtnLoading(true);
@@ -117,31 +114,31 @@ export default function ProductDetails() {
   useEffect(() => {
     window.scrollTo({ top: 0 });
     setIsInWishlist(
-      wishlist?.data?.some((item) => item?.id === product?.id) ||
-        wishlist?.data?.some((item) => item === product?.id)
+      wishlist?.data?.some((item) => item?.id === product?.data.id) ||
+        wishlist?.data?.some((item) => item === product?.data.id)
     );
-    if (product?.imageCover) {
-      setSelectedImage(product?.imageCover);
+    if (product?.data?.imageCover) {
+      setSelectedImage(product?.data.imageCover);
       setImageIdx(null);
     }
-  }, [product?.id]);
+  }, [product?.data?.id]);
 
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : isError ? (
-        <ApiError error={error.response.data.message} />
+        <ApiError error={error.response?.data.message} />
       ) : (
         <>
-          {product && (
+          {product.data && (
             <div className="row justify-between gap-y-4 mb-[140px]">
               <div className="w-full md:w-2/12">
                 <div className="row flex-row md:flex-col justify-evenly md:justify-center items-end gap-y-4">
-                  {product.images.map((img, idx) => (
+                  {product.data.images.map((img, idx) => (
                     <img
                       src={img}
-                      alt={product.title}
+                      alt={product.data.title}
                       key={idx}
                       className={`w-[170px] aspect-[170/138] cursor-pointer transition duration-200 border-2 ${
                         imageIdx === idx
@@ -156,8 +153,10 @@ export default function ProductDetails() {
               <div className="w-full md:w-5/12">
                 <div>
                   <img
-                    src={selectedImage ? selectedImage : product.imageCover}
-                    alt={product.title}
+                    src={
+                      selectedImage ? selectedImage : product.data.imageCover
+                    }
+                    alt={product.data.title}
                     className="object-cover w-full md:w-[500px] aspect-[500/600] mx-auto"
                   />
                 </div>
@@ -165,30 +164,30 @@ export default function ProductDetails() {
               <div className="w-full md:w-4/12">
                 <div>
                   <h2 className="text-2xl font-semibold font-inter">
-                    {product.title}
+                    {product.data.title}
                   </h2>
                   <div className="row my-4 gap-x-2">
                     <div className="-mt-[2px]">
                       <StarRatings
-                        rating={product.ratingsAverage}
+                        rating={product.data.ratingsAverage}
                         starRatedColor="#FFAD33"
                         starDimension="20px"
                         starSpacing="2px"
                       />
                     </div>
                     <p className=" opacity-50">
-                      ({product.ratingsQuantity} Reviews)
+                      ({product.data.ratingsQuantity} Reviews)
                     </p>
                     <p>
                       <span className="opacity-50">|</span>
                       <span className="ms-4 text-sm text-[#00FF66] opacity-60">
-                        {product.quantity > 0 && "In Stock"}
+                        {product.data.quantity > 0 && "In Stock"}
                       </span>
                     </p>
                   </div>
-                  <p className="text-2xl">${product.price}</p>
+                  <p className="text-2xl">${product.data.price}</p>
                   <p className="relative after:content-[''] after:block after:w-full after:h-[2px] after:bg-gray-500 after:mt-6 mt-6 ">
-                    {product?.description}
+                    {product?.data.description}
                   </p>
                   {/* <div className="row justify-between items-center mt-6 gap-y-2">
                     <div className="rounded flex">
@@ -209,7 +208,7 @@ export default function ProductDetails() {
                   </div> */}
                   <div className="flex justify-between mt-6 items-center">
                     <button
-                      onClick={() => handleAddToCart(product?.id)}
+                      onClick={() => handleAddToCart(product?.data.id)}
                       className="capitalize w-4/5 font-medium bg-secondary text-white rounded py-2 px-12 hover:bg-opacity-90 transition duration-500"
                     >
                       {btnLoading ? (
@@ -218,7 +217,7 @@ export default function ProductDetails() {
                         "add to cart"
                       )}
                     </button>
-                    <button onClick={() => handleWishlist(product?.id)}>
+                    <button onClick={() => handleWishlist(product?.data.id)}>
                       <i
                         className={` ${
                           isInWishlist

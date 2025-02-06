@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import axios from "axios";
 import RecentProducts from "../Products/RecentProducts/RecentProducts";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
 import CategoriesSlider from "../Categories/CategoriesSlider/CategoriesSlider";

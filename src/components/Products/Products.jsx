@@ -1,49 +1,42 @@
 // css module
 // import style from "./Products.module.css";
 
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ApiError from "../shared/ApiError/ApiError";
 import Loader from "../shared/Loader/Loader";
 import Product from "./Product/Product";
-import axios from "axios";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
 import { useEffect, useState } from "react";
 import Search from "../Search/Search";
+import useProducts from "../../hooks/useProducts";
 
 export default function Products() {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const itemsPerPage = 20;
 
-  const getAllProducts = (page) => {
-    return axios.get(
-      `https://ecommerce.routemisr.com/api/v1/products?limit=20&page=${page}`
-    );
-  };
-
   const {
-    data: res,
+    data: products,
     isLoading,
     isError,
     error,
-  } = useQuery({
-    queryKey: ["products", currentPage],
-    queryFn: () => getAllProducts(currentPage),
-    select: (res) => res.data,
-    placeholderData: keepPreviousData,
-  });
-  console.log(res);
+  } = useProducts(
+    `https://ecommerce.routemisr.com/api/v1/products?limit=20&page=${currentPage}`,
+    "allProducts",
+    currentPage
+  );
+  // console.log(products, "products res");
 
-  const totalPages = Math.ceil(res?.results / itemsPerPage);
+  const totalPages = Math.ceil(products?.results / itemsPerPage);
 
   const prevPage = () => {
     setCurrentPage((prev) => prev - 1);
   };
+
   const nextPage = () => {
     setCurrentPage((prev) => prev + 1);
   };
 
-  const filteredProducts = res?.data.filter((product) =>
+  const filteredProducts = products?.data.filter((product) =>
     search.toLowerCase() === ""
       ? product
       : product.title.toLowerCase().includes(search.toLowerCase())
@@ -52,7 +45,6 @@ export default function Products() {
   useEffect(() => {
     scrollTo({ top: 0 });
   }, []);
-
 
   return (
     <>
@@ -69,7 +61,7 @@ export default function Products() {
       {isLoading ? (
         <Loader />
       ) : isError ? (
-        <ApiError error={error.response.data?.message} />
+        <ApiError error={error.response?.data.message} />
       ) : (
         <>
           {filteredProducts && (
