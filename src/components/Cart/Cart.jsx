@@ -9,6 +9,7 @@ import EmptyCart from "./EmptyCart/EmptyCart";
 import { UserContext } from "../../context/UserContext";
 import Cookies from "js-cookie";
 import MetaTags from "../MetaTags/MetaTags";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Cart() {
   const userToken = Cookies.get("token");
@@ -18,6 +19,29 @@ export default function Cart() {
   const [btnLoading, setBtnLoading] = useState(false);
   const { getLoggedUserCart, updateCartProductQty, deleteCartItem, clearCart } =
     useContext(CartContext);
+
+  /*
+    with react-query 
+  */
+
+  // const getCartItems = async () => {
+  //   return await getLoggedUserCart();
+  // };
+
+  // const {
+  //   data: cartDetails,
+  //   isLoading,
+  //   isError,
+  //   error,
+  // } = useQuery({
+  //   queryKey: ["get-user-cart"],
+  //   queryFn: getCartItems,
+  //   select: (res) => res.data,
+  // });
+
+  /* 
+   -----------------------------------
+  */
 
   const getCartItems = async () => {
     setIsLoading(true);
