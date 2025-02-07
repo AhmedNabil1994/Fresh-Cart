@@ -87,7 +87,7 @@ export default function NavbarComp() {
               </div>
               {userToken && (
                 <>
-                  <Link
+                  <NavLink
                     to="wishlist"
                     className="relative inline-flex items-center p-3 text-sm"
                   >
@@ -97,8 +97,8 @@ export default function NavbarComp() {
                         {wishlist.data?.length}
                       </div>
                     )}
-                  </Link>
-                  <Link
+                  </NavLink>
+                  <NavLink
                     to="cart"
                     className="relative inline-flex items-center p-3 text-sm"
                   >
@@ -109,7 +109,7 @@ export default function NavbarComp() {
                         {cart.numOfCartItems}
                       </div>
                     )}
-                  </Link>
+                  </NavLink>
 
                   {/* <Link to="cart">
                     <IoCartOutline size={30} className="cursor-pointer" />

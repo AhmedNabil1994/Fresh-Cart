@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devtools/src/index";
 import { Toaster } from "react-hot-toast";
+import { Offline, Detector, Online } from "react-detect-offline";
 // components
 import Layout from "./components/Layout/Layout";
 const Home = lazy(() => import("./components/Home/Home"));
@@ -20,7 +21,6 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 const ProductDetails = lazy(() =>
   import("./components/Products/ProductDetails/ProductDetails")
 );
-
 import CartContextProvider from "./context/CartContext";
 import Checkout from "./components/Checkout/Checkout";
 import Orders from "./components/Orders/Orders";
@@ -37,6 +37,7 @@ import SendCode from "./components/Forms/ResetPasswordFormWrapper/SendCode/SendC
 import ResetPassword from "./components/Forms/ResetPasswordFormWrapper/ResetPassword/ResetPassword";
 import UnauthedRoute from "./components/UnauthedRoute/UnauthedRoute";
 import Loader from "./components/shared/Loader/Loader";
+import { RiWifiOffLine } from "react-icons/ri";
 
 const query = new QueryClient();
 
@@ -171,17 +172,32 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <UserContextProvider>
-      <QueryClientProvider client={query}>
-        <CartContextProvider>
-          <WishlistContextProvider>
-            <RouterProvider router={router} />
-            <Toaster />
-          </WishlistContextProvider>
-        </CartContextProvider>
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </UserContextProvider>
+    <>
+      <Detector
+        render={({ online }) => (
+          <div
+            className={`${
+              !online &&
+              "fixed bottom-20 end-2 bg-red-100 border border-red-300 p-4 text-center rounded-md z-30 font-semibold text-secondary"
+            } flex gap-x-3 items-center`}
+          >
+            <RiWifiOffLine size={20}/>
+            {!online && "You are currently offline"}
+          </div>
+        )}
+      />
+      <UserContextProvider>
+        <QueryClientProvider client={query}>
+          <CartContextProvider>
+            <WishlistContextProvider>
+              <RouterProvider router={router} />
+              <Toaster />
+            </WishlistContextProvider>
+          </CartContextProvider>
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      </UserContextProvider>
+    </>
   );
 }
 

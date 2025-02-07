@@ -61,11 +61,11 @@ export default function CategoriesSlider() {
       {isLoading ? (
         <Loader />
       ) : isError ? (
-        <ApiError error={error.response.data.message} />
+        <ApiError error={error.response?.data.message} />
       ) : (
         <div className="mb-36">
           <Slider {...settings}>
-            {categories.map((category) => (
+            {categories?.map((category) => (
               <div
                 aria-hidden={isFocused ? "false" : "true"}
                 onFocus={() => setIsFocused(true)}
