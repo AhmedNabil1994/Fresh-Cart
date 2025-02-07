@@ -4,29 +4,15 @@ import Loader from "../../shared/Loader/Loader";
 import ApiError from "../../shared/ApiError/ApiError";
 import Slider from "react-slick";
 import { useQuery } from "@tanstack/react-query";
+import useCategories from "../../../hooks/useCategories";
 
 // css module
 // import style from "./CategoriesSlider.module.css";
 
 export default function CategoriesSlider() {
   const [isFocused, setIsFocused] = useState(false);
-
-  const getCategories = () => {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/categories`);
-  };
-
-  const {
-    data: categories,
-    error,
-    isError,
-    isLoading,
-  } = useQuery({
-    queryKey: ["all-categories"],
-    queryFn: getCategories,
-    select: (categories) => categories.data.data,
-  });
+  const { data: categories, error, isError, isLoading } = useCategories();
   // console.log(categories,"categories");
-  
 
   const settings = {
     dots: true,

@@ -8,22 +8,11 @@ import Category from "./../Categories/Category/Category";
 import Product from "../Products/Product/Product";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
 import { useEffect } from "react";
+import useCategories from "../../hooks/useCategories";
 
 export default function Categories() {
-  const getCategories = () => {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/categories`);
-  };
-  const {
-    data: categories,
-    error,
-    isError,
-    isLoading,
-  } = useQuery({
-    queryKey: ["all-categories"],
-    queryFn: getCategories,
-    select: (categories) => categories.data.data,
-  });
-  console.log(categories, "all categories in cat component");
+  const { data: categories, error, isError, isLoading } = useCategories();
+  // console.log(categories, "all categories in cat component");
 
   useEffect(() => {
     scrollTo({ top: 0 });
@@ -34,7 +23,7 @@ export default function Categories() {
       {isLoading ? (
         <Loader />
       ) : isError ? (
-        <ApiError error={error.response.data.message} />
+        <ApiError error={error.response?.data.message} />
       ) : (
         categories && (
           <>
