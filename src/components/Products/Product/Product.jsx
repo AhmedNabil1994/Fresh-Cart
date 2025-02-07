@@ -72,11 +72,12 @@ export default function Product({ product, search }) {
         id: toastId,
       });
     } else {
-      toast.error(data.message, {
+      toast.error("Error in adding to wishlist, try again.", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
         id: toastId,
       });
+      setIsInWishlist(false);
     }
   };
 

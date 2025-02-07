@@ -94,7 +94,7 @@ export default function Wishlist() {
       {isLoading ? (
         <Loader />
       ) : isError ? (
-        <ApiError error={error.response.data.message} />
+        <ApiError error={error.response?.data.message} />
       ) : (
         wishlistItems && (
           <>
