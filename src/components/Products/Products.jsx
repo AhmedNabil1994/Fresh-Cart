@@ -8,6 +8,7 @@ import SectionHeader from "../shared/SectionHeader/SectionHeader";
 import { useEffect, useState } from "react";
 import Search from "../Search/Search";
 import useProducts from "../../hooks/useProducts";
+import MetaTags from "../MetaTags/MetaTags";
 
 export default function Products() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,6 +49,7 @@ export default function Products() {
 
   return (
     <>
+      <MetaTags metaTitle="Products" />
       <SectionHeader
         title="All Products"
         subtitle="Explore Our All Products"

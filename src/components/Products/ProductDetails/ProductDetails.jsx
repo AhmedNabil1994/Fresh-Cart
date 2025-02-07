@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { WishlistContext } from "../../../context/WishlistContext";
 import useProducts from "../../../hooks/useProducts";
+import MetaTags from "../../MetaTags/MetaTags";
 
 // css module
 // import style from "./ProductDetails.module.css";
@@ -125,6 +126,7 @@ export default function ProductDetails() {
 
   return (
     <>
+      <MetaTags metaTitle="Product Details" />
       {isLoading ? (
         <Loader />
       ) : isError ? (

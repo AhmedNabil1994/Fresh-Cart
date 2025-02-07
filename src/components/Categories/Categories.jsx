@@ -9,6 +9,7 @@ import Product from "../Products/Product/Product";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
 import { useEffect } from "react";
 import useCategories from "../../hooks/useCategories";
+import MetaTags from "../MetaTags/MetaTags";
 
 export default function Categories() {
   const { data: categories, error, isError, isLoading } = useCategories();
@@ -20,6 +21,7 @@ export default function Categories() {
 
   return (
     <>
+      <MetaTags metaTitle="Categories" />
       {isLoading ? (
         <Loader />
       ) : isError ? (

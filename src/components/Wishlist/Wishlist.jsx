@@ -16,6 +16,7 @@ import Loader from "../shared/Loader/Loader";
 import ApiError from "../shared/ApiError/ApiError";
 import EmptyCart from "../Cart/EmptyCart/EmptyCart";
 import toast from "react-hot-toast";
+import MetaTags from "../MetaTags/MetaTags";
 
 export default function Wishlist() {
   const [wishlistItems, setWishlistItems] = useState(null);
@@ -23,7 +24,7 @@ export default function Wishlist() {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
   // const queryClient = new QueryClient();
-  const { getLoggedUserWishlist, deleteWishlistItem, wishlist,setWishlist } =
+  const { getLoggedUserWishlist, deleteWishlistItem, wishlist, setWishlist } =
     useContext(WishlistContext);
   const userToken = Cookies.get("token");
   // console.log("wishlist in wishlist comp", wishlist);
@@ -91,6 +92,7 @@ export default function Wishlist() {
 
   return (
     <>
+      <MetaTags metaTitle="Wishlist" />
       {isLoading ? (
         <Loader />
       ) : isError ? (

@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import EmptyCart from "./EmptyCart/EmptyCart";
 import { UserContext } from "../../context/UserContext";
 import Cookies from "js-cookie";
+import MetaTags from "../MetaTags/MetaTags";
 
 export default function Cart() {
   const userToken = Cookies.get("token");
@@ -57,7 +58,7 @@ export default function Cart() {
     const toastId = toast.loading("Deleting product from cart...");
     const res = await deleteCartItem(id);
     if (res.status === "success") {
-      console.log(res.data,"data delete cart");
+      console.log(res.data, "data delete cart");
       setCartDetails(res.data);
       toast.success("Product deleted successfully from cart", {
         position: "top-center",
@@ -104,6 +105,7 @@ export default function Cart() {
 
   return (
     <>
+      <MetaTags metaTitle="Cart" />
       {isLoading ? (
         <Loader />
       ) : (

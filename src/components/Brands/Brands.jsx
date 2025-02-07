@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "../shared/Loader/Loader";
 import ApiError from "../shared/ApiError/ApiError";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
+import MetaTags from "../MetaTags/MetaTags";
 
 export default function Brands() {
   const getBrands = () => {
@@ -30,7 +31,7 @@ export default function Brands() {
 
   return (
     <>
-      <>
+      <MetaTags metaTitle="Brands" />
         {isLoading ? (
           <Loader />
         ) : isError ? (
@@ -47,7 +48,6 @@ export default function Brands() {
             </>
           )
         )}
-      </>
     </>
   );
 }

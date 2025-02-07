@@ -7,6 +7,7 @@ import Loader from "../../shared/Loader/Loader";
 import SectionHeader from "../../shared/SectionHeader/SectionHeader";
 import Product from "../../Products/Product/Product";
 import CategorySubcategories from "../CategorySubcategories/CategorySubcategories";
+import MetaTags from "../../MetaTags/MetaTags";
 
 // css module
 // import style from "./CategoryRelatedProducts.module.css";
@@ -40,6 +41,7 @@ export default function CategoryRelatedProducts() {
 
   return (
     <>
+      <MetaTags metaTitle="Related Products" />
       {isFetching ? (
         <Loader />
       ) : isError ? (
