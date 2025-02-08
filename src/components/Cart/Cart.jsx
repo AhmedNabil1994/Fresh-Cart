@@ -8,6 +8,9 @@ import toast from "react-hot-toast";
 import EmptyCart from "./EmptyCart/EmptyCart";
 import { UserContext } from "../../context/UserContext";
 import Cookies from "js-cookie";
+import MetaTags from "../MetaTags/MetaTags";
+import { useQuery } from "@tanstack/react-query";
+import ApiError from "../shared/ApiError/ApiError";
 
 export default function Cart() {
   const userToken = Cookies.get("token");
@@ -15,8 +18,33 @@ export default function Cart() {
   const [cartDetails, setCartDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
   const { getLoggedUserCart, updateCartProductQty, deleteCartItem, clearCart } =
     useContext(CartContext);
+
+  /*
+    with react-query 
+  */
+
+  // const getCartItems = async () => {
+  //   return await getLoggedUserCart();
+  // };
+
+  // const {
+  //   data: cartDetails,
+  //   isLoading,
+  //   isError,
+  //   error,
+  // } = useQuery({
+  //   queryKey: ["get-user-cart"],
+  //   queryFn: getCartItems,
+  //   select: (res) => res.data,
+  // });
+
+  /* 
+   -----------------------------------
+  */
 
   const getCartItems = async () => {
     setIsLoading(true);
@@ -25,6 +53,12 @@ export default function Cart() {
     if (res.status === "success") {
       setIsLoading(false);
       setCartDetails(res.data);
+      setIsError(false);
+      setError(null);
+    } else {
+      setIsLoading(false);
+      setIsError(true);
+      setError(res);
     }
   };
 
@@ -57,7 +91,7 @@ export default function Cart() {
     const toastId = toast.loading("Deleting product from cart...");
     const res = await deleteCartItem(id);
     if (res.status === "success") {
-      console.log(res.data,"data delete cart");
+      console.log(res.data, "data delete cart");
       setCartDetails(res.data);
       toast.success("Product deleted successfully from cart", {
         position: "top-center",
@@ -104,8 +138,11 @@ export default function Cart() {
 
   return (
     <>
+      <MetaTags metaTitle="Cart" />
       {isLoading ? (
         <Loader />
+      ) : isError ? (
+        <ApiError error={error.response?.data.message} />
       ) : (
         cartDetails && (
           <>

@@ -14,8 +14,7 @@ export default function Product({ product, search }) {
   const { addToWishlist, deleteWishlistItem, wishlist } =
     useContext(WishlistContext);
 
-  // console.log("wishlist in product comp", wishlist);
-  
+  console.log("wishlist in product comp", wishlist);
 
   const highlightMatch = (titleText, search) => {
     if (!search) return titleText;
@@ -35,13 +34,9 @@ export default function Product({ product, search }) {
     );
   };
 
-  /* 
-    prevent link behavior in add to cart
-    add the logic here--
-  */
-
   const handleAddToCart = async (e, id) => {
     setIsLoading(true);
+    // prevent link behavior in add to cart
     e.preventDefault();
     e.stopPropagation();
     const toastId = toast.loading("Adding product to cart...");
@@ -77,11 +72,12 @@ export default function Product({ product, search }) {
         id: toastId,
       });
     } else {
-      toast.error(data.message, {
+      toast.error("Error in adding to wishlist, try again.", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
         id: toastId,
       });
+      setIsInWishlist(false);
     }
   };
 
@@ -116,15 +112,6 @@ export default function Product({ product, search }) {
       wishlist?.data?.some((item) => item?.id === product?.id) ||
         wishlist?.data?.some((item) => item === product?.id)
     );
-    // if (
-    //   wishlist?.data?.some((item) => {
-    //     console.log(item,"item");
-    //     // console.log(product.id,"product");
-    //     return item === product.id;
-    //   })
-    // ) {
-    //   setIsInWishlist(true);
-    // }
   }, [wishlist]);
 
   return (

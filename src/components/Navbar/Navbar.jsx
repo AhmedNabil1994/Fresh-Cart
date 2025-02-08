@@ -23,7 +23,7 @@ export default function NavbarComp() {
   return (
     <>
       <nav className="bg-white border-b border-gray-200  fixed top-0 inset-x-0 z-50">
-        <div className="gap-y-4 max-w-screen-xl flex flex-col min-414:flex-row flex-wrap items-center justify-center min-414:justify-between md:justify-evenly mx-auto p-4">
+        <div className="gap-y-4 max-w-screen-xl flex flex-wrap items-center justify-center min-414:justify-between md:justify-evenly lg:justify-around mx-auto p-4">
           <Link
             to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -87,7 +87,7 @@ export default function NavbarComp() {
               </div>
               {userToken && (
                 <>
-                  <Link
+                  <NavLink
                     to="wishlist"
                     className="relative inline-flex items-center p-3 text-sm"
                   >
@@ -97,8 +97,8 @@ export default function NavbarComp() {
                         {wishlist.data?.length}
                       </div>
                     )}
-                  </Link>
-                  <Link
+                  </NavLink>
+                  <NavLink
                     to="cart"
                     className="relative inline-flex items-center p-3 text-sm"
                   >
@@ -109,7 +109,7 @@ export default function NavbarComp() {
                         {cart.numOfCartItems}
                       </div>
                     )}
-                  </Link>
+                  </NavLink>
 
                   {/* <Link to="cart">
                     <IoCartOutline size={30} className="cursor-pointer" />

@@ -7,41 +7,46 @@ import ApiError from "../shared/ApiError/ApiError";
 import Category from "./../Categories/Category/Category";
 import Product from "../Products/Product/Product";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
+import { useEffect } from "react";
+import useCategories from "../../hooks/useCategories";
+import MetaTags from "../MetaTags/MetaTags";
+import useScrollToTop from "../../hooks/useScrollToTop";
 
 export default function Categories() {
-  const getCategories = () => {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/categories`);
-  };
+  const topRef = useScrollToTop();
+
   const {
     data: categories,
     error,
     isError,
     isLoading,
-  } = useQuery({
-    queryKey: ["allCategories"],
-    queryFn: getCategories,
-    select: (categories) => categories.data.data,
-  });
-  console.log(categories, "all categories in cat component");
+  } = useCategories(
+    `https://ecommerce.routemisr.com/api/v1/categories`,
+    "all-categories"
+  );
+  // console.log(categories, "all categories in cat component");
 
   return (
     <>
-      {isLoading ? (
-        <Loader />
-      ) : isError ? (
-        <ApiError error={error.response.data.message} />
-      ) : (
-        categories && (
-          <>
-            <SectionHeader title="Categories" subtitle="Browse By Category" />
-            <section className="row mx-[-15px]">
-              {categories.map((category) => (
-                <Category key={category._id} category={category} />
-              ))}
-            </section>
-          </>
-        )
-      )}
+      <MetaTags metaTitle="Categories" />
+      <section ref={topRef}>
+        {isLoading ? (
+          <Loader />
+        ) : isError ? (
+          <ApiError error={error.response?.data.message} />
+        ) : (
+          categories && (
+            <>
+              <SectionHeader title="Categories" subtitle="Browse By Category" />
+              <section className="row mx-[-15px]">
+                {categories.map((category) => (
+                  <Category key={category._id} category={category} />
+                ))}
+              </section>
+            </>
+          )
+        )}
+      </section>
     </>
   );
 }

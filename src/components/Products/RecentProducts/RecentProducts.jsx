@@ -1,36 +1,30 @@
 import Product from "../Product/Product";
-import axios from "axios";
 import Loader from "../../shared/Loader/Loader";
 import ApiError from "../../shared/ApiError/ApiError";
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import Search from "../../Search/Search";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import useProducts from "../../../hooks/useProducts";
 // css module
 // import style from "./RecentProducts.module.css";
 
 export default function RecentProducts() {
   const [search, setSearch] = useState("");
 
-  const getRecentProducts = () => {
-    return axios.get(
-      `https://ecommerce.routemisr.com/api/v1/products?limit=20`
-    );
-  };
-
   const {
-    data: products,
+    data: recentProducts,
     isLoading,
     isError,
     error,
-  } = useQuery({
-    queryKey: ["products"],
-    queryFn: getRecentProducts,
-    select: (products) => products.data.data,
-  });
-  // console.log(products,"recent products");
+  } = useProducts(
+    `https://ecommerce.routemisr.com/api/v1/products?limit=20`,
+    "recent-products"
+  );
+  // console.log(typeof error,"error");
 
-  const filteredProducts = products?.filter((product) =>
+  // console.log(recentProducts,"recent products");
+
+  const filteredProducts = recentProducts?.data.filter((product) =>
     search.toLowerCase() === ""
       ? product
       : product.title.toLowerCase().includes(search.toLowerCase())
@@ -42,13 +36,13 @@ export default function RecentProducts() {
       {isLoading ? (
         <Loader />
       ) : isError ? (
-        <ApiError error={error.response.data.message} />
+        <ApiError error={error.response?.data.message} />
       ) : (
         filteredProducts && (
           <>
             {filteredProducts.length > 0 ? (
               <>
-              <section className="row mx-[-15px]">
+                <section className="row mx-[-15px]">
                   {filteredProducts.map((product) => (
                     <Product
                       product={product}

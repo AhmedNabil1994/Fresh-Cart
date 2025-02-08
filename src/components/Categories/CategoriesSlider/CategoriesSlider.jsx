@@ -1,32 +1,24 @@
-import axios from "axios";
 import { useState } from "react";
 import Loader from "../../shared/Loader/Loader";
 import ApiError from "../../shared/ApiError/ApiError";
 import Slider from "react-slick";
-import { useQuery } from "@tanstack/react-query";
+import useCategories from "../../../hooks/useCategories";
 
 // css module
 // import style from "./CategoriesSlider.module.css";
 
 export default function CategoriesSlider() {
   const [isFocused, setIsFocused] = useState(false);
-
-  const getCategories = () => {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/categories`);
-  };
-
   const {
     data: categories,
     error,
     isError,
     isLoading,
-  } = useQuery({
-    queryKey: ["allCategories"],
-    queryFn: getCategories,
-    select: (categories) => categories.data.data,
-  });
+  } = useCategories(
+    `https://ecommerce.routemisr.com/api/v1/categories`,
+    "all-categories"
+  );
   // console.log(categories,"categories");
-  
 
   const settings = {
     dots: true,
@@ -75,30 +67,32 @@ export default function CategoriesSlider() {
       {isLoading ? (
         <Loader />
       ) : isError ? (
-        <ApiError error={error.response.data.message} />
+        <ApiError error={error.response?.data.message} />
       ) : (
-        <div className="mb-36">
-          <Slider {...settings}>
-            {categories.map((category) => (
-              <div
-                aria-hidden={isFocused ? "false" : "true"}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
-                key={category._id}
-                className="focus-visible:outline-none"
-              >
-                <img
-                  src={category.image}
-                  alt={category.name}
-                  className="w-full object-cover aspect-square"
-                />
-                <h2 className="text-center mt-2 hover:text-secondary transition duration-500">
-                  {category.name}
-                </h2>
-              </div>
-            ))}
-          </Slider>
-        </div>
+        categories && (
+          <div className="mb-36">
+            <Slider {...settings}>
+              {categories?.map((category) => (
+                <div
+                  aria-hidden={isFocused ? "false" : "true"}
+                  onFocus={() => setIsFocused(true)}
+                  onBlur={() => setIsFocused(false)}
+                  key={category._id}
+                  className="focus-visible:outline-none"
+                >
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    className="w-full object-cover aspect-square"
+                  />
+                  <h2 className="text-center mt-2 hover:text-secondary transition duration-500">
+                    {category.name}
+                  </h2>
+                </div>
+              ))}
+            </Slider>
+          </div>
+        )
       )}
     </>
   );

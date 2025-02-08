@@ -1,10 +1,15 @@
 // libraries
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devtools/src/index";
+import { Toaster } from "react-hot-toast";
+import { Offline, Detector, Online } from "react-detect-offline";
 // components
 import Layout from "./components/Layout/Layout";
-import Home from "./components/Home/Home";
-import Products from "./components/Products/Products";
-import Cart from "./components/Cart/Cart";
+const Home = lazy(() => import("./components/Home/Home"));
+const Products = lazy(() => import("./components/Products/Products"));
+const Cart = lazy(() => import("./components/Cart/Cart"));
 import Brands from "./components/Brands/Brands";
 import Categories from "./components/Categories/Categories";
 import Register from "./components/Forms/Register/Register";
@@ -13,20 +18,26 @@ import NotFound from "./components/NotFound/NotFound";
 import Error from "./components/Error/Error";
 import UserContextProvider from "./context/UserContext";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import ProductDetails from "./components/Products/ProductDetails/ProductDetails";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devtools/src/index";
+const ProductDetails = lazy(() =>
+  import("./components/Products/ProductDetails/ProductDetails")
+);
 import CartContextProvider from "./context/CartContext";
-import { Toaster } from "react-hot-toast";
 import Checkout from "./components/Checkout/Checkout";
 import Orders from "./components/Orders/Orders";
-import CategoryRelatedProducts from "./components/Categories/CategoryRelatedProducts/CategoryRelatedProducts";
-import Wishlist from "./components/Wishlist/Wishlist";
+const CategoryRelatedProducts = lazy(() =>
+  import(
+    "./components/Categories/CategoryRelatedProducts/CategoryRelatedProducts"
+  )
+);
+const Wishlist = lazy(() => import("./components/Wishlist/Wishlist"));
+
 import WishlistContextProvider from "./context/WishlistContext";
 import ForgetPassword from "./components/Forms/ResetPasswordFormWrapper/ForgetPassword/ForgetPassword";
 import SendCode from "./components/Forms/ResetPasswordFormWrapper/SendCode/SendCode";
 import ResetPassword from "./components/Forms/ResetPasswordFormWrapper/ResetPassword/ResetPassword";
 import UnauthedRoute from "./components/UnauthedRoute/UnauthedRoute";
+import Loader from "./components/shared/Loader/Loader";
+import { RiWifiOffLine } from "react-icons/ri";
 
 const query = new QueryClient();
 
@@ -40,7 +51,9 @@ const router = createBrowserRouter([
         index: true,
         element: (
           <ProtectedRoute>
-            <Home />
+            <Suspense fallback={<Loader />}>
+              <Home />
+            </Suspense>
           </ProtectedRoute>
         ),
       },
@@ -48,7 +61,9 @@ const router = createBrowserRouter([
         path: "products",
         element: (
           <ProtectedRoute>
-            <Products />
+            <Suspense fallback={<Loader />}>
+              <Products />
+            </Suspense>
           </ProtectedRoute>
         ),
       },
@@ -56,7 +71,9 @@ const router = createBrowserRouter([
         path: "cart",
         element: (
           <ProtectedRoute>
-            <Cart />
+            <Suspense fallback={<Loader />}>
+              <Cart />
+            </Suspense>
           </ProtectedRoute>
         ),
       },
@@ -64,7 +81,9 @@ const router = createBrowserRouter([
         path: "wishlist",
         element: (
           <ProtectedRoute>
-            <Wishlist />
+            <Suspense fallback={<Loader />}>
+              <Wishlist />
+            </Suspense>
           </ProtectedRoute>
         ),
       },
@@ -104,7 +123,9 @@ const router = createBrowserRouter([
         path: "productdetails/:id/:category",
         element: (
           <ProtectedRoute>
-            <ProductDetails />
+            <Suspense fallback={<Loader />}>
+              <ProductDetails />
+            </Suspense>
           </ProtectedRoute>
         ),
       },
@@ -112,7 +133,9 @@ const router = createBrowserRouter([
         path: "category/:categoryId/:category",
         element: (
           <ProtectedRoute>
-            <CategoryRelatedProducts />
+            <Suspense fallback={<Loader />}>
+              <CategoryRelatedProducts />
+            </Suspense>
           </ProtectedRoute>
         ),
       },
@@ -149,17 +172,32 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <UserContextProvider>
-      <QueryClientProvider client={query}>
-        <CartContextProvider>
-          <WishlistContextProvider>
-            <RouterProvider router={router} />
-            <Toaster />
-          </WishlistContextProvider>
-        </CartContextProvider>
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </UserContextProvider>
+    <>
+      <Detector
+        render={({ online }) => (
+          <div
+            className={`${
+              !online &&
+              "fixed bottom-20 end-2 bg-red-100 border border-red-300 p-4 text-center rounded-md z-30 font-semibold text-secondary"
+            } flex gap-x-3 items-center`}
+          >
+            {!online && <RiWifiOffLine size={20} />}
+            {!online && "You are currently offline"}
+          </div>
+        )}
+      />
+      <UserContextProvider>
+        <QueryClientProvider client={query}>
+          <CartContextProvider>
+            <WishlistContextProvider>
+              <RouterProvider router={router} />
+              <Toaster />
+            </WishlistContextProvider>
+          </CartContextProvider>
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      </UserContextProvider>
+    </>
   );
 }
 
