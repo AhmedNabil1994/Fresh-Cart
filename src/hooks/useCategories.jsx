@@ -7,7 +7,7 @@ export default function useCategories(url, theQueryKey, catId) {
   };
 
   const categoriesData = useQuery({
-    queryKey: catId ? [theQueryKey, catId] : theQueryKey,
+    queryKey: catId ? [theQueryKey, catId] : [theQueryKey],
     queryFn: getCategories,
     select: (categories) => categories.data.data,
     placeholderData: keepPreviousData,

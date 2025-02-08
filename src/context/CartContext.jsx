@@ -1,19 +1,14 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import { useContext } from "react";
 import { UserContext } from "./UserContext";
 
 export const CartContext = createContext();
 
 export default function CartContextProvider({ children }) {
-  // const userToken = Cookies.get("token");
   const { userToken } = useContext(UserContext);
-  const [cart, setCart] = useState(null);
   const headers = { token: userToken };
-  const getHeaders = () => {
-    return userToken ? { token: userToken } : null;
-  };
+  const [cart, setCart] = useState(null);
   console.log(cart, "cart in cart context file");
   // console.log(cartFromCookies, "cart stored in session");
 
@@ -22,55 +17,23 @@ export default function CartContextProvider({ children }) {
       .post(
         `https://ecommerce.routemisr.com/api/v1/cart`,
         { productId },
-        { headers: getHeaders() }
+        { headers }
       )
       .then(({ data }) => {
         if (data.status === "success") {
           setCart(data);
-          // Cookies.set("cart", JSON.stringify(data), { expires: 1 / 24 });
         }
         return data;
       })
       .catch((error) => error);
   };
 
-  const cashPayment = async (formData) => {
-    return await axios
-      .post(
-        `https://ecommerce.routemisr.com/api/v1/orders/${cart.cartId}`,
-        { shippingAddress: formData },
-        { headers }
-      )
-      .then(({ data }) => {
-        if (data.status === "success") {
-          console.log(data, "cash");
-        }
-        return data;
-      })
-      .catch((error) => error);
-  };
 
-  const onlinePayment = async (formData) => {
-    return await axios
-      .post(
-        // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=fresh-cart-hazel.vercel.app`,
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=http://localhost:5173`,
-        { shippingAddress: formData },
-        { headers }
-      )
-      .then(({ data }) => {
-        // console.log(data,"online");
-        if (data.status === "success") {
-          return data;
-        }
-      })
-      .catch((error) => error);
-  };
 
   const getLoggedUserCart = async () => {
     return await axios
       .get(`https://ecommerce.routemisr.com/api/v1/cart`, {
-        headers: getHeaders(),
+        headers,
       })
       .then(({ data }) => {
         if (data.status === "success") {
@@ -107,7 +70,6 @@ export default function CartContextProvider({ children }) {
       .then(({ data }) => {
         if (data.status === "success") {
           setCart(data);
-          // Cookies.set("cart", JSON.stringify(data), { expires: 1 / 24 });
         }
         return data;
       })
@@ -122,9 +84,41 @@ export default function CartContextProvider({ children }) {
       .then(({ data }) => {
         if (data.message === "success") {
           setCart(data);
-          // Cookies.remove("cart");
         }
         return data;
+      })
+      .catch((error) => error);
+  };
+
+  const cashPayment = async (formData) => {
+    return await axios
+      .post(
+        `https://ecommerce.routemisr.com/api/v1/orders/${cart.cartId}`,
+        { shippingAddress: formData },
+        { headers }
+      )
+      .then(({ data }) => {
+        if (data.status === "success") {
+          console.log(data, "cash");
+        }
+        return data;
+      })
+      .catch((error) => error);
+  };
+
+  const onlinePayment = async (formData) => {
+    return await axios
+      .post(
+        // `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=fresh-cart-hazel.vercel.app`,
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=http://localhost:5173`,
+        { shippingAddress: formData },
+        { headers }
+      )
+      .then(({ data }) => {
+        // console.log(data,"online");
+        if (data.status === "success") {
+          return data;
+        }
       })
       .catch((error) => error);
   };
