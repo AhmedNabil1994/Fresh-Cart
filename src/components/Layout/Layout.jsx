@@ -40,7 +40,7 @@ export default function Layout() {
           <section>
             <a
               onClick={handleClick}
-              className="bg-slate-200 fixed start-2 z-30 bottom-2 w-12 h-12 rounded-full flex justify-center items-center cursor-pointer"
+              className="bg-slate-200 fixed end-2 z-30 bottom-2 w-12 h-12 rounded-full flex justify-center items-center cursor-pointer"
             >
               <i className="fa-solid fa-arrow-up"></i>
             </a>
