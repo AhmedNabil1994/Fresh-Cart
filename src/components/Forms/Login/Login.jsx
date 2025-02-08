@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { UserContext } from "../../../context/UserContext";
 import Cookies from "js-cookie";
+import MetaTags from "../../MetaTags/MetaTags";
 
 export default function Login() {
   let { setUserToken } = useContext(UserContext);
@@ -62,10 +63,9 @@ export default function Login() {
     onSubmit: handleLogin,
   });
 
-
-  
   return (
     <>
+      <MetaTags metaTitle="Login" />
       <FormWrapper
         headerTitle="Log in to Fresh Cart"
         footerTitle="Don't have an account?"

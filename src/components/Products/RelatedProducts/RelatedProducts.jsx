@@ -60,11 +60,13 @@ export default function RelatedProducts() {
       ) : (
         <>
           <SectionHeader title="Related Item" subtitle="Related Products" />
-          <div className="row mx-[-15px]">
-            {relatedProducts?.map((product) => (
-              <Product product={product} key={product.id} />
-            ))}
-          </div>
+          {relatedProducts && (
+            <div className="row mx-[-15px]">
+              {relatedProducts?.map((product) => (
+                <Product product={product} key={product.id} />
+              ))}
+            </div>
+          )}
         </>
       )}
     </>

@@ -7,8 +7,11 @@ import Loader from "../shared/Loader/Loader";
 import ApiError from "../shared/ApiError/ApiError";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
 import MetaTags from "../MetaTags/MetaTags";
+import useScrollToTop from "../../hooks/useScrollToTop";
 
 export default function Brands() {
+  const topRef = useScrollToTop();
+
   const getBrands = () => {
     return axios.get(`https://ecommerce.routemisr.com/api/v1/brands`);
   };
@@ -25,17 +28,15 @@ export default function Brands() {
   });
   console.log(brands, "all brands ");
 
-  useEffect(() => {
-    scrollTo({ top: 0 });
-  }, []);
 
   return (
     <>
       <MetaTags metaTitle="Brands" />
+      <section ref={topRef}>
         {isLoading ? (
           <Loader />
         ) : isError ? (
-          <ApiError error={error.response.data.message} />
+          <ApiError error={error.response?.data.message} />
         ) : (
           brands && (
             <>
@@ -48,6 +49,7 @@ export default function Brands() {
             </>
           )
         )}
+      </section>
     </>
   );
 }

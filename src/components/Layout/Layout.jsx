@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import style from "./Layout.module.css";
 import Navbar from "./../Navbar/Navbar";
 import Footer from "./../Footer/Footer";
 import { Outlet } from "react-router-dom";
+import { useRef } from "react";
 
 export default function Layout() {
-
+  const section = useRef();
   const handleClick = () => {
-    scrollTo({ top: 0, behavior: "smooth" });
+    section.current.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <>
+    <section>
+
       <Navbar />
-      <section className="px-4 pt-32 my-3">
+      <section className="px-4 pt-32 my-3" ref={section}>
         <div className="container">
           <div className="lg:mx-16">
             <Outlet />
@@ -29,6 +32,7 @@ export default function Layout() {
           <i className="fa-solid fa-arrow-up"></i>
         </a>
       </section>
+    </section>
     </>
   );
 }

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import googleIcon from "../../../assets/forms/Icon-Google.png";
 import FormWrapper from "../FormWrapper/FormWrapper";
 import { UserContext } from "../../../context/UserContext";
+import MetaTags from "../../MetaTags/MetaTags";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -76,6 +77,7 @@ export default function Register() {
 
   return (
     <>
+      <MetaTags metaTitle="Register" />
       <FormWrapper
         headerTitle="Create an account"
         footerTitle="Already have account?"

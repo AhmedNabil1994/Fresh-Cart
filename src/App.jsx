@@ -181,7 +181,7 @@ function App() {
               "fixed bottom-20 end-2 bg-red-100 border border-red-300 p-4 text-center rounded-md z-30 font-semibold text-secondary"
             } flex gap-x-3 items-center`}
           >
-            <RiWifiOffLine size={20}/>
+            {!online && <RiWifiOffLine size={20} />}
             {!online && "You are currently offline"}
           </div>
         )}

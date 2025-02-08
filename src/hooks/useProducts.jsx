@@ -14,8 +14,13 @@ export default function useProducts(
     return axios.get(url);
   };
 
+  const queryKey = [theQueryKey];
+  page && queryKey.push(page);
+  id && queryKey.push(id);
+  category && queryKey.push(category);
+
   const productsData = useQuery({
-    queryKey: [theQueryKey, page, id, category],
+    queryKey,
     queryFn: getProducts,
     select: (products) => {
       let res = products?.data;

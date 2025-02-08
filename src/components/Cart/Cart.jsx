@@ -10,6 +10,7 @@ import { UserContext } from "../../context/UserContext";
 import Cookies from "js-cookie";
 import MetaTags from "../MetaTags/MetaTags";
 import { useQuery } from "@tanstack/react-query";
+import ApiError from "../shared/ApiError/ApiError";
 
 export default function Cart() {
   const userToken = Cookies.get("token");
@@ -17,6 +18,8 @@ export default function Cart() {
   const [cartDetails, setCartDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
   const { getLoggedUserCart, updateCartProductQty, deleteCartItem, clearCart } =
     useContext(CartContext);
 
@@ -50,6 +53,12 @@ export default function Cart() {
     if (res.status === "success") {
       setIsLoading(false);
       setCartDetails(res.data);
+      setIsError(false);
+      setError(null);
+    } else {
+      setIsLoading(false);
+      setIsError(true);
+      setError(res);
     }
   };
 
@@ -132,6 +141,8 @@ export default function Cart() {
       <MetaTags metaTitle="Cart" />
       {isLoading ? (
         <Loader />
+      ) : isError ? (
+        <ApiError error={error.response?.data.message} />
       ) : (
         cartDetails && (
           <>

@@ -8,41 +8,35 @@ import SectionHeader from "../../shared/SectionHeader/SectionHeader";
 import Product from "../../Products/Product/Product";
 import CategorySubcategories from "../CategorySubcategories/CategorySubcategories";
 import MetaTags from "../../MetaTags/MetaTags";
+import useCategories from "../../../hooks/useCategories";
 
 // css module
 // import style from "./CategoryRelatedProducts.module.css";
 
 export default function CategoryRelatedProducts() {
   let { categoryId, category } = useParams();
-
   // console.log(category,"cat");
-
-  const getRelatedProducts = () => {
-    return axios.get(
-      `https://ecommerce.routemisr.com/api/v1/products?category=${categoryId}`
-    );
-  };
 
   const {
     data: products,
-    isLoading,
-    isError,
     error,
+    isError,
+    isLoading,
     isFetching,
-  } = useQuery({
-    queryKey: ["products"],
-    queryFn: getRelatedProducts,
-    select: (products) => products.data.data,
-  });
+  } = useCategories(
+    `https://ecommerce.routemisr.com/api/v1/products?category=${categoryId}`,
+    "products",
+    categoryId
+  );
 
-  useEffect(() => {
-    window.scrollTo({ top: 0 });
-  }, [categoryId]);
+  // useEffect(() => {
+  //   window.scrollTo({ top: 0 });
+  // }, [categoryId]);
 
   return (
     <>
       <MetaTags metaTitle="Related Products" />
-      {isFetching ? (
+      {isLoading ? (
         <Loader />
       ) : isError ? (
         <ApiError error={error.response?.data.message} />
