@@ -10,6 +10,7 @@ export default function useProducts(
   filterFn,
   category
 ) {
+  
   const getProducts = () => {
     return axios.get(url);
   };

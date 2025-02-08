@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import Cookies from "js-cookie";
 import { UserContext } from "./UserContext";
 
 export const WishlistContext = createContext();
@@ -9,9 +8,6 @@ export default function WishlistContextProvider({ children }) {
   const [wishlist, setWishlist] = useState(null);
   const { userToken } = useContext(UserContext);
   const headers = { token: userToken };
-  const getHeaders = () => {
-    return userToken ? { token: userToken } : null;
-  };
 
   const addToWishlist = async (productId) => {
     return await axios
@@ -33,7 +29,7 @@ export default function WishlistContextProvider({ children }) {
   const getLoggedUserWishlist = async () => {
     return await axios
       .get(`https://ecommerce.routemisr.com/api/v1/wishlist`, {
-        headers: getHeaders(),
+        headers,
       })
       .then(({ data }) => {
         if (data.status === "success") {
