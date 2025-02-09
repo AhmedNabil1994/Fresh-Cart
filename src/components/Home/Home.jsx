@@ -10,12 +10,11 @@ import useScrollToTop from "../../hooks/useScrollToTop";
 // import style from "./Home.module.css";
 
 export default function Home() {
-  const topRef = useScrollToTop();
+ useScrollToTop();
 
   return (
     <>
       <MetaTags metaTitle="Home" />
-      <section ref={topRef}>
         <div className="overflow-hidden">
           <MainSlider />
         </div>
@@ -28,7 +27,6 @@ export default function Home() {
           subtitle="Explore Our Products"
         />
         <RecentProducts />
-      </section>
     </>
   );
 }

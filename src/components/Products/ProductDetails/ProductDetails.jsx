@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import ApiError from "../../shared/ApiError/ApiError";
 import Loader from "../../shared/Loader/Loader";
 import StarRatings from "react-star-ratings";
@@ -23,7 +23,7 @@ export default function ProductDetails() {
   let { id } = useParams();
   const { addToWishlist, deleteWishlistItem, wishlist } =
     useContext(WishlistContext);
- 
+  useScrollToTop(id);
 
   const {
     data: product,
@@ -115,7 +115,6 @@ export default function ProductDetails() {
   };
 
   useEffect(() => {
-    scrollTo({ top: 0 });
     setIsInWishlist(
       wishlist?.data?.some((item) => item?.id === product?.data.id) ||
         wishlist?.data?.some((item) => item === product?.data.id)
@@ -129,7 +128,7 @@ export default function ProductDetails() {
   return (
     <>
       <MetaTags metaTitle="Product Details" />
-      <section>
+      <section >
         {isLoading ? (
           <Loader />
         ) : isError ? (

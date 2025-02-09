@@ -15,7 +15,7 @@ export default function Products() {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const itemsPerPage = 20;
-  const topRef = useScrollToTop();
+  useScrollToTop();
 
   const {
     data: products,
@@ -45,53 +45,50 @@ export default function Products() {
       : product.title.toLowerCase().includes(search.toLowerCase())
   );
 
-
   return (
     <>
       <MetaTags metaTitle="Products" />
-      <section ref={topRef}>
-        <SectionHeader
-          title="All Products"
-          subtitle="Explore Our All Products"
-          hasArrow
-          handlePrev={prevPage}
-          handleNext={nextPage}
-          lastPage={totalPages}
-          currentPage={currentPage}
-        />
-        <Search search={search} setSearch={setSearch} />
-        {isLoading ? (
-          <Loader />
-        ) : isError ? (
-          <ApiError error={error.response?.data.message} />
-        ) : (
-          <>
-            {filteredProducts && (
-              <>
-                {filteredProducts.length > 0 ? (
-                  <>
-                    <section className="row mx-[-15px]">
-                      {filteredProducts.map((product) => (
-                        <Product
-                          product={product}
-                          key={product.id}
-                          search={search}
-                        />
-                      ))}
-                    </section>
-                  </>
-                ) : (
-                  <section className="my-20 text-center flex justify-center items-center flex-col">
-                    <h2 className="font-medium text-xl sm:text-2xl text-secondary">
-                      No Matched Products With This Name.
-                    </h2>
+      <SectionHeader
+        title="All Products"
+        subtitle="Explore Our All Products"
+        hasArrow
+        handlePrev={prevPage}
+        handleNext={nextPage}
+        lastPage={totalPages}
+        currentPage={currentPage}
+      />
+      <Search search={search} setSearch={setSearch} />
+      {isLoading ? (
+        <Loader />
+      ) : isError ? (
+        <ApiError error={error.response?.data.message} />
+      ) : (
+        <>
+          {filteredProducts && (
+            <>
+              {filteredProducts.length > 0 ? (
+                <>
+                  <section className="row mx-[-15px]">
+                    {filteredProducts.map((product) => (
+                      <Product
+                        product={product}
+                        key={product.id}
+                        search={search}
+                      />
+                    ))}
                   </section>
-                )}
-              </>
-            )}
-          </>
-        )}
-      </section>
+                </>
+              ) : (
+                <section className="my-20 text-center flex justify-center items-center flex-col">
+                  <h2 className="font-medium text-xl sm:text-2xl text-secondary">
+                    No Matched Products With This Name.
+                  </h2>
+                </section>
+              )}
+            </>
+          )}
+        </>
+      )}
     </>
   );
 }
