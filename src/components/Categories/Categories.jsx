@@ -13,7 +13,7 @@ import MetaTags from "../MetaTags/MetaTags";
 import useScrollToTop from "../../hooks/useScrollToTop";
 
 export default function Categories() {
-  const topRef = useScrollToTop();
+useScrollToTop();
 
   const {
     data: categories,
@@ -29,7 +29,6 @@ export default function Categories() {
   return (
     <>
       <MetaTags metaTitle="Categories" />
-      <section ref={topRef}>
         {isLoading ? (
           <Loader />
         ) : isError ? (
@@ -46,7 +45,6 @@ export default function Categories() {
             </>
           )
         )}
-      </section>
     </>
   );
 }

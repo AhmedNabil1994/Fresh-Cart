@@ -1,10 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
-export default function useScrollToTop() {
-  const topRef = useRef();
-
+export default function useScrollToTop(id) {
   useEffect(() => {
-    topRef.current.scrollIntoView({ behavior: "auto" });
-  }, []);
-  return topRef;
+    scrollTo({ top: 0 });
+  }, [id && id]);
 }
