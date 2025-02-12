@@ -10,11 +10,12 @@ import Cookies from "js-cookie";
 import MetaTags from "../../MetaTags/MetaTags";
 
 export default function Login() {
-  let { setUserToken } = useContext(UserContext);
+  let { userToken,setUserToken } = useContext(UserContext);
   const navigate = useNavigate();
   const [apiError, setApiError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
+  const { setUserData } = useContext(UserContext);
 
   const handleLogin = (formData) => {
     setIsLoading(true);
@@ -27,9 +28,12 @@ export default function Login() {
         if (res.data.message === "success") {
           // using cookies to last for an hour only
           Cookies.set("token", res.data.token, { expires: 1 / 24 });
-          // Cookies.remove("token");
           setUserToken(res.data.token);
           setApiError("");
+          setUserData(res.data.user);
+          Cookies.set("username-email", JSON.stringify(res.data.user), {
+            expires: 1 / 24,
+          });
           navigate("/");
           console.log(res);
           console.log(formData);

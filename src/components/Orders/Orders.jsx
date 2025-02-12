@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import Loader from "../shared/Loader/Loader";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
 import MetaTags from "../MetaTags/MetaTags";
 import ApiError from "../shared/ApiError/ApiError";
+import { UserContext } from "../../context/UserContext";
 
 // css module
 // import style from "./Orders.module.css";
@@ -30,8 +31,9 @@ export default function Orders() {
     queryFn: getAllUserOrders,
     select: (orders) => orders.data,
   });
-  console.log(orders, "orders");
 
+  console.log(orders, "orders");
+  
   return (
     <>
       <MetaTags metaTitle="Orders" />

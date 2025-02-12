@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devtools/src/index";
 import { Toaster } from "react-hot-toast";
-import { Offline, Detector, Online } from "react-detect-offline";
+import { Detector } from "react-detect-offline";
 // components
 import Layout from "./components/Layout/Layout";
 const Home = lazy(() => import("./components/Home/Home"));
@@ -38,6 +38,7 @@ import ResetPassword from "./components/Forms/ResetPasswordFormWrapper/ResetPass
 import UnauthedRoute from "./components/UnauthedRoute/UnauthedRoute";
 import Loader from "./components/shared/Loader/Loader";
 import { RiWifiOffLine } from "react-icons/ri";
+import Account from "./components/Account/Account";
 
 const query = new QueryClient();
 
@@ -100,6 +101,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Orders />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "my-account",
+        element: (
+          <ProtectedRoute>
+            <Account />
           </ProtectedRoute>
         ),
       },

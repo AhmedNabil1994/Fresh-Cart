@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 // import style from "./Navbar.module.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoCartOutline } from "react-icons/io5";
@@ -6,24 +6,31 @@ import { UserContext } from "../../context/UserContext";
 import Cookies from "js-cookie";
 import { CartContext } from "../../context/CartContext";
 import { WishlistContext } from "../../context/WishlistContext";
+import { FiUser } from "react-icons/fi";
+import { Dropdown } from "flowbite-react";
+import { TbLogout2 } from "react-icons/tb";
+import orderIcon from "../../assets/navbar/icon-mallbag.png";
 
 export default function NavbarComp() {
   const navigate = useNavigate();
-  const { userToken, setUserToken } = useContext(UserContext);
+  const { userToken, setUserToken, setUserData } = useContext(UserContext);
   const { cart } = useContext(CartContext);
   const { wishlist } = useContext(WishlistContext);
-  console.log(wishlist, "wishlist in navbar");
+  // console.log(wishlist, "wishlist in navbar");
+  // console.log(cart, "cart in navbar");
 
   const handleLogout = () => {
     Cookies.remove("token");
     setUserToken(null);
+    setUserData(null);
+    Cookies.remove("username-email");
     navigate("/login");
   };
 
   return (
     <>
       <nav className="bg-white border-b border-gray-200  fixed top-0 inset-x-0 z-50">
-        <div className="gap-y-4 max-w-screen-xl flex flex-wrap items-center justify-center min-414:justify-between md:justify-evenly lg:justify-around mx-auto p-4">
+        <div className="gap-y-4 max-w-screen-xl flex flex-col sm:flex-row flex-wrap items-center sm:justify-between md:justify-evenly lg:justify-around mx-auto p-4">
           <Link
             to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -110,14 +117,42 @@ export default function NavbarComp() {
                       </div>
                     )}
                   </NavLink>
-
-                  {/* <Link to="cart">
-                    <IoCartOutline size={30} className="cursor-pointer" />
-                    {numOfCartItems}
-                  </Link> */}
+                  <Dropdown
+                    label={
+                      <button
+                        className={`p-2 rounded-full transition -mt-1 bg-red-500 text-white`}
+                      >
+                        <FiUser className="text-xl lg:text-2xl" />
+                      </button>
+                    }
+                    className="bg-[#a19da2]  rounded-lg shadow-sm "
+                    arrowIcon={false}
+                    inline
+                  >
+                    <Dropdown.Item
+                      icon={FiUser}
+                      className="text-white hover:bg-transparent focus:bg-transparent"
+                    >
+                      <Link to={"/my-account"}>Manage My Account</Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item className="text-white hover:bg-transparent focus:bg-transparent">
+                      <img
+                        src={orderIcon}
+                        alt="order icon"
+                        className="w-4 me-2"
+                      />
+                      <Link to={"/allorders"}>My Orders</Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={handleLogout}
+                      icon={TbLogout2}
+                      className="text-white hover:bg-transparent focus:bg-transparent"
+                    >
+                      Logout
+                    </Dropdown.Item>
+                  </Dropdown>
                 </>
               )}
-              {/* <i className="fa-regular fa-user text-2xl cursor-pointer"></i> */}
             </div>
             <button
               data-collapse-toggle="navbar-search"
@@ -174,33 +209,6 @@ export default function NavbarComp() {
               />
             </div>
             <ul className="text-center flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700 max-h-[50vh] overflow-auto">
-              {/* <li>
-                <NavLink
-                  to="/"
-                  className="font-normal  inline-block py-2 px-3 md:p-0"
-                  aria-current="page"
-                >
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/contact"
-                  className="font-normal  inline-block py-2 px-3 md:p-0"
-                  aria-current="page"
-                >
-                  Contact
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/about"
-                  className="font-normal  inline-block py-2 px-3 md:p-0"
-                  aria-current="page"
-                >
-                  About
-                </NavLink>
-              </li> */}
               {userToken && (
                 <>
                   <li>
@@ -238,16 +246,7 @@ export default function NavbarComp() {
                   </li>
                 </>
               )}
-              {userToken ? (
-                <li>
-                  <span
-                    onClick={handleLogout}
-                    className="duration-300 font-normal inline-block py-2 px-3 md:p-0 cursor-pointer hover:text-secondary transition-colors"
-                  >
-                    Logout
-                  </span>
-                </li>
-              ) : (
+              {!userToken && (
                 <>
                   <li>
                     <NavLink
