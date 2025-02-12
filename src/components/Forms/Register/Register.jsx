@@ -4,7 +4,6 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import googleIcon from "../../../assets/forms/Icon-Google.png";
 import FormWrapper from "../FormWrapper/FormWrapper";
 import MetaTags from "../../MetaTags/MetaTags";
 
@@ -12,6 +11,11 @@ export default function Register() {
   const navigate = useNavigate();
   const [apiError, setApiError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  // one state to control pass and repass visibility
+  const [passVisible, setPassVisible] = useState({
+    password: false,
+    rePassword: false,
+  });
 
   const handleRegister = (formData) => {
     setIsLoading(true);
@@ -73,6 +77,14 @@ export default function Register() {
     validationSchema,
     onSubmit: handleRegister,
   });
+
+  // fn to toggle pass and repass visibility
+  const togglePassVisibility = (field) => {
+    setPassVisible((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
 
   return (
     <>
@@ -161,7 +173,7 @@ export default function Register() {
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              type="password"
+              type={passVisible.password ? "text" : "password"}
               name="password"
               id="password"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -174,6 +186,16 @@ export default function Register() {
             >
               Password
             </label>
+            <div
+              className="absolute end-0 top-3 cursor-pointer"
+              onClick={() => togglePassVisibility("password")}
+            >
+              {passVisible.password ? (
+                <i className="fa-regular fa-eye fa-lg"></i>
+              ) : (
+                <i className="fa-regular fa-eye-slash fa-lg"></i>
+              )}
+            </div>
             {formik.errors.password && formik.touched.password && (
               <div className="py-2 my-2 text-sm text-red-700">
                 <span className="font-medium">{formik.errors.password}</span>
@@ -185,7 +207,7 @@ export default function Register() {
               value={formik.values.rePassword}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              type="password"
+              type={passVisible.rePassword ? "text" : "password"}
               name="rePassword"
               id="rePassword"
               className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -198,6 +220,16 @@ export default function Register() {
             >
               Confirm Password
             </label>
+            <div
+              className="absolute end-0 top-3 cursor-pointer"
+              onClick={() => togglePassVisibility("rePassword")}
+            >
+              {passVisible.rePassword ? (
+                <i className="fa-regular fa-eye fa-lg"></i>
+              ) : (
+                <i className="fa-regular fa-eye-slash fa-lg"></i>
+              )}
+            </div>
             {formik.errors.rePassword && formik.touched.rePassword && (
               <div className="py-2 my-2 text-sm text-red-700">
                 <span className="font-medium">{formik.errors.rePassword}</span>

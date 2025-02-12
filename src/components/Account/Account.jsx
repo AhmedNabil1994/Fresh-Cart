@@ -16,7 +16,19 @@ export default function Account() {
   const { userData, setUserData, userToken } = useContext(UserContext);
   const [btnLoading, setBtnLoading] = useState(false);
   const [apiError, setApiError] = useState("");
+  const [passVisible, setPassVisible] = useState({
+    currentPassword: false,
+    password: false,
+    rePassword: false,
+  });
   const headers = { token: userToken };
+
+  const togglePassVisibility = (field) => {
+    setPassVisible((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
 
   const handleUpdateInfo = (formData) => {
     const toastId = toast.loading("Updating data...");
@@ -278,7 +290,6 @@ export default function Account() {
           title="Password"
           icon={RiLockPasswordFill}
           className="border-b-2 border-secondary !text-secondary focus:ring-0 focus:border-secondary"
-          // className="text-emerald-50 bg-blue-600"
         >
           <section className="lg:w-4/5 mx-auto mt-4 lg:mt-0">
             <div className="bg-white shadow-md p-4">
@@ -297,17 +308,27 @@ export default function Account() {
                 Edit Your Password
               </h2>
               <form onSubmit={passwordFormik.handleSubmit} className="row">
-                <div className="w-full mb-4 ">
+                <div className="w-full mb-4 relative">
                   <input
                     value={passwordFormik.values.currentPassword}
                     onChange={passwordFormik.handleChange}
                     onBlur={passwordFormik.handleBlur}
-                    type="password"
+                    type={passVisible.currentPassword ? "text" : "password"}
                     name="currentPassword"
                     id="currentPassword"
                     className="bg-[#f5f5f5] border-[#f5f5f5] text-gray-900 text-sm rounded-lg focus:ring-[#f5f5f5] focus:border-0 block w-full p-2.5 "
                     placeholder="Current Password"
                   />
+                  <div
+                    className="absolute end-3 top-3 cursor-pointer"
+                    onClick={() => togglePassVisibility("currentPassword")}
+                  >
+                    {passVisible.currentPassword ? (
+                      <i className="fa-regular fa-eye fa-lg"></i>
+                    ) : (
+                      <i className="fa-regular fa-eye-slash fa-lg"></i>
+                    )}
+                  </div>
                   {passwordFormik.errors.currentPassword &&
                     passwordFormik.touched.currentPassword && (
                       <div className=" mt-2 text-sm text-red-700" role="alert">
@@ -317,17 +338,27 @@ export default function Account() {
                       </div>
                     )}
                 </div>
-                <div className="w-full mb-4 ">
+                <div className="w-full mb-4 relative">
                   <input
                     value={passwordFormik.values.password}
                     onChange={passwordFormik.handleChange}
                     onBlur={passwordFormik.handleBlur}
-                    type="password"
+                    type={passVisible.password ? "text" : "password"}
                     name="password"
                     id="password"
                     className="bg-[#f5f5f5] border-[#f5f5f5] text-gray-900 text-sm rounded-lg focus:ring-[#f5f5f5] focus:border-0 block w-full p-2.5 "
                     placeholder="New Password"
                   />
+                  <div
+                    className="absolute end-3 top-3 cursor-pointer"
+                    onClick={() => togglePassVisibility("password")}
+                  >
+                    {passVisible.password ? (
+                      <i className="fa-regular fa-eye fa-lg"></i>
+                    ) : (
+                      <i className="fa-regular fa-eye-slash fa-lg"></i>
+                    )}
+                  </div>
                   {passwordFormik.errors.password &&
                     passwordFormik.touched.password && (
                       <div className="mt-2 text-sm text-red-700" role="alert">
@@ -337,17 +368,27 @@ export default function Account() {
                       </div>
                     )}
                 </div>
-                <div className="w-full mb-4 ">
+                <div className="w-full mb-4 relative">
                   <input
                     value={passwordFormik.values.rePassword}
                     onChange={passwordFormik.handleChange}
                     onBlur={passwordFormik.handleBlur}
-                    type="password"
+                    type={passVisible.rePassword ? "text" : "password"}
                     name="rePassword"
                     id="rePassword"
-                    className="bg-[#f5f5f5] border-[#f5f5f5] text-gray-900 text-sm rounded-lg focus:ring-[#f5f5f5] focus:border-0 block w-full p-2.5 "
+                    className=" bg-[#f5f5f5] border-[#f5f5f5] text-gray-900 text-sm rounded-lg focus:ring-[#f5f5f5] focus:border-0 block w-full p-2.5 "
                     placeholder="Confirm New Password"
                   />
+                  <div
+                    className="absolute end-3 top-3 cursor-pointer"
+                    onClick={() => togglePassVisibility("rePassword")}
+                  >
+                    {passVisible.rePassword ? (
+                      <i className="fa-regular fa-eye fa-lg"></i>
+                    ) : (
+                      <i className="fa-regular fa-eye-slash fa-lg"></i>
+                    )}
+                  </div>
                   {passwordFormik.errors.rePassword &&
                     passwordFormik.touched.rePassword && (
                       <div className="mt-2 text-sm text-red-700" role="alert">

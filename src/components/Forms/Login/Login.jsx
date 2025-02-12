@@ -127,7 +127,7 @@ export default function Login() {
               {passVisible ? (
                 <i className="fa-regular fa-eye fa-lg"></i>
               ) : (
-                <i class="fa-regular fa-eye-slash fa-lg"></i>
+                <i className="fa-regular fa-eye-slash fa-lg"></i>
               )}
             </div>
             {formik.errors.password && formik.touched.password && (
