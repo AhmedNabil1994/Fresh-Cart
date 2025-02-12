@@ -6,7 +6,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import googleIcon from "../../../assets/forms/Icon-Google.png";
 import FormWrapper from "../FormWrapper/FormWrapper";
-import { UserContext } from "../../../context/UserContext";
 import MetaTags from "../../MetaTags/MetaTags";
 
 export default function Register() {
@@ -209,7 +208,8 @@ export default function Register() {
             /* 
               disabled
                 when loading true
-                when form not valid and still empty
+                when form not valid and still empty 
+                  ==>(or no change on its input)
              */
             disabled={!(formik.isValid && formik.dirty) || isLoading}
             type="submit"
@@ -225,13 +225,13 @@ export default function Register() {
               "Create Account"
             )}
           </button>
-          <button
+          {/* <button
             className="text-base capitalize text-black border-2 border-[#00000040] focus:outline-none font-medium rounded w-full px-5 py-2.5 text-center mb-8
               flex justify-center gap-x-4"
           >
             <img src={googleIcon} alt="google icon" />
             sign up with google
-          </button>
+          </button> */}
         </form>
       </FormWrapper>
     </>

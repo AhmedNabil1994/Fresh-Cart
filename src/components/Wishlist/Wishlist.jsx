@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import Favourite from "./Favourite/Favourite";
 import { useContext } from "react";
 import { WishlistContext } from "../../context/WishlistContext";
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+// import {
+//   QueryClient,
+//   useMutation,
+//   useQuery,
+//   useQueryClient,
+// } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import Loader from "../shared/Loader/Loader";
 import ApiError from "../shared/ApiError/ApiError";

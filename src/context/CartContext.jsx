@@ -28,8 +28,6 @@ export default function CartContextProvider({ children }) {
       .catch((error) => error);
   };
 
-
-
   const getLoggedUserCart = async () => {
     return await axios
       .get(`https://ecommerce.routemisr.com/api/v1/cart`, {
@@ -126,7 +124,6 @@ export default function CartContextProvider({ children }) {
   useEffect(() => {
     if (userToken) {
       getLoggedUserCart();
-      // addToCart();
     }
   }, [userToken]);
 
