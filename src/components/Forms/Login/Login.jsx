@@ -10,11 +10,12 @@ import Cookies from "js-cookie";
 import MetaTags from "../../MetaTags/MetaTags";
 
 export default function Login() {
-  let { userToken,setUserToken } = useContext(UserContext);
+  let { userToken, setUserToken } = useContext(UserContext);
   const navigate = useNavigate();
   const [apiError, setApiError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
+  const [passVisible, setPassVisible] = useState(false);
   const { setUserData } = useContext(UserContext);
 
   const handleLogin = (formData) => {
@@ -106,10 +107,10 @@ export default function Login() {
               value={formik.values.password}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              type="password"
+              type={passVisible ? "text" : "password"}
               name="password"
               id="password"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="relative block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
               required
             />
@@ -119,6 +120,16 @@ export default function Login() {
             >
               Password
             </label>
+            <div
+              className="absolute end-0 top-3 cursor-pointer"
+              onClick={() => setPassVisible(!passVisible)}
+            >
+              {passVisible ? (
+                <i className="fa-regular fa-eye fa-lg"></i>
+              ) : (
+                <i class="fa-regular fa-eye-slash fa-lg"></i>
+              )}
+            </div>
             {formik.errors.password && formik.touched.password && (
               <div className="py-2 my-2 text-sm text-red-700" role="alert">
                 <span className="font-medium">{formik.errors.password}</span>

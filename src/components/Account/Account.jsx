@@ -38,7 +38,7 @@ export default function Account() {
       )
       .then((res) => {
         setBtnLoading(false);
-        console.log(res, "update info res");
+        // console.log(res, "update info res");
         if (res.data.message === "success") {
           setApiError("");
           setUserData(res.data.user);
@@ -64,7 +64,7 @@ export default function Account() {
         }
       })
       .catch((res) => {
-        console.log(res);
+        // console.log(res);
         toast.error(res.response?.data?.errors?.msg, {
           position: "top-center",
           style: { fontFamily: "sans-serif" },
@@ -106,7 +106,7 @@ export default function Account() {
       )
       .then((res) => {
         setBtnLoading(false);
-        console.log(res, "update pass res");
+        // console.log(res, "update pass res");
         if (res.data.message === "success") {
           setApiError("");
           toast.success("Password updated successfully.", {
@@ -129,7 +129,7 @@ export default function Account() {
         }
       })
       .catch((res) => {
-        console.log(res);
+        // console.log(res);
         toast.error(
           res.response?.data?.errors?.msg || res.response?.data?.message,
           {
