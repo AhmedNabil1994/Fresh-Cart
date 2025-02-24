@@ -64,7 +64,7 @@ export default function Checkout() {
     const toastId = toast.loading("Payment is processing...");
     setBtnLoading(true);
     const data = await onlinePayment(formik.values);
-    console.log(data, "online");
+    // console.log(data, "online");
     if (data.status === "success") {
       setBtnLoading(false);
       setWishlist(null);

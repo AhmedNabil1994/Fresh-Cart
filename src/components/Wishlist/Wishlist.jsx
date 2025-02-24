@@ -50,7 +50,7 @@ export default function Wishlist() {
   const getWishlistItems = async () => {
     setIsLoading(true);
     const data = await getLoggedUserWishlist();
-    console.log(data.data);
+    // console.log(data.data);
     if (data.status === "success") {
       setIsLoading(false);
       setWishlistItems(data.data);
@@ -70,7 +70,7 @@ export default function Wishlist() {
       setWishlistItems((prevWishlist) =>
         prevWishlist?.filter((item) => data.data.includes(item.id))
       );
-      console.log(data, "data in delete");
+      // console.log(data, "data in delete");
       toast.success("Product deleted successfully.", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },

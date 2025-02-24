@@ -17,9 +17,9 @@ export default function CategorySubcategories({ catId, category }) {
   //   );
   // };
   // const { categoryId } = useParams();
-  console.log(useParams());
+  // console.log(useParams());
 
-  console.log(catId, "cat id");
+  // console.log(catId, "cat id");
 
   // const {
   //   data: categorySubcategories,
@@ -45,7 +45,7 @@ export default function CategorySubcategories({ catId, category }) {
     catId
   );
 
-  console.log(categorySubcategories, "cat subcat");
+  // console.log(categorySubcategories, "cat subcat");
 
   return (
     <>

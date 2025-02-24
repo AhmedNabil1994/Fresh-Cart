@@ -9,7 +9,7 @@ export default function CartContextProvider({ children }) {
   const { userToken } = useContext(UserContext);
   const headers = { token: userToken };
   const [cart, setCart] = useState(null);
-  console.log(cart, "cart in cart context file");
+  // console.log(cart, "cart in cart context file");
   // console.log(cartFromCookies, "cart stored in session");
 
   const addToCart = async (productId) => {
@@ -97,7 +97,7 @@ export default function CartContextProvider({ children }) {
       )
       .then(({ data }) => {
         if (data.status === "success") {
-          console.log(data, "cash");
+          // console.log(data, "cash");
         }
         return data;
       })

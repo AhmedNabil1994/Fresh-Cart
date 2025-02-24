@@ -49,7 +49,7 @@ export default function Cart() {
   const getCartItems = async () => {
     setIsLoading(true);
     const res = await getLoggedUserCart();
-    console.log(res.data);
+    // console.log(res.data);
     if (res.status === "success") {
       setIsLoading(false);
       setCartDetails(res.data);
@@ -68,7 +68,7 @@ export default function Cart() {
       deleteItem(id);
     } else {
       const data = await updateCartProductQty(id, count);
-      console.log(data);
+      // console.log(data);
       if (data.status === "success") {
         setCartDetails(data.data);
         toast.success("Product updated successfully.", {
@@ -91,7 +91,7 @@ export default function Cart() {
     const toastId = toast.loading("Deleting product from cart...");
     const res = await deleteCartItem(id);
     if (res.status === "success") {
-      console.log(res.data, "data delete cart");
+      // console.log(res.data, "data delete cart");
       setCartDetails(res.data);
       toast.success("Product deleted successfully from cart", {
         position: "top-center",
@@ -112,7 +112,7 @@ export default function Cart() {
     setBtnLoading(true);
     const toastId = toast.loading("Clearing your cart...");
     const res = await clearCart();
-    console.log(res, "clear cart response");
+    // console.log(res, "clear cart response");
     if (res.message === "success") {
       setBtnLoading(false);
       setCartDetails({ products: [] });

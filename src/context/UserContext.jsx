@@ -12,7 +12,7 @@ export default function UserContextProvider({ children }) {
     JSON?.parse(Cookies?.get("username-email"));
   const [userData, setUserData] = useState(parsedUserDataFromCookies);
 
-  console.log(userData, "user data in context");
+  // console.log(userData, "user data in context");
 
   // console.log(userToken);
   useEffect(() => {

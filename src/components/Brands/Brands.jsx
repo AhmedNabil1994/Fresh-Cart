@@ -26,7 +26,7 @@ export default function Brands() {
     queryFn: getBrands,
     select: (brands) => brands.data.data,
   });
-  console.log(brands, "all brands ");
+  // console.log(brands, "all brands ");
 
   return (
     <>
