@@ -32,7 +32,7 @@ export default function Orders() {
     select: (orders) => orders.data,
   });
 
-  console.log(orders, "orders");
+  // console.log(orders, "orders");
   
   return (
     <>

@@ -25,7 +25,7 @@ export default function ResetPassword() {
       .then((res) => {
         setIsLoading(false);
         setBtnLoading(false);
-        console.log("res in reset password",res);
+        // console.log("res in reset password",res);
         
         if (res.statusText === "OK") {
           setApiError("");
@@ -33,7 +33,7 @@ export default function ResetPassword() {
         }
       })
       .catch((res) => {
-        console.log(res, "forget password res");
+        // console.log(res, "forget password res");
         setIsLoading(false);
         setBtnLoading(false);
         setApiError(res.response.data.message);
