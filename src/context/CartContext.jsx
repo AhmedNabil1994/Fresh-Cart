@@ -9,8 +9,14 @@ export default function CartContextProvider({ children }) {
   const { userToken } = useContext(UserContext);
   const headers = { token: userToken };
   const [cart, setCart] = useState(null);
-  // console.log(cart, "cart in cart context file");
-  // console.log(cartFromCookies, "cart stored in session");
+  const [cartOwner, setCartOwner] = useState(
+    localStorage.getItem("cartOwner") || null
+  );
+
+  const saveCartOwner = (owner) => {
+    setCartOwner(owner);
+    localStorage.setItem("cartOwner", owner);
+  };
 
   const addToCart = async (productId) => {
     return await axios
@@ -22,6 +28,7 @@ export default function CartContextProvider({ children }) {
       .then(({ data }) => {
         if (data.status === "success") {
           setCart(data);
+          saveCartOwner(data.data.cartOwner)
         }
         return data;
       })
@@ -131,6 +138,7 @@ export default function CartContextProvider({ children }) {
     <CartContext.Provider
       value={{
         cart,
+        cartOwner,
         setCart,
         addToCart,
         getLoggedUserCart,

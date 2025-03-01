@@ -12,16 +12,12 @@ import { Link } from "react-router-dom";
 // import style from "./Orders.module.css";
 
 export default function Orders() {
-  const { cart } = useContext(CartContext);
-  // console.log(cart?.data.cartOwner);
-
-  const cartOwner = "678e75574e3f2254d6783fa2";
+  const { cartOwner } = useContext(CartContext);
 
   const getAllUserOrders = async () => {
-    // if (!cartOwner) return [];
-    if (!cart.data.cartOwner) return [];
+    if (!cartOwner) return [];
     return await axios.get(
-      `https://ecommerce.routemisr.com/api/v1/orders/user/${cart.data.cartOwner}`
+      `https://ecommerce.routemisr.com/api/v1/orders/user/${cartOwner}`
     );
   };
 
@@ -31,10 +27,10 @@ export default function Orders() {
     isError,
     error,
   } = useQuery({
-    // queryKey: ["orders", cartOwner],
-    queryKey: ["orders", cart?.data.cartOwner],
+    queryKey: ["orders", cartOwner],
     queryFn: getAllUserOrders,
     select: (orders) => orders.data,
+    enabled: !!cartOwner
   });
 
   console.log(orders, "orders");
@@ -46,7 +42,7 @@ export default function Orders() {
         <Loader />
       ) : isError ? (
         <ApiError error={error.response?.data.message} />
-      ) : orders.length < 0 ? (
+      ) : orders?.length > 0 ? (
         <>
           <SectionHeader title="Orders" subtitle="View All Orders" />
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
