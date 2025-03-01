@@ -46,7 +46,7 @@ export default function Orders() {
         <Loader />
       ) : isError ? (
         <ApiError error={error.response?.data.message} />
-      ) : orders.length > 0 ? (
+      ) : orders.length < 0 ? (
         <>
           <SectionHeader title="Orders" subtitle="View All Orders" />
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -173,7 +173,7 @@ export default function Orders() {
         </>
       ) : (
         <section className="text-center">
-          <h2 className="mb-10 font-medium text-4xl sm:text-6xl md:text-7xl">
+          <h2 className="mt-10 md:mt-0 mb-10 font-medium text-4xl sm:text-6xl md:text-7xl">
             Your orders are Empty
           </h2>
           <p className="mb-8">
