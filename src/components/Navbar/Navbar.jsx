@@ -10,20 +10,25 @@ import { FiUser } from "react-icons/fi";
 import { Dropdown } from "flowbite-react";
 import { TbLogout2 } from "react-icons/tb";
 import orderIcon from "../../assets/navbar/icon-mallbag.png";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function NavbarComp() {
   const navigate = useNavigate();
-  const { userToken, setUserToken, setUserData } = useContext(UserContext);
-  const { cart } = useContext(CartContext);
+  const { userToken, setUserToken, setUserData, setUserId } =
+    useContext(UserContext);
+  const { cart, setCartOwner } = useContext(CartContext);
   const { wishlist } = useContext(WishlistContext);
+  const queryClient = useQueryClient();
   // console.log(wishlist, "wishlist in navbar");
   // console.log(cart, "cart in navbar");
 
   const handleLogout = () => {
     Cookies.remove("token");
+    Cookies.remove("username-email");
     setUserToken(null);
     setUserData(null);
-    Cookies.remove("username-email");
+    setUserId(null);
+    queryClient.removeQueries(["orders"]);
     navigate("/login");
   };
 
@@ -129,20 +134,24 @@ export default function NavbarComp() {
                     arrowIcon={false}
                     inline
                   >
-                    <Dropdown.Item
-                      icon={FiUser}
-                      className="text-white hover:bg-transparent focus:bg-transparent"
-                    >
-                      <Link to={"/my-account"}>Manage My Account</Link>
-                    </Dropdown.Item>
-                    <Dropdown.Item className="text-white hover:bg-transparent focus:bg-transparent">
-                      <img
-                        src={orderIcon}
-                        alt="order icon"
-                        className="w-4 me-2"
-                      />
-                      <Link to={"/allorders"}>My Orders</Link>
-                    </Dropdown.Item>
+                    <Link to={"/my-account"}>
+                      <Dropdown.Item
+                        icon={FiUser}
+                        className="text-white hover:bg-transparent focus:bg-transparent"
+                      >
+                        Manage My Account
+                      </Dropdown.Item>
+                    </Link>
+                    <Link to={"/allorders"}>
+                      <Dropdown.Item className="text-white hover:bg-transparent focus:bg-transparent">
+                        <img
+                          src={orderIcon}
+                          alt="order icon"
+                          className="w-4 me-2"
+                        />
+                        My Orders
+                      </Dropdown.Item>
+                    </Link>
                     <Dropdown.Item
                       onClick={handleLogout}
                       icon={TbLogout2}

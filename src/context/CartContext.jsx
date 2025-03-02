@@ -9,14 +9,8 @@ export default function CartContextProvider({ children }) {
   const { userToken } = useContext(UserContext);
   const headers = { token: userToken };
   const [cart, setCart] = useState(null);
-  const [cartOwner, setCartOwner] = useState(
-    localStorage.getItem("cartOwner") || null
-  );
 
-  const saveCartOwner = (owner) => {
-    setCartOwner(owner);
-    localStorage.setItem("cartOwner", owner);
-  };
+  // console.log(cart);
 
   const addToCart = async (productId) => {
     return await axios
@@ -28,7 +22,6 @@ export default function CartContextProvider({ children }) {
       .then(({ data }) => {
         if (data.status === "success") {
           setCart(data);
-          saveCartOwner(data.data.cartOwner)
         }
         return data;
       })
@@ -134,11 +127,11 @@ export default function CartContextProvider({ children }) {
     }
   }, [userToken]);
 
+
   return (
     <CartContext.Provider
       value={{
         cart,
-        cartOwner,
         setCart,
         addToCart,
         getLoggedUserCart,

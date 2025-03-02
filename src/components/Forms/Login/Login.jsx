@@ -36,7 +36,7 @@ export default function Login() {
             expires: 1 / 24,
           });
           navigate("/");
-          // console.log(res);
+          // console.log(res,"login");
           // console.log(formData);
         }
       })
