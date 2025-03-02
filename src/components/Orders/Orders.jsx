@@ -7,18 +7,18 @@ import SectionHeader from "../shared/SectionHeader/SectionHeader";
 import MetaTags from "../MetaTags/MetaTags";
 import ApiError from "../shared/ApiError/ApiError";
 import { Link } from "react-router-dom";
-
-// css module
-// import style from "./Orders.module.css";
+import { UserContext } from "../../context/UserContext";
 
 export default function Orders() {
-  const { cartOwner } = useContext(CartContext);
+  const { userId } = useContext(UserContext);
+  // console.log(userId);
 
   const getAllUserOrders = async () => {
-    if (!cartOwner) return [];
-    return await axios.get(
-      `https://ecommerce.routemisr.com/api/v1/orders/user/${cartOwner}`
+    if (!userId) return [];
+    const response = await axios.get(
+      `https://ecommerce.routemisr.com/api/v1/orders/user/${userId}`
     );
+    return response.data;
   };
 
   const {
@@ -27,13 +27,11 @@ export default function Orders() {
     isError,
     error,
   } = useQuery({
-    queryKey: ["orders", cartOwner],
+    queryKey: ["orders", userId],
     queryFn: getAllUserOrders,
-    select: (orders) => orders.data,
-    enabled: !!cartOwner
   });
 
-  console.log(orders, "orders");
+  // console.log(orders, "orders");
 
   return (
     <>
