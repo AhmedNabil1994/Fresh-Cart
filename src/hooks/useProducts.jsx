@@ -8,7 +8,8 @@ export default function useProducts(
   page,
   id,
   filterFn,
-  category
+  category,
+  sort
 ) {
   
   const getProducts = () => {
@@ -19,6 +20,7 @@ export default function useProducts(
   page && queryKey.push(page);
   id && queryKey.push(id);
   category && queryKey.push(category);
+  sort && queryKey.push(sort);
 
   const productsData = useQuery({
     queryKey,
