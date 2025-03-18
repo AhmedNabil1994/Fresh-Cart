@@ -183,17 +183,20 @@ function App() {
   return (
     <>
       <Detector
-        render={({ online }) => (
-          <div
-            className={`${
-              !online &&
-              "fixed bottom-20 end-2 bg-red-100 border border-red-300 p-4 text-center rounded-md z-30 font-semibold text-secondary"
-            } flex gap-x-3 items-center`}
-          >
-            {!online && <RiWifiOffLine size={20} />}
-            {!online && "You are currently offline"}
-          </div>
-        )}
+        render={({ online }) => {
+          // console.log("Network Status:", online);
+          return (
+            <div
+              className={`${
+                !online &&
+                "fixed bottom-20 end-2 bg-red-100 border border-red-300 p-4 text-center rounded-md z-30 font-semibold text-secondary"
+              } flex gap-x-3 items-center`}
+            >
+              {!online && <RiWifiOffLine size={20} />}
+              {!online && "You are currently offline"}
+            </div>
+          );
+        }}
       />
       <UserContextProvider>
         <QueryClientProvider client={query}>
