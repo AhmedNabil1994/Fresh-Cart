@@ -7,28 +7,31 @@ import Search from "../Search/Search";
 import useProducts from "../../hooks/useProducts";
 import MetaTags from "../MetaTags/MetaTags";
 import useScrollToTop from "../../hooks/useScrollToTop";
-import { Dropdown } from "flowbite-react";
+import { Accordion, Dropdown } from "flowbite-react";
 import { IoFilter } from "react-icons/io5";
 import { FaSortAmountDown } from "react-icons/fa";
 import { FaSortAmountUp } from "react-icons/fa";
-// test
-import { Sidebar } from "flowbite-react";
 import { MdOutlinePriceChange, MdCategory } from "react-icons/md";
 import ReactSlider from "react-slider";
-import Slider from "@mui/material/Slider";
 
 export default function Products() {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
-  const [priceValues, setPriceValues] = useState([100, 50000]);
+  const [priceSearchTriggered, setPriceSearchTriggered] = useState(false);
   const itemsPerPage = 20;
+  const [priceValues, setPriceValues] = useState([100, 50000]);
+  // to separate the UI input state from the committed filter state
+  const [sliderPriceValues, setSliderPriceValues] = useState([100, 50000]);
 
   useScrollToTop();
 
-  const getApiUrl = () => {
+  const apiUrl = () => {
     let url = `https://ecommerce.routemisr.com/api/v1/products?limit=20&page=${currentPage}`;
-    sort && (url += `&sort=${sort}`);
+    if (sort) url += `&sort=${sort}`;
+    if (priceSearchTriggered) {
+      url += `&price[gte]=${priceValues[0]}&price[lte]=${priceValues[1]}`;
+    }
     return url;
   };
 
@@ -37,7 +40,15 @@ export default function Products() {
     isLoading,
     isError,
     error,
-  } = useProducts(getApiUrl(), "allProducts", sort, currentPage);
+  } = useProducts({
+    apiUrl: apiUrl(),
+    queryKey: "allProducts",
+    page: currentPage,
+    sort,
+    priceSearchTriggered,
+    priceValues,
+  });
+
   // console.log(products, "products res");
 
   const totalPages = Math.ceil(products?.results / itemsPerPage);
@@ -60,6 +71,12 @@ export default function Products() {
     setSort(order);
   };
 
+  const handlePriceChange = () => {
+    setPriceValues(sliderPriceValues);
+    setCurrentPage(1);
+    setPriceSearchTriggered(true);
+  };
+
   return (
     <>
       <MetaTags metaTitle="Products" />
@@ -72,79 +89,99 @@ export default function Products() {
         lastPage={totalPages}
         currentPage={currentPage}
       />
-      <section className="sm:flex gap-x-3">
-        {/* test */}
-        <Sidebar
-          aria-label="Sidebar with multi-level dropdown"
-          className="w-full sm:w-auto mb-8"
-        >
-          <Sidebar.Items className="pb-40">
-            <Sidebar.ItemGroup className="">
-              <Sidebar.Item className="text-lg font-bold hover:bg-transparent">
-                Filter By
-              </Sidebar.Item>
-              <Sidebar.Collapse
-                icon={MdCategory}
-                label="Category"
-                className="flex"
-              >
-                <Sidebar.Item href="#">All Products</Sidebar.Item>
-                {/* list all categories */}
-                <Sidebar.Item href="#">Sales</Sidebar.Item>
-                <Sidebar.Item href="#">Refunds</Sidebar.Item>
-                <Sidebar.Item href="#">Shipping</Sidebar.Item>
-              </Sidebar.Collapse>
-              <Sidebar.Collapse icon={MdOutlinePriceChange} label="Price">
-                {/* range slider */}
 
-                {/* <ReactSlider
-                  className="w-full h-1 bg-secondary price-slider !my-4"
+      <section className="w-full sm:flex gap-x-3">
+        {/* sidebar */}
+        <aside className=" bg-white shadow-md rounded-lg p-4 flex-shrink-0 w-full sm:w-80 self-start mb-6 sm:mb-0">
+          <h2 className="text-lg font-bold mb-6">Filter By</h2>
+          <Accordion className="border-none" alwaysOpen>
+            <Accordion.Panel>
+              <Accordion.Title className="bg-slate-200">
+                <div className="flex items-center gap-2">
+                  <MdCategory className="w-5 h-5" />
+                  <p>Category</p>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content>
+                <ul className="space-y-3">
+                  <li>
+                    <a
+                      href="#"
+                      className="block py-1 text-gray-600 hover:text-black"
+                    >
+                      All Products
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="block py-1 text-gray-600 hover:text-black"
+                    >
+                      Sales
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="block py-1 text-gray-600 hover:text-black"
+                    >
+                      Refunds
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="block py-1 text-gray-600 hover:text-black"
+                    >
+                      Shipping
+                    </a>
+                  </li>
+                </ul>
+              </Accordion.Content>
+            </Accordion.Panel>
+            <Accordion.Panel>
+              <Accordion.Title className="mt-6 border-none bg-slate-200">
+                <div className="flex items-center gap-2">
+                  <MdOutlinePriceChange className="w-5 h-5" />
+                  <p>Price</p>
+                </div>
+              </Accordion.Title>
+              <Accordion.Content className="p-0">
+                <ReactSlider
+                  className="w-full h-1 bg-secondary price-slider my-6"
                   thumbClassName="thumb"
                   trackClassName="track"
                   defaultValue={[100, 50000]}
-                  // value={priceValues}
+                  value={sliderPriceValues}
                   min={100}
                   max={50000}
-                  // step={100}
-                  // onChange={(value, index) => setPriceValues(value)}
-                  // onChange={handleSliderChange}
+                  step={100}
+                  onChange={(value) => setSliderPriceValues(value)}
                   pearling
                   minDistance={100}
-                  renderThumb={(props, state) => (
-                    <div {...props}>{state.valueNow}</div>
-                  )}
-                /> */}
-
-                <Slider
-                  value={priceValues}
-                  min={100}
-                  max={50000}
-                  // onChangeCommitted={(_, value) => setPriceValues(value)}
-                  onChange={(_, value) => setPriceValues(value)}
                 />
-
-                {/* range slider */}
-
-                <div className="flex gap-x-3 justify-between">
+                <div className="flex justify-between my-4">
                   <p>
                     <span className="text-slate-500 me-2">From:</span>
-                    {priceValues[0]}EGP
+                    {sliderPriceValues[0]}EGP
                   </p>
                   <p>
                     <span className="text-slate-500 me-2">To:</span>
-                    {priceValues[1]}EGP
+                    {sliderPriceValues[1]}EGP
                   </p>
                 </div>
-                <button className="bg-secondary w-full text-white p-2 rounded hover:bg-opacity-90 transition-colors duration-300">
+                <button
+                  onClick={handlePriceChange}
+                  className="bg-secondary w-full text-white p-2 rounded hover:bg-opacity-90 transition"
+                >
                   Search
                 </button>
-              </Sidebar.Collapse>
-            </Sidebar.ItemGroup>
-          </Sidebar.Items>
-        </Sidebar>
-        {/* test */}
-
-        <div>
+              </Accordion.Content>
+            </Accordion.Panel>
+          </Accordion>
+        </aside>
+        {/* sidebar */}
+        <section className="w-full">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-x-3 lg:gap-x-0">
             <Search search={search} setSearch={setSearch} />
             <div className="flex items-center gap-x-6 lg:gap-x-0 mb-4 lg:mb-0">
@@ -211,7 +248,7 @@ export default function Products() {
               )}
             </>
           )}
-        </div>
+        </section>
       </section>
     </>
   );

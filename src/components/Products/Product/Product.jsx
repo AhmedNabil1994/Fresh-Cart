@@ -115,7 +115,7 @@ export default function Product({ product, search }) {
 
   return (
     <>
-      <div className="relative w-full md:w-1/2 lg:w-1/3 mb-[60px] group px-[15px]">
+      <div className="relative w-full md:w-1/2  xl:w-1/3 mb-[60px] group px-[15px]">
         <Link to={`/productdetails/${product.id}/${product.category.name}`}>
           <div>
             <div className="bg-[#F5F5F5] relative rounded mb-4">
