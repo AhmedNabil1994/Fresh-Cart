@@ -18,7 +18,8 @@ export default function useProducts({
 
   const finalQueryKey = [
     queryKey,
-    ...(page ? [page] : []), //spread the element in that array into finalQueryKey array
+    //...spread the element in that array into finalQueryKey array
+    ...(page ? [page] : []), 
     ...(id ? [id] : []),
     ...(category ? [category] : []),
     ...(sort ? [sort] : []),

@@ -13,6 +13,7 @@ import { FaSortAmountDown } from "react-icons/fa";
 import { FaSortAmountUp } from "react-icons/fa";
 import { MdOutlinePriceChange, MdCategory } from "react-icons/md";
 import ReactSlider from "react-slider";
+import useCategories from "../../hooks/useCategories";
 
 export default function Products() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,6 +24,7 @@ export default function Products() {
   const [priceValues, setPriceValues] = useState([100, 50000]);
   // to separate the UI input state from the committed filter state
   const [sliderPriceValues, setSliderPriceValues] = useState([100, 50000]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   useScrollToTop();
 
@@ -31,6 +33,9 @@ export default function Products() {
     if (sort) url += `&sort=${sort}`;
     if (priceSearchTriggered) {
       url += `&price[gte]=${priceValues[0]}&price[lte]=${priceValues[1]}`;
+    }
+    if (selectedCategoryId) {
+      url += `&category=${selectedCategoryId}`;
     }
     return url;
   };
@@ -47,6 +52,7 @@ export default function Products() {
     sort,
     priceSearchTriggered,
     priceValues,
+    category: selectedCategoryId,
   });
 
   // console.log(products, "products res");
@@ -69,6 +75,7 @@ export default function Products() {
 
   const handleSort = (order) => {
     setSort(order);
+    setCurrentPage(1);
   };
 
   const handlePriceChange = () => {
@@ -76,6 +83,15 @@ export default function Products() {
     setCurrentPage(1);
     setPriceSearchTriggered(true);
   };
+
+  const categories = useCategories(
+    `https://ecommerce.routemisr.com/api/v1/categories`,
+    "all-categories"
+  );
+  // console.log(categories.data);
+  const selectedCategory = categories?.data?.find(
+    (category) => category._id === selectedCategoryId
+  );
 
   return (
     <>
@@ -93,7 +109,7 @@ export default function Products() {
       <section className="w-full sm:flex gap-x-3">
         {/* sidebar */}
         <aside className=" bg-white shadow-md rounded-lg p-4 flex-shrink-0 w-full sm:w-80 self-start mb-6 sm:mb-0">
-          <h2 className="text-lg font-bold mb-6">Filter By</h2>
+          <h2 className="text-xl font-bold mb-6">Filter By</h2>
           <Accordion className="border-none" alwaysOpen>
             <Accordion.Panel>
               <Accordion.Title className="bg-slate-200">
@@ -105,37 +121,38 @@ export default function Products() {
               <Accordion.Content>
                 <ul className="space-y-3">
                   <li>
-                    <a
-                      href="#"
-                      className="block py-1 text-gray-600 hover:text-black"
+                    <p
+                      onClick={() => {
+                        setSelectedCategoryId("");
+                        setSort("");
+                        setCurrentPage(1);
+                      }}
+                      className={`cursor-pointer py-1   ${
+                        selectedCategoryId === ""
+                          ? "text-black font-bold"
+                          : "text-gray-600 hover:text-black"
+                      }`}
                     >
                       All Products
-                    </a>
+                    </p>
                   </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block py-1 text-gray-600 hover:text-black"
-                    >
-                      Sales
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block py-1 text-gray-600 hover:text-black"
-                    >
-                      Refunds
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block py-1 text-gray-600 hover:text-black"
-                    >
-                      Shipping
-                    </a>
-                  </li>
+                  {categories?.data?.map((category) => (
+                    <li key={category._id}>
+                      <p
+                        onClick={() => {
+                          setSelectedCategoryId(category._id);
+                          setCurrentPage(1);
+                        }}
+                        className={`cursor-pointer py-1   ${
+                          selectedCategoryId === category._id
+                            ? "text-black font-bold"
+                            : "text-gray-600 hover:text-black"
+                        }`}
+                      >
+                        {category.name}
+                      </p>
+                    </li>
+                  ))}
                 </ul>
               </Accordion.Content>
             </Accordion.Panel>
@@ -158,7 +175,7 @@ export default function Products() {
                   step={100}
                   onChange={(value) => setSliderPriceValues(value)}
                   pearling
-                  minDistance={100}
+                  minDistance={10}
                 />
                 <div className="flex justify-between my-4">
                   <p>
@@ -240,7 +257,11 @@ export default function Products() {
                   ) : (
                     <section className="my-20 text-center flex justify-center items-center flex-col">
                       <h2 className="font-medium text-xl sm:text-2xl text-secondary">
-                        No Matched Products With This Name.
+                        {search
+                          ? "No Matched Products With This Name."
+                          : selectedCategoryId
+                          ? `There is no current products for ${selectedCategory?.name} category.`
+                          : "No products available."}
                       </h2>
                     </section>
                   )}

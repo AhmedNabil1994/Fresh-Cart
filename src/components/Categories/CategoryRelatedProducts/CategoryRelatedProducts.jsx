@@ -1,6 +1,3 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ApiError from "../../shared/ApiError/ApiError";
 import Loader from "../../shared/Loader/Loader";
@@ -9,9 +6,6 @@ import Product from "../../Products/Product/Product";
 import CategorySubcategories from "../CategorySubcategories/CategorySubcategories";
 import MetaTags from "../../MetaTags/MetaTags";
 import useCategories from "../../../hooks/useCategories";
-
-// css module
-// import style from "./CategoryRelatedProducts.module.css";
 
 export default function CategoryRelatedProducts() {
   let { categoryId, category } = useParams();
@@ -28,10 +22,6 @@ export default function CategoryRelatedProducts() {
     "products",
     categoryId
   );
-
-  // useEffect(() => {
-  //   window.scrollTo({ top: 0 });
-  // }, [categoryId]);
 
   return (
     <>
