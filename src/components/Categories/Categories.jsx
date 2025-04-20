@@ -1,13 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import Loader from "../shared/Loader/Loader";
 import ApiError from "../shared/ApiError/ApiError";
-// import React from "react";
-// import style from "./Categories.module.css";
 import Category from "./../Categories/Category/Category";
-import Product from "../Products/Product/Product";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
-import { useEffect } from "react";
 import useCategories from "../../hooks/useCategories";
 import MetaTags from "../MetaTags/MetaTags";
 import useScrollToTop from "../../hooks/useScrollToTop";

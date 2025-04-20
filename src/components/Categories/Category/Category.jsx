@@ -1,8 +1,4 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-
-// css module
-// import style from "./Category.module.css";
 
 export default function Category({ category }) {
   return (

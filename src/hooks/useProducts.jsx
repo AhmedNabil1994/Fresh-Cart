@@ -1,27 +1,35 @@
-import React from "react";
 import axios from "axios";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-export default function useProducts(
-  url,
-  theQueryKey,
+export default function useProducts({
+  apiUrl,
+  queryKey,
   page,
   id,
   filterFn,
-  category
-) {
-  
+  category,
+  sort,
+  priceSearchTriggered,
+  priceValues,
+}) {
   const getProducts = () => {
-    return axios.get(url);
+    return axios.get(apiUrl);
   };
 
-  const queryKey = [theQueryKey];
-  page && queryKey.push(page);
-  id && queryKey.push(id);
-  category && queryKey.push(category);
+  const finalQueryKey = [
+    queryKey,
+    //...spread the element in that array into finalQueryKey array
+    ...(page ? [page] : []), 
+    ...(id ? [id] : []),
+    ...(category ? [category] : []),
+    ...(sort ? [sort] : []),
+    ...(priceSearchTriggered && priceValues
+      ? [`price-${priceValues[0]}-${priceValues[1]}`]
+      : []),
+  ];
 
   const productsData = useQuery({
-    queryKey,
+    queryKey: finalQueryKey,
     queryFn: getProducts,
     select: (products) => {
       let res = products?.data;

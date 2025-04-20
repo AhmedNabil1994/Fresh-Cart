@@ -24,7 +24,7 @@ export default function RecentProducts() {
 
   // console.log(recentProducts,"recent products");
 
-  const filteredProducts = recentProducts?.data.filter((product) =>
+  const filteredProducts = recentProducts?.data?.filter((product) =>
     search.toLowerCase() === ""
       ? product
       : product.title.toLowerCase().includes(search.toLowerCase())

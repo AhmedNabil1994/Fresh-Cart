@@ -85,7 +85,6 @@ export default function Product({ product, search }) {
     const toastId = toast.loading("Deleting product from wishlist...");
     const data = await deleteWishlistItem(id);
     if (data.status === "success") {
-      // setWishlistItems(data.data);
       // console.log(data, "data in delete");
       toast.success("Product deleted successfully.", {
         position: "top-center",
@@ -116,7 +115,7 @@ export default function Product({ product, search }) {
 
   return (
     <>
-      <div className="relative w-full sm:w-6/12 md:w-4/12 lg:w-3/12 mb-[60px] group px-[15px]">
+      <div className="relative w-full md:w-1/2  xl:w-1/3 mb-[60px] group px-[15px]">
         <Link to={`/productdetails/${product.id}/${product.category.name}`}>
           <div>
             <div className="bg-[#F5F5F5] relative rounded mb-4">
