@@ -17,12 +17,14 @@ export default function RecentProducts() {
     isError,
     error,
   } = useProducts(
-    `https://ecommerce.routemisr.com/api/v1/products?limit=20`,
-    "recent-products"
+    {
+      apiUrl: `https://ecommerce.routemisr.com/api/v1/products?limit=20`,
+      queryKey: "recent-products",
+    }
   );
   // console.log(typeof error,"error");
 
-  // console.log(recentProducts,"recent products");
+  console.log(recentProducts, "recent products");
 
   const filteredProducts = recentProducts?.data?.filter((product) =>
     search.toLowerCase() === ""
