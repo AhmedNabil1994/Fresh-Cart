@@ -98,7 +98,7 @@ export default function Products() {
       <MetaTags metaTitle="Products" />
       <SectionHeader
         title="All Products"
-        subtitle={`Explore Our All Products (${products?.results})`}
+        subtitle={`Explore Our Products  (${filteredProducts?.length})`}
         hasArrow
         handlePrev={prevPage}
         handleNext={nextPage}
