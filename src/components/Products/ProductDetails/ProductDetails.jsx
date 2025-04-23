@@ -11,6 +11,8 @@ import useProducts from "../../../hooks/useProducts";
 import MetaTags from "../../MetaTags/MetaTags";
 import useScrollToTop from "../../../hooks/useScrollToTop";
 
+import "@smastrom/react-rating/style.css";
+
 // css module
 // import style from "./ProductDetails.module.css";
 
