@@ -204,11 +204,11 @@ export default function Products() {
             <div className="flex items-center gap-x-6 lg:gap-x-0 mb-4 lg:mb-0">
               <Dropdown
                 label={
-                  <button
+                  <div
                     className={`p-2 rounded-full transition bg-red-500 text-white -mt-[30px]`}
                   >
                     <IoFilter size={25} />
-                  </button>
+                  </div>
                 }
                 className="bg-[#a19da2] rounded-lg shadow-sm p-2"
                 arrowIcon={false}
