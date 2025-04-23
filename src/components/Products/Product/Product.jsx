@@ -1,13 +1,31 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import { CartContext } from "../../../context/CartContext";
 import toast from "react-hot-toast";
 import { WishlistContext } from "../../../context/WishlistContext";
-// css module
-// import style from "./Product.module.css";
+
+const highlightMatch = (titleText, search) => {
+  if (!search) return titleText;
+  /*
+    () in regex is a capturing group
+    to extract and show the searhed text when we split the title
+  */
+  const regex = new RegExp(`(${search})`, "gi");
+  return titleText.split(regex).map((match, index) =>
+    match.toLowerCase() === search.toLowerCase() ? (
+      <span key={index} className="text-emerald-500 font-bold">
+        {match}
+      </span>
+    ) : (
+      match
+    )
+  );
+};
 
 export default function Product({ product, search }) {
+  // console.log("product");
+
   const [isLoading, setIsLoading] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const { addToCart } = useContext(CartContext);
@@ -16,23 +34,10 @@ export default function Product({ product, search }) {
 
   // console.log("wishlist in product comp", wishlist);
 
-  const highlightMatch = (titleText, search) => {
-    if (!search) return titleText;
-    /* 
-      () in regex is a capturing group
-      to extract and show the searhed text when we split the title 
-    */
-    const regex = new RegExp(`(${search})`, "gi");
-    return titleText.split(regex).map((match, index) =>
-      match.toLowerCase() === search.toLowerCase() ? (
-        <span key={index} className="text-emerald-500 font-bold">
-          {match}
-        </span>
-      ) : (
-        match
-      )
-    );
-  };
+  const highlightedTitle = useMemo(
+    () => highlightMatch(product.title, search),
+    [product.title, search]
+  );
 
   const handleAddToCart = async (e, id) => {
     setIsLoading(true);
@@ -140,7 +145,7 @@ export default function Product({ product, search }) {
             </h3>
             <div className="flex justify-between">
               <h3 className="font-medium mb-2 line-clamp-1">
-                {highlightMatch(product.title, search)}
+                {highlightedTitle}
               </h3>
               <span className="opacity-50">({product.quantity})</span>
             </div>
