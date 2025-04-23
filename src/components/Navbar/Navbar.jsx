@@ -124,11 +124,11 @@ export default function NavbarComp() {
                   </NavLink>
                   <Dropdown
                     label={
-                      <button
+                      <div
                         className={`p-2 rounded-full transition -mt-1 bg-red-500 text-white`}
                       >
                         <FiUser className="text-xl lg:text-2xl" />
-                      </button>
+                      </div>
                     }
                     className="bg-[#a19da2]  rounded-lg shadow-sm "
                     arrowIcon={false}
