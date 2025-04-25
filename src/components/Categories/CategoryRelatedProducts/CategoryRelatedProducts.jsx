@@ -33,7 +33,7 @@ export default function CategoryRelatedProducts() {
       ) : products?.length === 0 ? (
         <>
           <CategorySubcategories catId={categoryId} category={category} />
-          <section className="text-center flex justify-center items-center flex-col">
+          <section className="text-center flex justify-center items-center flex-col dark:text-white">
             <h2 className="mb-6 font-medium text-xl sm:text-4xl">
               There is no current products for that category
             </h2>
@@ -58,7 +58,7 @@ export default function CategoryRelatedProducts() {
                 subtitle="Related Products"
                 relatedCategory
               />
-              <p className="font-semibold">
+              <p className="font-semibold dark:text-white">
                 Back to
                 <Link
                   to="/categories"

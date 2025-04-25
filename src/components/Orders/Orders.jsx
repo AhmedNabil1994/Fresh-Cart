@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { CartContext } from "../../context/CartContext";
+import { useContext } from "react";
 import Loader from "../shared/Loader/Loader";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
 import MetaTags from "../MetaTags/MetaTags";
@@ -45,7 +44,7 @@ export default function Orders() {
           <SectionHeader title="Orders" subtitle="View All Orders" />
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-center">
-              <thead className="text-base capitalize">
+              <thead className="bg-white text-base capitalize">
                 <tr>
                   <th scope="col" className="px-6 py-3 font-normal">
                     <span className="">Order Number</span>
@@ -167,14 +166,14 @@ export default function Orders() {
         </>
       ) : (
         <section className="text-center">
-          <h2 className="mt-10 md:mt-0 mb-10 font-medium text-4xl sm:text-6xl md:text-7xl">
+          <h2 className="mt-10 md:mt-0 mb-10 font-medium text-4xl sm:text-6xl md:text-7xl dark:text-white">
             Your orders are Empty
           </h2>
           <p className="mb-8">
             <Link to="/products" className="text-secondary font-semibold me-2">
               Add products
             </Link>
-            to cart to make an order
+            <span className="dark:text-white">to cart to make an order</span>
           </p>
         </section>
       )}

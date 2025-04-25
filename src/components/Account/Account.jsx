@@ -6,9 +6,6 @@ import MetaTags from "../MetaTags/MetaTags";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Tabs } from "flowbite-react";
-
-// css module
-// import style from "./Account.module.css";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { RiLockPasswordFill } from "react-icons/ri";
 

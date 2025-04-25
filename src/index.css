@@ -41,3 +41,10 @@ body {
 .price-slider .thumb.active {
   color: black;
 }
+
+/* slick slider dots styling in dark mode */
+@layer components {
+  .dark .custom-slick-dots .slick-dots li button:before {
+    color: white;
+  }
+}

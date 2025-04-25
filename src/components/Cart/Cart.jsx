@@ -150,7 +150,7 @@ export default function Cart() {
               <>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                   <table className="w-full text-sm text-left rtl:text-right">
-                    <thead className="text-base capitalize">
+                    <thead className="text-base capitalize bg-white">
                       <tr>
                         <th scope="col" className="px-6 py-3 font-normal">
                           <span className="">Image</span>
@@ -253,11 +253,6 @@ export default function Cart() {
                   </table>
                 </div>
                 <div className="row justify-between">
-                  {/* <button
-                    className="w-full sm:w-auto capitalize mt-6 rounded border border-slate-400 px-12 py-4 font-medium hover:bg-slate-100 transition-colors duration-300"
-                  >
-                    update cart
-                  </button> */}
                   <button
                     onClick={clearUserCart}
                     className="w-full md:w-1/4 lg:w-1/5 capitalize mt-6 rounded bg-secondary text-white px-12 py-4 font-medium hover:bg-opacity-90 transition-colors duration-500"
@@ -269,7 +264,7 @@ export default function Cart() {
                     )}
                   </button>
                 </div>
-                <div className="flex flex-col md:items-end ">
+                <div className="flex flex-col md:items-end dark:text-white">
                   <div className="rounded border-2 border-black mt-20 lg:w-1/3 py-8 px-6">
                     <h2 className="font-medium text-xl mb-6">Cart Total</h2>
                     <div className="flex flex-col justify-between mb-4 relative after:content-[''] after:w-full after:h-[2px] after:bg-slate-200 after:mt-4">
