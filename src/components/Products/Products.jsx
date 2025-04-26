@@ -112,13 +112,13 @@ export default function Products() {
           <h2 className="text-xl font-bold mb-6">Filter By</h2>
           <Accordion className="border-none" alwaysOpen>
             <Accordion.Panel>
-              <Accordion.Title className="bg-slate-200">
+              <Accordion.Title className="bg-slate-200 dark:bg-slate-700 focus:ring-0">
                 <div className="flex items-center gap-2">
                   <MdCategory className="w-5 h-5" />
                   <p>Category</p>
                 </div>
               </Accordion.Title>
-              <Accordion.Content>
+              <Accordion.Content className="dark:bg-transparent">
                 <ul className="space-y-3">
                   <li>
                     <p
@@ -157,13 +157,13 @@ export default function Products() {
               </Accordion.Content>
             </Accordion.Panel>
             <Accordion.Panel>
-              <Accordion.Title className="mt-6 border-none bg-slate-200">
+              <Accordion.Title className="mt-6 border-none bg-slate-200 dark:bg-slate-700 focus:ring-0 ">
                 <div className="flex items-center gap-2">
                   <MdOutlinePriceChange className="w-5 h-5" />
                   <p>Price</p>
                 </div>
               </Accordion.Title>
-              <Accordion.Content className="p-0">
+              <Accordion.Content className="p-0 dark:bg-transparent">
                 <ReactSlider
                   className="w-full h-1 bg-secondary price-slider my-6"
                   thumbClassName="thumb"
@@ -229,7 +229,7 @@ export default function Products() {
                   Low to High
                 </Dropdown.Item>
               </Dropdown>
-              <p className="-mt-[30px] ms-2 font-medium text-lg text-black">
+              <p className="-mt-[30px] ms-2 font-medium text-lg text-black dark:text-white">
                 Sort By
               </p>
             </div>

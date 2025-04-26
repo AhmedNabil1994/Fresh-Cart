@@ -71,7 +71,7 @@ export default function CategoriesSlider() {
       ) : (
         categories && (
           <div className="mb-36">
-            <Slider {...settings}>
+            <Slider {...settings} className="custom-slick-dots">
               {categories?.map((category) => (
                 <div
                   aria-hidden={isFocused ? "false" : "true"}
@@ -85,7 +85,7 @@ export default function CategoriesSlider() {
                     alt={category.name}
                     className="w-full object-cover aspect-square"
                   />
-                  <h2 className="text-center mt-2 hover:text-secondary transition duration-500">
+                  <h2 className="text-center mt-2 hover:text-secondary transition duration-500 dark:text-white">
                     {category.name}
                   </h2>
                 </div>

@@ -144,12 +144,12 @@ export default function Product({ product, search }) {
               {product.category.name}
             </h3>
             <div className="flex justify-between">
-              <h3 className="font-medium mb-2 line-clamp-1">
+              <h3 className="font-medium mb-2 line-clamp-1 dark:text-white">
                 {highlightedTitle}
               </h3>
-              <span className="opacity-50">({product.quantity})</span>
+              <span className="opacity-50 dark:text-white">({product.quantity})</span>
             </div>
-            <div className="flex justify-between sm:justify-start">
+            <div className="flex justify-between sm:justify-start dark:text-white">
               <span className="text-secondary me-2">${product.price}</span>
               <div className="flex">
                 <div className="shrink-0 -mt-[2px]">

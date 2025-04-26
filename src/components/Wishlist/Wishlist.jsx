@@ -102,7 +102,7 @@ export default function Wishlist() {
           <>
             {wishlistItems.length > 0 ? (
               <>
-                <h2 className="mb-16 text-xl">
+                <h2 className="mb-16 text-xl dark:text-white">
                   Wishlist ({wishlistItems.length})
                 </h2>
                 <section className="row mx-[-15px]">

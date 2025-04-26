@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-// import style from "./Login.module.css";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import FormWrapper from "../FormWrapper/FormWrapper";
@@ -10,7 +9,7 @@ import Cookies from "js-cookie";
 import MetaTags from "../../MetaTags/MetaTags";
 
 export default function Login() {
-  let { userToken, setUserToken } = useContext(UserContext);
+  let { setUserToken } = useContext(UserContext);
   const navigate = useNavigate();
   const [apiError, setApiError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -86,13 +85,13 @@ export default function Login() {
               type="email"
               name="email"
               id="email"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer dark:text-white"
               placeholder=" "
               required
             />
             <label
               htmlFor="email"
-              className="peer-focus:font-medium absolute left-0 text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              className="peer-focus:font-medium absolute left-0 text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 dark:text-slate-300"
             >
               Email
             </label>
@@ -110,13 +109,13 @@ export default function Login() {
               type={passVisible ? "text" : "password"}
               name="password"
               id="password"
-              className="relative block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              className="relative block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer dark:text-white"
               placeholder=" "
               required
             />
             <label
               htmlFor="password"
-              className="peer-focus:font-medium absolute left-0 text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              className="peer-focus:font-medium absolute left-0 text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 dark:text-slate-300"
             >
               Password
             </label>

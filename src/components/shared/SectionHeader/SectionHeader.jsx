@@ -25,7 +25,7 @@ export default function SectionHeader({
           <h2 className="font-semibold text-secondary ">{title}</h2>
         </div>
         <div className="flex  justify-between items-center mb-[60px]">
-          <h3 className="font-semibold text-lg sm:text-4xl">{subtitle}</h3>
+          <h3 className="font-semibold text-lg sm:text-4xl dark:text-white">{subtitle}</h3>
           {hasArrow && (
             <div className="flex">
               <button onClick={handlePrev} disabled={currentPage === 0}>

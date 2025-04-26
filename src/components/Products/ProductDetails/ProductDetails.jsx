@@ -1,4 +1,4 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ApiError from "../../shared/ApiError/ApiError";
 import Loader from "../../shared/Loader/Loader";
 import StarRatings from "react-star-ratings";
@@ -11,9 +11,6 @@ import useProducts from "../../../hooks/useProducts";
 import MetaTags from "../../MetaTags/MetaTags";
 import useScrollToTop from "../../../hooks/useScrollToTop";
 
-// css module
-// import style from "./ProductDetails.module.css";
-
 export default function ProductDetails() {
   const [btnLoading, setBtnLoading] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
@@ -23,6 +20,7 @@ export default function ProductDetails() {
   let { id } = useParams();
   const { addToWishlist, deleteWishlistItem, wishlist } =
     useContext(WishlistContext);
+
   useScrollToTop(id);
 
   const {
@@ -30,15 +28,11 @@ export default function ProductDetails() {
     isLoading,
     isError,
     error,
-  } = useProducts(
-    ...[
-      `https://ecommerce.routemisr.com/api/v1/products/${id}`,
-      "product-details",
-      ,
-      id,
-    ]
-  );
-  // console.log(error, "error");
+  } = useProducts({
+    apiUrl: `https://ecommerce.routemisr.com/api/v1/products/${id}`,
+    queryKey: "product-details",
+    id,
+  });
 
   const handleAddToCart = async (id) => {
     setBtnLoading(true);
@@ -87,7 +81,6 @@ export default function ProductDetails() {
     const toastId = toast.loading("Deleting product from wishlist...");
     const data = await deleteWishlistItem(id);
     if (data.status === "success") {
-      // setWishlistItems(data.data);
       // console.log(data, "data in delete");
       toast.success("Product deleted successfully.", {
         position: "top-center",
@@ -128,7 +121,7 @@ export default function ProductDetails() {
   return (
     <>
       <MetaTags metaTitle="Product Details" />
-      <section >
+      <section>
         {isLoading ? (
           <Loader />
         ) : isError ? (
@@ -165,7 +158,7 @@ export default function ProductDetails() {
                     />
                   </div>
                 </div>
-                <div className="w-full md:w-4/12">
+                <div className="w-full md:w-4/12 dark:text-white">
                   <div>
                     <h2 className="text-2xl font-semibold font-inter">
                       {product.data.title}
@@ -193,23 +186,6 @@ export default function ProductDetails() {
                     <p className="relative after:content-[''] after:block after:w-full after:h-[2px] after:bg-gray-500 after:mt-6 mt-6 ">
                       {product?.data.description}
                     </p>
-                    {/* <div className="row justify-between items-center mt-6 gap-y-2">
-                    <div className="rounded flex">
-                      <button className=" text-3xl px-3 border-2 rounded-l">
-                        -
-                      </button>
-                      <p className="text-xl px-[34px] border-y-2 leading-8">
-                        2
-                      </p>
-                      <button className=" text-3xl px-3 border-2 border-secondary bg-secondary text-white rounded-r">
-                        +
-                      </button>
-                    </div>
-                    <button className="font-medium bg-secondary text-white rounded py-2 px-12">
-                      Buy Now
-                    </button>
-                    <i className="fa fa-regular fa-heart border-2 border-slate-400 opacity-75 rounded text-xl p-1"></i>
-                  </div> */}
                     <div className="flex justify-between mt-6 items-center">
                       <button
                         onClick={() => handleAddToCart(product?.data.id)}

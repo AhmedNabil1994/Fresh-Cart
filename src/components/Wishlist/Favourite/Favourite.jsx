@@ -39,19 +39,6 @@ export default function Favourite({ favourite, handleDelete }) {
     }
   };
 
-  // const handleDeleteWishlistItem = async () => {
-  //   // setIsDeleting(true);
-  //   const toastId = toast.loading("Removing from wishlist...");
-  //   try {
-  //     await onDelete();
-  //     toast.success("Item removed successfully", { id: toastId });
-  //   } catch (error) {
-  //     toast.error("Failed to remove item", { id: toastId });
-  //   } finally {
-  //     // setIsDeleting(false);
-  //   }
-  // };
-
   return (
     favourite && (
       <>
@@ -93,7 +80,7 @@ export default function Favourite({ favourite, handleDelete }) {
               %
             </span>
           )}
-          <h3 className="font-semibold text-base mb-2 line-clamp-1 text-black">
+          <h3 className="font-semibold text-base mb-2 line-clamp-1 text-black dark:text-white">
             {favourite.title}
           </h3>
           <div className="flex justify-between sm:justify-start font-medium">
@@ -105,7 +92,7 @@ export default function Favourite({ favourite, handleDelete }) {
             <span
               className={`me-2 ${
                 favourite.priceAfterDiscount
-                  ? "text-slate-500 line-through"
+                  ? "text-slate-500 line-through dark:text-white dark:text-opacity-75"
                   : "text-secondary no-underline"
               }`}
             >

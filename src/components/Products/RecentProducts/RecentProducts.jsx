@@ -22,7 +22,6 @@ export default function RecentProducts() {
       queryKey: "recent-products",
     }
   );
-
   // console.log(recentProducts, "recent products");
 
   const filteredProducts = recentProducts?.data?.filter((product) =>

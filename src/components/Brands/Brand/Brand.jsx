@@ -1,8 +1,3 @@
-// import { useState } from "react";
-
-// css module
-// import style from "./Brand.module.css";
-
 export default function Brand({ brand }) {
   return (
     <>
@@ -13,7 +8,7 @@ export default function Brand({ brand }) {
             alt={brand.name}
             className="transition duration-700 w-full"
           />
-        <h2 className="text-center group-hover:text-secondary font-semibold transition duration-500">
+        <h2 className="pt-4 text-center group-hover:text-secondary font-semibold transition duration-500 dark:text-white">
           {brand.name}
         </h2>
         </div>

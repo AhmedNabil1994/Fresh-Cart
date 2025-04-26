@@ -1,5 +1,5 @@
 // libraries
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "./../node_modules/@tanstack/react-query-devtools/src/index";
@@ -30,7 +30,6 @@ const CategoryRelatedProducts = lazy(() =>
   )
 );
 const Wishlist = lazy(() => import("./components/Wishlist/Wishlist"));
-
 import WishlistContextProvider from "./context/WishlistContext";
 import ForgetPassword from "./components/Forms/ResetPasswordFormWrapper/ForgetPassword/ForgetPassword";
 import SendCode from "./components/Forms/ResetPasswordFormWrapper/SendCode/SendCode";
@@ -180,6 +179,18 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  // make the dark mode based on current time by default
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    const html = document.documentElement;
+    if (hour >= 18 || hour < 6) {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+  }, []);
+
   return (
     <>
       <Detector

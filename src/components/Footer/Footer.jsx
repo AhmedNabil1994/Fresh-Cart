@@ -9,7 +9,7 @@ import submitIcon from "../../assets/footer/Vector.png";
 export default function Footer() {
   return (
     <>
-      <footer className="bg-black text-[#FAFAFA] p-14">
+      <footer className="bg-black text-[#FAFAFA] p-14 dark:bg-slate-900">
         <div className="row justify-between gap-y-3">
           <div className="w-full text-center sm:text-start sm:w-1/2 md:w-1/4 lg:w-1/5">
             <div>

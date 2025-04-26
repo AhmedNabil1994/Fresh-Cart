@@ -13,7 +13,7 @@ export default function Category({ category }) {
             />
           </div>
         </Link>
-        <h2 className="text-center mt-2 group-hover:text-secondary font-semibold transition duration-500">
+        <h2 className="text-center mt-2 group-hover:text-secondary font-semibold transition duration-500 dark:text-white">
           {category.name}
         </h2>
       </div>
