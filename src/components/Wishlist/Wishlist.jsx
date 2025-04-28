@@ -1,16 +1,7 @@
 import { useEffect, useState } from "react";
-
-// css module
-// import style from "./Wishlist.module.css";
 import Favourite from "./Favourite/Favourite";
 import { useContext } from "react";
 import { WishlistContext } from "../../context/WishlistContext";
-// import {
-//   QueryClient,
-//   useMutation,
-//   useQuery,
-//   useQueryClient,
-// } from "@tanstack/react-query";
 import Cookies from "js-cookie";
 import Loader from "../shared/Loader/Loader";
 import ApiError from "../shared/ApiError/ApiError";
@@ -23,7 +14,6 @@ export default function Wishlist() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
-  // const queryClient = new QueryClient();
   const { getLoggedUserWishlist, deleteWishlistItem, wishlist, setWishlist } =
     useContext(WishlistContext);
   const userToken = Cookies.get("token");

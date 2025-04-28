@@ -4,19 +4,19 @@ import Loader from "../../shared/Loader/Loader";
 import StarRatings from "react-star-ratings";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
 import { CartContext } from "../../../context/CartContext";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { WishlistContext } from "../../../context/WishlistContext";
 import useProducts from "../../../hooks/useProducts";
 import MetaTags from "../../MetaTags/MetaTags";
 import useScrollToTop from "../../../hooks/useScrollToTop";
+import useMutationCart from "../../../hooks/useMutationCart";
 
 export default function ProductDetails() {
-  const [btnLoading, setBtnLoading] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [imageIdx, setImageIdx] = useState(null);
-  const { addToCart } = useContext(CartContext);
+  const { isLoading: btnLoading, mutate } = useMutationCart();
   let { id } = useParams();
   const { addToWishlist, deleteWishlistItem, wishlist } =
     useContext(WishlistContext);
@@ -35,26 +35,24 @@ export default function ProductDetails() {
   });
 
   const handleAddToCart = async (id) => {
-    setBtnLoading(true);
     const toastId = toast.loading("Adding product to cart...");
-    const data = await addToCart(id);
-    // console.log("data", data);
-    if (data.status === "success") {
-      setBtnLoading(false);
-      toast.success(data.message, {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      setBtnLoading(false);
-      toast.error(data.message, {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-    }
+    mutate(id, {
+      onSuccess: (data) => {
+        toast.success(data.message, {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message, {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
+      },
+    });
   };
 
   const handleAddToWishlist = async (id) => {

@@ -1,9 +1,9 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
-import { CartContext } from "../../../context/CartContext";
 import toast from "react-hot-toast";
 import { WishlistContext } from "../../../context/WishlistContext";
+import useMutationCart from "../../../hooks/useMutationCart";
 
 const highlightMatch = (titleText, search) => {
   if (!search) return titleText;
@@ -24,15 +24,10 @@ const highlightMatch = (titleText, search) => {
 };
 
 export default function Product({ product, search }) {
-  // console.log("product");
-
-  const [isLoading, setIsLoading] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
-  const { addToCart } = useContext(CartContext);
   const { addToWishlist, deleteWishlistItem, wishlist } =
     useContext(WishlistContext);
-
-  // console.log("wishlist in product comp", wishlist);
+  const { isLoading, mutate } = useMutationCart();
 
   const highlightedTitle = useMemo(
     () => highlightMatch(product.title, search),
@@ -40,29 +35,27 @@ export default function Product({ product, search }) {
   );
 
   const handleAddToCart = async (e, id) => {
-    setIsLoading(true);
     // prevent link behavior in add to cart
     e.preventDefault();
     e.stopPropagation();
     const toastId = toast.loading("Adding product to cart...");
-    const data = await addToCart(id);
-    // console.log("data", data);
-    if (data.status === "success") {
-      setIsLoading(false);
-      toast.success(data.message, {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      setIsLoading(false);
-      toast.error(data.message, {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-    }
+    mutate(id, {
+      onSuccess: (data) => {
+        toast.success(data.message, {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message, {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
+      },
+    });
   };
 
   const handleAddToWishlist = async (id) => {
@@ -147,7 +140,9 @@ export default function Product({ product, search }) {
               <h3 className="font-medium mb-2 line-clamp-1 dark:text-white">
                 {highlightedTitle}
               </h3>
-              <span className="opacity-50 dark:text-white">({product.quantity})</span>
+              <span className="opacity-50 dark:text-white">
+                ({product.quantity})
+              </span>
             </div>
             <div className="flex justify-between sm:justify-start dark:text-white">
               <span className="text-secondary me-2">${product.price}</span>

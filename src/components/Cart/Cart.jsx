@@ -1,5 +1,3 @@
-// import style from "./Cart.module.css";
-
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../context/CartContext";

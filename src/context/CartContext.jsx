@@ -9,24 +9,7 @@ export default function CartContextProvider({ children }) {
   const { userToken } = useContext(UserContext);
   const headers = { token: userToken };
   const [cart, setCart] = useState(null);
-
   // console.log(cart);
-
-  const addToCart = async (productId) => {
-    return await axios
-      .post(
-        `https://ecommerce.routemisr.com/api/v1/cart`,
-        { productId },
-        { headers }
-      )
-      .then(({ data }) => {
-        if (data.status === "success") {
-          setCart(data);
-        }
-        return data;
-      })
-      .catch((error) => error);
-  };
 
   const getLoggedUserCart = async () => {
     return await axios
@@ -133,7 +116,6 @@ export default function CartContextProvider({ children }) {
       value={{
         cart,
         setCart,
-        addToCart,
         getLoggedUserCart,
         updateCartProductQty,
         deleteCartItem,
