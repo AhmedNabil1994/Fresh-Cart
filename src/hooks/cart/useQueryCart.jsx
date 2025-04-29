@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 import { CartContext } from "../../context/CartContext";
 import axios from "axios";
@@ -24,6 +24,13 @@ export default function useQueryCart() {
         throw error;
       });
   };
+
+  useEffect(() => {
+    if (userToken) {
+      getLoggedUserCart();
+    }
+  }, [userToken]);
+
   return useQuery({
     queryKey: ["cart-items"],
     queryFn: getLoggedUserCart,

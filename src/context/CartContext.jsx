@@ -22,7 +22,9 @@ export default function CartContextProvider({ children }) {
         }
         return data;
       })
-      .catch((error) => error);
+      .catch((error) => {
+        throw error;
+      });
   };
 
   const updateCartProductQty = async (productId, newCount) => {
@@ -115,7 +117,6 @@ export default function CartContextProvider({ children }) {
       value={{
         cart,
         setCart,
-        getLoggedUserCart,
         updateCartProductQty,
         deleteCartItem,
         clearCart,

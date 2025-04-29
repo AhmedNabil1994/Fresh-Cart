@@ -89,10 +89,6 @@ export default function Cart() {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(error);
-  // }, [userToken]);
-
   return (
     <>
       <MetaTags metaTitle="Cart" />
