@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import toast from "react-hot-toast";
 import { WishlistContext } from "../../../context/WishlistContext";
-import useMutationCart from "../../../hooks/useMutationCart";
+import useMutationCart from "../../../hooks/cart/useMutationCart";
 
 const highlightMatch = (titleText, search) => {
   if (!search) return titleText;

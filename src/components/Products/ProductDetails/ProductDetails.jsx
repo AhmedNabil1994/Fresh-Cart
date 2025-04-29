@@ -3,14 +3,14 @@ import ApiError from "../../shared/ApiError/ApiError";
 import Loader from "../../shared/Loader/Loader";
 import StarRatings from "react-star-ratings";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
-import { CartContext } from "../../../context/CartContext";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { WishlistContext } from "../../../context/WishlistContext";
 import useProducts from "../../../hooks/useProducts";
 import MetaTags from "../../MetaTags/MetaTags";
 import useScrollToTop from "../../../hooks/useScrollToTop";
-import useMutationCart from "../../../hooks/useMutationCart";
+import useMutationCart from "../../../hooks/cart/useMutationCart";
+
 
 export default function ProductDetails() {
   const [isInWishlist, setIsInWishlist] = useState(false);

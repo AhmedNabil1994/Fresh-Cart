@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import toast from "react-hot-toast";
-import { CartContext } from "../../../context/CartContext";
 import { IoCartOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import useMutationCart from './../../../hooks/useMutationCart';
+import useMutationCart from "../../../hooks/cart/useMutationCart";
+
 
 export default function Favourite({ favourite, handleDelete }) {
   const { isLoading, mutate } = useMutationCart();

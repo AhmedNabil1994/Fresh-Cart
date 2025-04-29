@@ -4,61 +4,20 @@ import { CartContext } from "../../context/CartContext";
 import Loader from "../shared/Loader/Loader";
 import toast from "react-hot-toast";
 import EmptyCart from "./EmptyCart/EmptyCart";
-import { UserContext } from "../../context/UserContext";
 import Cookies from "js-cookie";
 import MetaTags from "../MetaTags/MetaTags";
-import { useQuery } from "@tanstack/react-query";
 import ApiError from "../shared/ApiError/ApiError";
+import useQueryCart from "../../hooks/cart/useQueryCart";
 
 export default function Cart() {
   const userToken = Cookies.get("token");
-
   const [cartDetails, setCartDetails] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [error, setError] = useState(null);
-  const { getLoggedUserCart, updateCartProductQty, deleteCartItem, clearCart } =
+  const { updateCartProductQty, deleteCartItem, clearCart } =
     useContext(CartContext);
 
-  /*
-    with react-query 
-  */
-
-  // const getCartItems = async () => {
-  //   return await getLoggedUserCart();
-  // };
-
-  // const {
-  //   data: cartDetails,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useQuery({
-  //   queryKey: ["get-user-cart"],
-  //   queryFn: getCartItems,
-  //   select: (res) => res.data,
-  // });
-
-  /* 
-   -----------------------------------
-  */
-
-  const getCartItems = async () => {
-    setIsLoading(true);
-    const res = await getLoggedUserCart();
-    // console.log(res.data);
-    if (res.status === "success") {
-      setIsLoading(false);
-      setCartDetails(res.data);
-      setIsError(false);
-      setError(null);
-    } else {
-      setIsLoading(false);
-      setIsError(true);
-      setError(res);
-    }
-  };
+  const { data: cartItems, isLoading, isError, error } = useQueryCart();
+  console.log(cartItems, "cart items");
 
   const updateProduct = async (id, count) => {
     const toastId = toast.loading("Updating product in cart...");
@@ -130,9 +89,9 @@ export default function Cart() {
     }
   };
 
-  useEffect(() => {
-    getCartItems();
-  }, [userToken]);
+  // useEffect(() => {
+  //   console.log(error);
+  // }, [userToken]);
 
   return (
     <>
@@ -142,9 +101,9 @@ export default function Cart() {
       ) : isError ? (
         <ApiError error={error.response?.data.message} />
       ) : (
-        cartDetails && (
+        cartItems && (
           <>
-            {cartDetails.products.length > 0 ? (
+            {cartItems.products.length > 0 ? (
               <>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                   <table className="w-full text-sm text-left rtl:text-right">
@@ -174,7 +133,7 @@ export default function Cart() {
                       </tr>
                     </thead>
                     <tbody>
-                      {cartDetails.products.map((product) => (
+                      {cartItems?.products.map((product) => (
                         <tr
                           className="bg-white border-b border-gray-200 text-base font-normal"
                           key={product._id}
@@ -221,19 +180,6 @@ export default function Cart() {
                               </div>
                             </div>
                           </td>
-                          {/* <td className="px-6 py-4">
-                            <div className="flex items-center">
-                              <div>
-                                <input
-                                  type="number"
-                                  id={`product_${product._id}`}
-                                  className="bg-gray-50 w-14 border border-slate-400 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 "
-                                  placeholder={product.count}
-                                  min="1"
-                                />
-                              </div>
-                            </div>
-                          </td> */}
                           <td className="px-6 py-4  text-gray-900 ">
                             ${product.price * product.count}
                           </td>
@@ -268,7 +214,7 @@ export default function Cart() {
                     <div className="flex flex-col justify-between mb-4 relative after:content-[''] after:w-full after:h-[2px] after:bg-slate-200 after:mt-4">
                       <div className="flex justify-between">
                         <p>Subtotal:</p>
-                        <p>${cartDetails?.totalCartPrice}</p>
+                        <p>${cartItems?.totalCartPrice}</p>
                       </div>
                     </div>
                     <div className="flex flex-col justify-between mb-4 relative after:content-[''] after:w-full after:h-[2px] after:bg-slate-200 after:mt-4">
@@ -279,7 +225,7 @@ export default function Cart() {
                     </div>
                     <div className="flex justify-between">
                       <p>Total:</p>
-                      <p>${cartDetails.totalCartPrice}</p>
+                      <p>${cartItems.totalCartPrice}</p>
                     </div>
                     <Link to="/checkout">
                       <button className=" mt-6 rounded bg-secondary sm:px-12 py-4 font-medium hover:bg-opacity-90  transition-colors duration-500 text-white w-full sm:w-auto mx-auto block">

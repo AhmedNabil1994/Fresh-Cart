@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { UserContext } from "../context/UserContext";
+import { UserContext } from "../../context/UserContext";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { CartContext } from "../context/CartContext";
+import { CartContext } from "../../context/CartContext";
 
 export default function useMutationCart() {
   const { userToken } = useContext(UserContext);

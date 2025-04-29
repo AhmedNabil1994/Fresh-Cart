@@ -110,7 +110,6 @@ export default function CartContextProvider({ children }) {
     }
   }, [userToken]);
 
-
   return (
     <CartContext.Provider
       value={{
