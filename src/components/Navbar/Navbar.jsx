@@ -16,7 +16,7 @@ export default function NavbarComp() {
   const navigate = useNavigate();
   const { userToken, setUserToken, setUserData, setUserId } =
     useContext(UserContext);
-  const { cart, setCartOwner } = useContext(CartContext);
+  const { cart } = useContext(CartContext);
   const { wishlist } = useContext(WishlistContext);
   const queryClient = useQueryClient();
   // console.log(wishlist, "wishlist in navbar");
@@ -77,9 +77,13 @@ export default function NavbarComp() {
                 <>
                   <NavLink
                     to="wishlist"
-                    className="relative inline-flex items-center p-3 text-sm"
+                    className={({ isActive }) =>
+                      `relative inline-flex items-center p-3 text-sm ${
+                        isActive ? 'text-secondary dark:text-emerald-400' : 'text-gray-700 dark:text-white'
+                      }`
+                    }
                   >
-                    <i className="fa fa-regular fa-heart text-2xl cursor-pointer dark:text-white"></i>
+                    <i className="fa fa-regular fa-heart text-2xl cursor-pointer"></i>
                     {wishlist?.data?.length > 0 && (
                       <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-secondary rounded-full top-1 end-0">
                         {wishlist.data?.length}
@@ -88,9 +92,16 @@ export default function NavbarComp() {
                   </NavLink>
                   <NavLink
                     to="cart"
-                    className="relative inline-flex items-center p-3 text-sm"
+                    className={({ isActive }) =>
+                      `relative inline-flex items-center p-3 text-sm ${
+                        isActive ? 'text-secondary dark:text-emerald-400' : 'text-gray-700 dark:text-white'
+                      }`
+                    }
                   >
-                    <IoCartOutline size={30} className="cursor-pointer dark:text-white" />
+                    <IoCartOutline
+                      size={30}
+                      className="cursor-pointer"
+                    />
                     <span className="sr-only">Notifications</span>
                     {cart?.numOfCartItems > 0 && (
                       <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-secondary rounded-full top-1 end-0">
@@ -138,7 +149,7 @@ export default function NavbarComp() {
                   </Dropdown>
                 </>
               )}
-              <DarkThemeToggle className="focus:outline-none focus:ring-0 hover:bg-transparent dark:hover:bg-transparent"/>
+              <DarkThemeToggle className="focus:outline-none focus:ring-0 hover:bg-transparent dark:hover:bg-transparent" />
             </div>
             <button
               data-collapse-toggle="navbar-search"
