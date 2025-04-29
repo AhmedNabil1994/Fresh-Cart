@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../../context/CartContext";
 import Loader from "../shared/Loader/Loader";
 import toast from "react-hot-toast";
@@ -8,6 +8,8 @@ import Cookies from "js-cookie";
 import MetaTags from "../MetaTags/MetaTags";
 import ApiError from "../shared/ApiError/ApiError";
 import useQueryCart from "../../hooks/cart/useQueryCart";
+import useMutationCart from "../../hooks/cart/useMutationCart";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Cart() {
   const userToken = Cookies.get("token");
@@ -15,9 +17,11 @@ export default function Cart() {
   const [btnLoading, setBtnLoading] = useState(false);
   const { updateCartProductQty, deleteCartItem, clearCart } =
     useContext(CartContext);
-
   const { data: cartItems, isLoading, isError, error } = useQueryCart();
-  console.log(cartItems, "cart items");
+  const { deleteFromCart } = useMutationCart();
+  const { mutate } = deleteFromCart;
+  const queryClient = useQueryClient();
+  // console.log(cartItems, "cart items");
 
   const updateProduct = async (id, count) => {
     const toastId = toast.loading("Updating product in cart...");
@@ -46,23 +50,28 @@ export default function Cart() {
 
   const deleteItem = async (id) => {
     const toastId = toast.loading("Deleting product from cart...");
-    const res = await deleteCartItem(id);
-    if (res.status === "success") {
-      // console.log(res.data, "data delete cart");
-      setCartDetails(res.data);
-      toast.success("Product deleted successfully from cart", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      toast.error("Error during deleting, try again.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-    }
+    mutate(id, {
+      onSuccess: () => {
+        // Refetch the cart after deleting an item to update the UI
+        queryClient.invalidateQueries({
+          queryKey: ["cart-items"],
+        });
+
+        toast.success("Product deleted successfully from cart", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
+      },
+      onError: () => {
+        toast.error("Error during deleting, try again.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
+      },
+    });
   };
 
   const clearUserCart = async () => {

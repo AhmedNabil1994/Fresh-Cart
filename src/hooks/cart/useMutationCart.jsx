@@ -22,7 +22,29 @@ export default function useMutationCart() {
         }
         return data;
       })
-      .catch((error) => error);
+      .catch((error) => {
+        throw error;
+      });
   };
-  return useMutation({ mutationFn: addToCart });
+
+  const deleteCartItem = async (productId) => {
+    return await axios
+      .delete(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
+        headers,
+      })
+      .then(({ data }) => {
+        if (data.status === "success") {
+          setCart(data);
+        }
+        return data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  const add = useMutation({ mutationFn: addToCart });
+  const deleteFromCart = useMutation({ mutationFn: deleteCartItem });
+
+  return { add, deleteFromCart };
 }

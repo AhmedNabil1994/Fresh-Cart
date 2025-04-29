@@ -11,12 +11,12 @@ import MetaTags from "../../MetaTags/MetaTags";
 import useScrollToTop from "../../../hooks/useScrollToTop";
 import useMutationCart from "../../../hooks/cart/useMutationCart";
 
-
 export default function ProductDetails() {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [imageIdx, setImageIdx] = useState(null);
-  const { isLoading: btnLoading, mutate } = useMutationCart();
+  const { add } = useMutationCart();
+  const { isLoading: btnLoading, mutate } = add;
   let { id } = useParams();
   const { addToWishlist, deleteWishlistItem, wishlist } =
     useContext(WishlistContext);

@@ -27,7 +27,8 @@ export default function Product({ product, search }) {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const { addToWishlist, deleteWishlistItem, wishlist } =
     useContext(WishlistContext);
-  const { isLoading, mutate } = useMutationCart();
+  const { add } = useMutationCart();
+  const { isLoading, mutate } = add;
 
   const highlightedTitle = useMemo(
     () => highlightMatch(product.title, search),

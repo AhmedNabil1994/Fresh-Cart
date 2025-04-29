@@ -45,19 +45,19 @@ export default function CartContextProvider({ children }) {
       .catch((error) => error);
   };
 
-  const deleteCartItem = async (productId) => {
-    return await axios
-      .delete(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
-        headers,
-      })
-      .then(({ data }) => {
-        if (data.status === "success") {
-          setCart(data);
-        }
-        return data;
-      })
-      .catch((error) => error);
-  };
+  // const deleteCartItem = async (productId) => {
+  //   return await axios
+  //     .delete(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`, {
+  //       headers,
+  //     })
+  //     .then(({ data }) => {
+  //       if (data.status === "success") {
+  //         setCart(data);
+  //       }
+  //       return data;
+  //     })
+  //     .catch((error) => error);
+  // };
 
   const clearCart = async () => {
     return await axios
@@ -118,7 +118,7 @@ export default function CartContextProvider({ children }) {
         cart,
         setCart,
         updateCartProductQty,
-        deleteCartItem,
+        // deleteCartItem,
         clearCart,
         cashPayment,
         onlinePayment,
