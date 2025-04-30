@@ -4,7 +4,6 @@ import { CartContext } from "../../context/CartContext";
 import Loader from "../shared/Loader/Loader";
 import toast from "react-hot-toast";
 import EmptyCart from "./EmptyCart/EmptyCart";
-import Cookies from "js-cookie";
 import MetaTags from "../MetaTags/MetaTags";
 import ApiError from "../shared/ApiError/ApiError";
 import useQueryCart from "../../hooks/cart/useQueryCart";
@@ -12,13 +11,11 @@ import useMutationCart from "../../hooks/cart/useMutationCart";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function Cart() {
-  const userToken = Cookies.get("token");
   const [cartDetails, setCartDetails] = useState(null);
   const [btnLoading, setBtnLoading] = useState(false);
-  const { updateCartProductQty, deleteCartItem, clearCart } =
-    useContext(CartContext);
+  const { updateCartProductQty } = useContext(CartContext);
   const { data: cartItems, isLoading, isError, error } = useQueryCart();
-  const { deleteFromCart } = useMutationCart();
+  const { deleteFromCart, clearCartItems } = useMutationCart();
   const { mutate } = deleteFromCart;
   const queryClient = useQueryClient();
   // console.log(cartItems, "cart items");
@@ -29,7 +26,6 @@ export default function Cart() {
       deleteItem(id);
     } else {
       const data = await updateCartProductQty(id, count);
-      // console.log(data);
       if (data.status === "success") {
         setCartDetails(data.data);
         toast.success("Product updated successfully.", {
@@ -52,7 +48,7 @@ export default function Cart() {
     const toastId = toast.loading("Deleting product from cart...");
     mutate(id, {
       onSuccess: () => {
-        // Refetch the cart after deleting an item to update the UI
+        // Refetch the cart data after deleting an item to update the UI
         queryClient.invalidateQueries({
           queryKey: ["cart-items"],
         });
@@ -74,22 +70,29 @@ export default function Cart() {
     });
   };
 
+  /* 
+    In clear cart fn
+    we used different style unlike in delete fn
+    to avoid passing undefined in mutate payload param
+    mutate() method (payload, {onSuccess, onError})
+    in delete => payload is the id
+    in clear => no param so no payload => (pass undefined)
+    we used mutateAsync() method insted of mutate() method
+   */
   const clearUserCart = async () => {
-    setBtnLoading(true);
     const toastId = toast.loading("Clearing your cart...");
-    const res = await clearCart();
-    // console.log(res, "clear cart response");
-    if (res.message === "success") {
-      setBtnLoading(false);
-      setCartDetails({ products: [] });
+    try {
+      await clearCartItems.mutateAsync();
+      await queryClient.invalidateQueries({
+        queryKey: ["cart-items"],
+      });
       toast.success("Your cart cleared successfully", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
         duration: 3000,
         id: toastId,
       });
-    } else {
-      setBtnLoading(false);
+    } catch (error) {
       toast.error("Error during clearing, try again.", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },

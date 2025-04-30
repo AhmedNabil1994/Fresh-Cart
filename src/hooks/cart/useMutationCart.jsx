@@ -43,8 +43,25 @@ export default function useMutationCart() {
       });
   };
 
+  const clearCart = async () => {
+    return await axios
+      .delete(`https://ecommerce.routemisr.com/api/v1/cart`, {
+        headers,
+      })
+      .then(({ data }) => {
+        if (data.message === "success") {
+          setCart(data);
+        }
+        return data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
   const add = useMutation({ mutationFn: addToCart });
   const deleteFromCart = useMutation({ mutationFn: deleteCartItem });
+  const clearCartItems = useMutation({ mutationFn: clearCart });
 
-  return { add, deleteFromCart };
+  return { add, deleteFromCart, clearCartItems };
 }
