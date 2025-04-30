@@ -11,9 +11,7 @@ import useMutationCart from "../../hooks/cart/useMutationCart";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function Cart() {
-  const [cartDetails, setCartDetails] = useState(null);
   const [btnLoading, setBtnLoading] = useState(false);
-  const { updateCartProductQty } = useContext(CartContext);
   const { data: cartItems, isLoading, isError, error } = useQueryCart();
   const { deleteFromCart, clearCartItems, updateCartItem } = useMutationCart();
   const { mutate } = deleteFromCart;

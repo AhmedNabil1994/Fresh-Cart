@@ -27,24 +27,6 @@ export default function CartContextProvider({ children }) {
       });
   };
 
-  // const updateCartProductQty = async (productId, newCount) => {
-  //   return await axios
-  //     .put(
-  //       `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
-  //       {
-  //         count: newCount,
-  //       },
-  //       { headers }
-  //     )
-  //     .then(({ data }) => {
-  //       if (data.status === "success") {
-  //         setCart(data);
-  //       }
-  //       return data;
-  //     })
-  //     .catch((error) => {throw error});
-  // };
-
   const cashPayment = async (formData) => {
     return await axios
       .post(
@@ -89,7 +71,6 @@ export default function CartContextProvider({ children }) {
       value={{
         cart,
         setCart,
-        // updateCartProductQty,
         cashPayment,
         onlinePayment,
       }}
