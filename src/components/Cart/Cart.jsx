@@ -15,33 +15,58 @@ export default function Cart() {
   const [btnLoading, setBtnLoading] = useState(false);
   const { updateCartProductQty } = useContext(CartContext);
   const { data: cartItems, isLoading, isError, error } = useQueryCart();
-  const { deleteFromCart, clearCartItems } = useMutationCart();
+  const { deleteFromCart, clearCartItems, updateCartItem } = useMutationCart();
   const { mutate } = deleteFromCart;
   const queryClient = useQueryClient();
   // console.log(cartItems, "cart items");
 
-  const updateProduct = async (id, count) => {
+  const updateProduct = async ({ id, count }) => {
     const toastId = toast.loading("Updating product in cart...");
-    if (count === 0) {
-      deleteItem(id);
-    } else {
-      const data = await updateCartProductQty(id, count);
-      if (data.status === "success") {
-        setCartDetails(data.data);
-        toast.success("Product updated successfully.", {
-          position: "top-center",
-          style: { fontFamily: "sans-serif" },
-          duration: 3000,
-          id: toastId,
-        });
-      } else {
-        toast.error("An error occured try again.", {
-          position: "top-center",
-          style: { fontFamily: "sans-serif" },
-          id: toastId,
-        });
+    count === 0 && deleteItem(id);
+    updateCartItem.mutate(
+      { id, count },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["cart-items"],
+          });
+
+          toast.success("Product updated successfully.", {
+            position: "top-center",
+            style: { fontFamily: "sans-serif" },
+            duration: 3000,
+            id: toastId,
+          });
+        },
+        onError: () => {
+          toast.error("An error occured try again.", {
+            position: "top-center",
+            style: { fontFamily: "sans-serif" },
+            id: toastId,
+          });
+        },
       }
-    }
+    );
+    // if (count === 0) {
+    //   deleteItem(id);
+    // } else {
+    //   const data = await updateCartProductQty(id, count);
+    //   if (data.status === "success") {
+    //     setCartDetails(data.data);
+    //     toast.success("Product updated successfully.", {
+    //       position: "top-center",
+    //       style: { fontFamily: "sans-serif" },
+    //       duration: 3000,
+    //       id: toastId,
+    //     });
+    //   } else {
+    //     toast.error("An error occured try again.", {
+    //       position: "top-center",
+    //       style: { fontFamily: "sans-serif" },
+    //       id: toastId,
+    //     });
+    //   }
+    // }
   };
 
   const deleteItem = async (id) => {
@@ -72,10 +97,10 @@ export default function Cart() {
 
   /* 
     In clear cart fn
-    we used different style unlike in delete fn
+    we used different style unlike in delete or update fn
     to avoid passing undefined in mutate payload param
     mutate() method (payload, {onSuccess, onError})
-    in delete => payload is the id
+    in delete for example => payload is the id
     in clear => no param so no payload => (pass undefined)
     we used mutateAsync() method insted of mutate() method
    */
@@ -169,19 +194,19 @@ export default function Cart() {
                               <div className="flex flex-col">
                                 <i
                                   onClick={() =>
-                                    updateProduct(
-                                      product.product.id,
-                                      product.count + 1
-                                    )
+                                    updateProduct({
+                                      id: product.product.id,
+                                      count: product.count + 1,
+                                    })
                                   }
                                   className="mb-2 text-xs cursor-pointer fa-solid fa-chevron-up"
                                 ></i>
                                 <i
                                   onClick={() =>
-                                    updateProduct(
-                                      product.product.id,
-                                      product.count - 1
-                                    )
+                                    updateProduct({
+                                      id: product.product.id,
+                                      count: product.count - 1,
+                                    })
                                   }
                                   className="mt-2 text-xs cursor-pointer fa-solid fa-chevron-down"
                                 ></i>

@@ -59,9 +59,30 @@ export default function useMutationCart() {
       });
   };
 
+  const updateCartProductQty = async ({id, count}) => {
+    return await axios
+      .put(
+        `https://ecommerce.routemisr.com/api/v1/cart/${id}`,
+        {
+          count,
+        },
+        { headers }
+      )
+      .then(({ data }) => {
+        if (data.status === "success") {
+          setCart(data);
+        }
+        return data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+
   const add = useMutation({ mutationFn: addToCart });
   const deleteFromCart = useMutation({ mutationFn: deleteCartItem });
   const clearCartItems = useMutation({ mutationFn: clearCart });
+  const updateCartItem = useMutation({ mutationFn: updateCartProductQty });
 
-  return { add, deleteFromCart, clearCartItems };
+  return { add, deleteFromCart, clearCartItems, updateCartItem };
 }
