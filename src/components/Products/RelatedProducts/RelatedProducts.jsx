@@ -24,7 +24,7 @@ export default function RelatedProducts() {
       category,
     }
   );
-  console.log(relatedProducts);
+  // console.log(relatedProducts);
 
   return (
     <>

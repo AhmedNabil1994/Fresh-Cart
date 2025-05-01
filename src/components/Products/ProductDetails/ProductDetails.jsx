@@ -10,6 +10,7 @@ import useProducts from "../../../hooks/useProducts";
 import MetaTags from "../../MetaTags/MetaTags";
 import useScrollToTop from "../../../hooks/useScrollToTop";
 import useMutationCart from "../../../hooks/cart/useMutationCart";
+import useMutationWishlist from "../../../hooks/wishlist/useMutationWishlist";
 
 export default function ProductDetails() {
   const [isInWishlist, setIsInWishlist] = useState(false);
@@ -18,8 +19,9 @@ export default function ProductDetails() {
   const { add } = useMutationCart();
   const { isLoading: btnLoading, mutate } = add;
   let { id } = useParams();
-  const { addToWishlist, deleteWishlistItem, wishlist } =
+  const { deleteWishlistItem, wishlist } =
     useContext(WishlistContext);
+  const { addWishlist } = useMutationWishlist();
 
   useScrollToTop(id);
 
@@ -57,22 +59,24 @@ export default function ProductDetails() {
 
   const handleAddToWishlist = async (id) => {
     const toastId = toast.loading("Adding product to wishlist...");
-    const data = await addToWishlist(id);
-    // console.log("heart clicked", data);
-    if (data.status === "success") {
-      toast.success("Product deleted successfully.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      toast.error(data.message, {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-    }
+    addWishlist.mutate(id, {
+      onSuccess: () => {
+        toast.success("Product added successfully.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message, {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
+        setIsInWishlist(false);
+      },
+    });
   };
 
   const handleDeleteWishlistItem = async (id) => {

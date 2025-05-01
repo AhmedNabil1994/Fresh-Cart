@@ -4,6 +4,7 @@ import StarRatings from "react-star-ratings";
 import toast from "react-hot-toast";
 import { WishlistContext } from "../../../context/WishlistContext";
 import useMutationCart from "../../../hooks/cart/useMutationCart";
+import useMutationWishlist from "../../../hooks/wishlist/useMutationWishlist";
 
 const highlightMatch = (titleText, search) => {
   if (!search) return titleText;
@@ -25,10 +26,10 @@ const highlightMatch = (titleText, search) => {
 
 export default function Product({ product, search }) {
   const [isInWishlist, setIsInWishlist] = useState(false);
-  const { addToWishlist, deleteWishlistItem, wishlist } =
-    useContext(WishlistContext);
+  const { deleteWishlistItem, wishlist } = useContext(WishlistContext);
   const { add } = useMutationCart();
   const { isLoading, mutate } = add;
+  const { addWishlist } = useMutationWishlist();
 
   const highlightedTitle = useMemo(
     () => highlightMatch(product.title, search),
@@ -61,23 +62,24 @@ export default function Product({ product, search }) {
 
   const handleAddToWishlist = async (id) => {
     const toastId = toast.loading("Adding product to wishlist...");
-    const data = await addToWishlist(id);
-    // console.log("heart clicked", data);
-    if (data.status === "success") {
-      toast.success("Product added successfully.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      toast.error("Error in adding to wishlist, try again.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-      setIsInWishlist(false);
-    }
+    addWishlist.mutate(id, {
+      onSuccess: () => {
+        toast.success("Product added successfully.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message, {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
+        setIsInWishlist(false);
+      },
+    });
   };
 
   const handleDeleteWishlistItem = async (id) => {
