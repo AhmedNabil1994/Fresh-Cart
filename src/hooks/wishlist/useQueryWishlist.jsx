@@ -20,7 +20,7 @@ export default function useQueryWishlist() {
         }
         return data;
       })
-      .catch((error) => error);
+      .catch((error) => {throw error});
   };
   return useQuery({
     queryKey: ["wishlist-items"],

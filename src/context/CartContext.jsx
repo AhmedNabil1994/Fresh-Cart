@@ -9,7 +9,6 @@ export default function CartContextProvider({ children }) {
   const { userToken } = useContext(UserContext);
   const headers = { token: userToken };
   const [cart, setCart] = useState(null);
-  // console.log(cart);
 
   const getLoggedUserCart = async () => {
     return await axios

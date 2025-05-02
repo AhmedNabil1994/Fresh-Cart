@@ -23,21 +23,6 @@ export default function WishlistContextProvider({ children }) {
       .catch((error) => error);
   };
 
-  const deleteWishlistItem = async (productId) => {
-    return await axios
-      .delete(`https://ecommerce.routemisr.com/api/v1/wishlist/${productId}`, {
-        headers,
-      })
-      .then(({ data }) => {
-        if (data.status === "success") {
-          setWishlist(data);
-          // console.log("data in delete", wishlist);
-        }
-        return data;
-      })
-      .catch((error) => error);
-  };
-
   useEffect(() => {
     if (userToken) {
       getLoggedUserWishlist();
@@ -49,7 +34,6 @@ export default function WishlistContextProvider({ children }) {
       value={{
         wishlist,
         setWishlist,
-        deleteWishlistItem,
       }}
     >
       {children}

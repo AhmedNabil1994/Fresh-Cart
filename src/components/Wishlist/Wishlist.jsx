@@ -1,41 +1,41 @@
 import Favourite from "./Favourite/Favourite";
-import { useContext } from "react";
-import { WishlistContext } from "../../context/WishlistContext";
 import Loader from "../shared/Loader/Loader";
 import ApiError from "../shared/ApiError/ApiError";
 import EmptyCart from "../Cart/EmptyCart/EmptyCart";
 import toast from "react-hot-toast";
 import MetaTags from "../MetaTags/MetaTags";
 import useQueryWishlist from "../../hooks/wishlist/useQueryWishlist";
+import useMutationWishlist from "../../hooks/wishlist/useMutationWishlist";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Wishlist() {
-  const {  deleteWishlistItem } =
-    useContext(WishlistContext);
   const { data: wishlistItems, isLoading, isError, error } = useQueryWishlist();
-
-  // console.log("wishlistItems in wishlist comp", wishlistItems);
+  const { deleteFromWishlist } = useMutationWishlist();
+  const queryClient = useQueryClient();
 
   const deleteWishlistUserItem = async (id) => {
     const toastId = toast.loading("Deleting product from wishlist...");
-    const data = await deleteWishlistItem(id);
-    if (data.status === "success") {
-      setWishlistItems((prevWishlist) =>
-        prevWishlist?.filter((item) => data.data.includes(item.id))
-      );
-      // console.log(data, "data in delete");
-      toast.success("Product deleted successfully.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      toast.error("Error during deleting, try again.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-    }
+    deleteFromWishlist.mutate(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ["wishlist-items"],
+        });
+
+        toast.success("Product deleted successfully.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
+      },
+      onError: () => {
+        toast.error("Error during deleting, try again.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
+      },
+    });
   };
 
   return (

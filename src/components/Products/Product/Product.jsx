@@ -26,10 +26,10 @@ const highlightMatch = (titleText, search) => {
 
 export default function Product({ product, search }) {
   const [isInWishlist, setIsInWishlist] = useState(false);
-  const { deleteWishlistItem, wishlist } = useContext(WishlistContext);
+  const { wishlist } = useContext(WishlistContext);
   const { add } = useMutationCart();
   const { isLoading, mutate } = add;
-  const { addWishlist } = useMutationWishlist();
+  const { addWishlist, deleteFromWishlist } = useMutationWishlist();
 
   const highlightedTitle = useMemo(
     () => highlightMatch(product.title, search),
@@ -84,22 +84,23 @@ export default function Product({ product, search }) {
 
   const handleDeleteWishlistItem = async (id) => {
     const toastId = toast.loading("Deleting product from wishlist...");
-    const data = await deleteWishlistItem(id);
-    if (data.status === "success") {
-      // console.log(data, "data in delete");
-      toast.success("Product deleted successfully.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      toast.error("Error during deleting, try again.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-    }
+    deleteFromWishlist.mutate(id, {
+      onSuccess: () => {
+        toast.success("Product deleted successfully.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
+      },
+      onError: () => {
+        toast.error("Error during deleting, try again.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
+      },
+    });
   };
 
   const handleWishlist = (id) => {

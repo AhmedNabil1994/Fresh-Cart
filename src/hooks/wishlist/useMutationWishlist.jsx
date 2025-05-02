@@ -27,7 +27,24 @@ export default function useMutationWishlist() {
       });
   };
 
-  const addWishlist = useMutation({ mutationFn: addToWishlist });
+  const deleteWishlistItem = async (productId) => {
+    return await axios
+      .delete(`https://ecommerce.routemisr.com/api/v1/wishlist/${productId}`, {
+        headers,
+      })
+      .then(({ data }) => {
+        if (data.status === "success") {
+          setWishlist(data);
+        }
+        return data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
 
-  return { addWishlist };
+  const addWishlist = useMutation({ mutationFn: addToWishlist });
+  const deleteFromWishlist = useMutation({ mutationFn: deleteWishlistItem });
+
+  return { addWishlist, deleteFromWishlist };
 }

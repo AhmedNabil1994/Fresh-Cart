@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
-import { CartContext } from "../../context/CartContext";
 import Loader from "../shared/Loader/Loader";
 import toast from "react-hot-toast";
 import EmptyCart from "./EmptyCart/EmptyCart";
@@ -11,12 +9,10 @@ import useMutationCart from "../../hooks/cart/useMutationCart";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function Cart() {
-  const [btnLoading, setBtnLoading] = useState(false);
   const { data: cartItems, isLoading, isError, error } = useQueryCart();
   const { deleteFromCart, clearCartItems, updateCartItem } = useMutationCart();
   const { mutate } = deleteFromCart;
   const queryClient = useQueryClient();
-  // console.log(cartItems, "cart items");
 
   const updateProduct = async ({ id, count }) => {
     const toastId = toast.loading("Updating product in cart...");
@@ -104,11 +100,13 @@ export default function Cart() {
    */
   const clearUserCart = async () => {
     const toastId = toast.loading("Clearing your cart...");
+    setBtnLoading(true);
     try {
       await clearCartItems.mutateAsync();
       await queryClient.invalidateQueries({
         queryKey: ["cart-items"],
       });
+      setBtnLoading(false);
       toast.success("Your cart cleared successfully", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
@@ -116,6 +114,7 @@ export default function Cart() {
         id: toastId,
       });
     } catch (error) {
+      setBtnLoading(false);
       toast.error("Error during clearing, try again.", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
@@ -232,7 +231,7 @@ export default function Cart() {
                     onClick={clearUserCart}
                     className="w-full md:w-1/4 lg:w-1/5 capitalize mt-6 rounded bg-secondary text-white px-12 py-4 font-medium hover:bg-opacity-90 transition-colors duration-500"
                   >
-                    {btnLoading ? (
+                    {clearCartItems.isPending ? (
                       <i className="fas fa-spinner fa-spin"></i>
                     ) : (
                       "clear cart"
