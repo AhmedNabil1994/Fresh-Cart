@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
 import Favourite from "./Favourite/Favourite";
 import { useContext } from "react";
 import { WishlistContext } from "../../context/WishlistContext";
-import Cookies from "js-cookie";
 import Loader from "../shared/Loader/Loader";
 import ApiError from "../shared/ApiError/ApiError";
 import EmptyCart from "../Cart/EmptyCart/EmptyCart";
@@ -15,7 +13,6 @@ export default function Wishlist() {
     useContext(WishlistContext);
   const { data: wishlistItems, isLoading, isError, error } = useQueryWishlist();
 
-  // console.log("wishlist in wishlist comp", wishlist);
   // console.log("wishlistItems in wishlist comp", wishlistItems);
 
   const deleteWishlistUserItem = async (id) => {
