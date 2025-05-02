@@ -49,7 +49,6 @@ export default function WishlistContextProvider({ children }) {
       value={{
         wishlist,
         setWishlist,
-        getLoggedUserWishlist,
         deleteWishlistItem,
       }}
     >

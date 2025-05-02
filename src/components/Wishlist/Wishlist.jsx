@@ -8,50 +8,15 @@ import ApiError from "../shared/ApiError/ApiError";
 import EmptyCart from "../Cart/EmptyCart/EmptyCart";
 import toast from "react-hot-toast";
 import MetaTags from "../MetaTags/MetaTags";
+import useQueryWishlist from "../../hooks/wishlist/useQueryWishlist";
 
 export default function Wishlist() {
-  const [wishlistItems, setWishlistItems] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [error, setError] = useState(null);
-  const { getLoggedUserWishlist, deleteWishlistItem, wishlist, setWishlist } =
+  const {  deleteWishlistItem } =
     useContext(WishlistContext);
-  const userToken = Cookies.get("token");
+  const { data: wishlistItems, isLoading, isError, error } = useQueryWishlist();
+
   // console.log("wishlist in wishlist comp", wishlist);
   // console.log("wishlistItems in wishlist comp", wishlistItems);
-
-  // const getWishlistItems = async () => {
-  //   return await getLoggedUserWishlist();
-  // };
-
-  // const {
-  //   data: wishlistItems,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useQuery({
-  //   queryKey: ["wishlistItems"],
-  //   queryFn: getWishlistItems,
-  //   select: (items) => items.data,
-  // });
-  // console.log(wishlistItems, "Wishlist Items");
-  // console.log(error, "error");
-
-  const getWishlistItems = async () => {
-    setIsLoading(true);
-    const data = await getLoggedUserWishlist();
-    // console.log(data.data);
-    if (data.status === "success") {
-      setIsLoading(false);
-      setWishlistItems(data.data);
-      setIsError(false);
-      setError(null);
-    } else {
-      setIsLoading(false);
-      setIsError(true);
-      setError(data);
-    }
-  };
 
   const deleteWishlistUserItem = async (id) => {
     const toastId = toast.loading("Deleting product from wishlist...");
@@ -75,10 +40,6 @@ export default function Wishlist() {
       });
     }
   };
-
-  useEffect(() => {
-    getWishlistItems();
-  }, [userToken]);
 
   return (
     <>
