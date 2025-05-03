@@ -1,6 +1,3 @@
-import { all } from "axios";
-import { useEffect, useState } from "react";
-
 export default function Search({ search, setSearch }) {
   return (
     <>

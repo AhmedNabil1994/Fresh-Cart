@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-// import style from "./Brands.module.css";
+import React from "react";
 import Brand from "../Brands/Brand/Brand";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -26,7 +25,6 @@ export default function Brands() {
     queryFn: getBrands,
     select: (brands) => brands.data.data,
   });
-  // console.log(brands, "all brands ");
 
   return (
     <>

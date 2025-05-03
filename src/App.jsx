@@ -180,7 +180,6 @@ const router = createBrowserRouter([
 
 function App() {
   // make the dark mode based on current time by default
-
   useEffect(() => {
     const hour = new Date().getHours();
     const html = document.documentElement;
@@ -195,7 +194,6 @@ function App() {
     <>
       <Detector
         render={({ online }) => {
-          // console.log("Network Status:", online);
           return (
             <div
               className={`${

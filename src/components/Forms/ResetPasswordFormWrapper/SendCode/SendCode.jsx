@@ -1,7 +1,5 @@
 import { useFormik } from "formik";
 import { useState } from "react";
-// css module
-// import style from "./SendCode.module.css";
 import * as yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +28,6 @@ export default function SendCode() {
         }
       })
       .catch((res) => {
-        // console.log(res, "forget password res");
         setIsLoading(false);
         setBtnLoading(false);
         setApiError(res.response.data.message);

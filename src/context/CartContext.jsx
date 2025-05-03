@@ -35,7 +35,6 @@ export default function CartContextProvider({ children }) {
       )
       .then(({ data }) => {
         if (data.status === "success") {
-          // console.log(data, "cash");
         }
         return data;
       })
@@ -51,7 +50,6 @@ export default function CartContextProvider({ children }) {
         { headers }
       )
       .then(({ data }) => {
-        // console.log(data,"online");
         if (data.status === "success") {
           return data;
         }

@@ -1,13 +1,9 @@
-import { useEffect, useRef } from "react";
 import RecentProducts from "../Products/RecentProducts/RecentProducts";
 import SectionHeader from "../shared/SectionHeader/SectionHeader";
 import CategoriesSlider from "../Categories/CategoriesSlider/CategoriesSlider";
 import MainSlider from "./MainSlider/MainSlider";
 import MetaTags from "../MetaTags/MetaTags";
 import useScrollToTop from "../../hooks/useScrollToTop";
-
-// css module
-// import style from "./Home.module.css";
 
 export default function Home() {
  useScrollToTop();

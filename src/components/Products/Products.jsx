@@ -55,8 +55,6 @@ export default function Products() {
     category: selectedCategoryId,
   });
 
-  // console.log(products, "products res");
-
   const totalPages = Math.ceil(products?.results / itemsPerPage);
 
   const prevPage = () => {
@@ -88,7 +86,7 @@ export default function Products() {
     `https://ecommerce.routemisr.com/api/v1/categories`,
     "all-categories"
   );
-  // console.log(categories.data);
+  
   const selectedCategory = categories?.data?.find(
     (category) => category._id === selectedCategoryId
   );
