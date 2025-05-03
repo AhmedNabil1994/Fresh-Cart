@@ -14,16 +14,12 @@ export default function UserContextProvider({ children }) {
   const [userData, setUserData] = useState(parsedUserDataFromCookies);
   const [userId, setUserId] = useState(null);
 
-  // console.log(userData, "user data in context");
-  // console.log(userToken);
-
   const getUserId = async () => {
     return await axios
       .get(`https://ecommerce.routemisr.com/api/v1/auth/verifyToken`, {
         headers: { token: userToken },
       })
       .then(({ data }) => {
-        // console.log(data.decoded.id, "userid");
         setUserId(data.decoded.id);
       })
       .catch((error) => error);

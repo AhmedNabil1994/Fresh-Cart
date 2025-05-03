@@ -19,8 +19,6 @@ export default function NavbarComp() {
   const { cart } = useContext(CartContext);
   const { wishlist } = useContext(WishlistContext);
   const queryClient = useQueryClient();
-  // console.log(wishlist, "wishlist in navbar");
-  // console.log(cart, "cart in navbar");
 
   const handleLogout = () => {
     Cookies.remove("token");

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import axios from "axios";
@@ -25,8 +25,6 @@ export default function Register() {
         if (res.data.message === "success") {
           setApiError("");
           navigate("/login");
-          // console.log(res);
-          // console.log(formData);
         }
       })
       .catch((res) => {
@@ -256,13 +254,6 @@ export default function Register() {
               "Create Account"
             )}
           </button>
-          {/* <button
-            className="text-base capitalize text-black border-2 border-[#00000040] focus:outline-none font-medium rounded w-full px-5 py-2.5 text-center mb-8
-              flex justify-center gap-x-4"
-          >
-            <img src={googleIcon} alt="google icon" />
-            sign up with google
-          </button> */}
         </form>
       </FormWrapper>
     </>

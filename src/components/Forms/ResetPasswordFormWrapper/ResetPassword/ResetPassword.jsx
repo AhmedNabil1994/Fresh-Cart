@@ -1,8 +1,5 @@
 import { useFormik } from "formik";
 import { useState } from "react";
-
-// css module
-// import style from "./ResetPassword.module.css";
 import * as yup from "yup";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -25,15 +22,12 @@ export default function ResetPassword() {
       .then((res) => {
         setIsLoading(false);
         setBtnLoading(false);
-        // console.log("res in reset password",res);
-        
         if (res.statusText === "OK") {
           setApiError("");
           navigate("/login");
         }
       })
       .catch((res) => {
-        // console.log(res, "forget password res");
         setIsLoading(false);
         setBtnLoading(false);
         setApiError(res.response.data.message);

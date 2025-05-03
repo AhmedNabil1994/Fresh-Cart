@@ -22,7 +22,6 @@ export default function Checkout() {
     details: yup
       .string()
       .min(5, "Min length is 5")
-      // .max(20, "Max length is 50")
       .required("Details are required"),
     phone: yup
       .string()
@@ -38,7 +37,6 @@ export default function Checkout() {
     const toastId = toast.loading("Payment is processing......");
     setBtnLoading(true);
     const data = await cashPayment(formik.values);
-    // console.log(data, "cash");
     if (data.status === "success") {
       setBtnLoading(false);
       setCart(null);
@@ -64,7 +62,6 @@ export default function Checkout() {
     const toastId = toast.loading("Payment is processing...");
     setBtnLoading(true);
     const data = await onlinePayment(formik.values);
-    // console.log(data, "online");
     if (data.status === "success") {
       setBtnLoading(false);
       setWishlist(null);
@@ -87,7 +84,6 @@ export default function Checkout() {
 
   const handlePayment = () => {
     paymentMethod === "cash" ? handleCashPayment() : handleOnlinePayment();
-    // console.log(cash, "cash status");
   };
 
   let formik = useFormik({

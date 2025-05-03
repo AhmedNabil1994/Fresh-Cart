@@ -10,7 +10,6 @@ import { UserContext } from "../../context/UserContext";
 
 export default function Orders() {
   const { userId } = useContext(UserContext);
-  // console.log(userId);
 
   const getAllUserOrders = async () => {
     if (!userId) return [];
@@ -29,8 +28,6 @@ export default function Orders() {
     queryKey: ["orders", userId],
     queryFn: getAllUserOrders,
   });
-
-  // console.log(orders, "orders");
 
   return (
     <>

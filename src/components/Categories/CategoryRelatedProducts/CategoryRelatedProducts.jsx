@@ -9,7 +9,6 @@ import useCategories from "../../../hooks/useCategories";
 
 export default function CategoryRelatedProducts() {
   let { categoryId, category } = useParams();
-  // console.log(category,"cat");
 
   const {
     data: products,

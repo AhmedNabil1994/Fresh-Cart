@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import Search from "../../Search/Search";
 import { useState } from "react";
 import useProducts from "../../../hooks/useProducts";
-// css module
-// import style from "./RecentProducts.module.css";
 
 export default function RecentProducts() {
   const [search, setSearch] = useState("");
@@ -22,7 +20,6 @@ export default function RecentProducts() {
       queryKey: "recent-products",
     }
   );
-  // console.log(recentProducts, "recent products");
 
   const filteredProducts = recentProducts?.data?.filter((product) =>
     search.toLowerCase() === ""

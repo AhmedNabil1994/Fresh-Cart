@@ -1,5 +1,4 @@
 import React from "react";
-import style from "./Footer.module.css";
 import { Link } from "react-router-dom";
 import qr from "../../assets/footer/qr_code.png";
 import appStore from "../../assets/footer/app_store.png";

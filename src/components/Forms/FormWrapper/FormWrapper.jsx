@@ -1,7 +1,3 @@
-import { useState } from "react";
-
-// css module
-import style from "./FormWrapper.module.css";
 import img from "../../../assets/forms/bg.png";
 import { Link } from "react-router-dom";
 
