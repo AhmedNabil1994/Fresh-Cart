@@ -7,8 +7,7 @@ import useMutationCart from "../../../hooks/cart/useMutationCart";
 export default function Favourite({ favourite, handleDelete }) {
   const { add } = useMutationCart();
   const { isLoading, mutate } = add;
-  // console.log(favourite, "favourite");
-
+  
   const handleAddToCart = async (e, id) => {
     e.preventDefault();
     e.stopPropagation();
