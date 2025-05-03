@@ -1,4 +1,3 @@
-import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { IoCartOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
@@ -7,7 +6,7 @@ import useMutationCart from "../../../hooks/cart/useMutationCart";
 export default function Favourite({ favourite, handleDelete }) {
   const { add } = useMutationCart();
   const { isLoading, mutate } = add;
-  
+
   const handleAddToCart = async (e, id) => {
     e.preventDefault();
     e.stopPropagation();
