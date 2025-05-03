@@ -69,8 +69,11 @@ export default function Favourite({ favourite, handleDelete }) {
           {favourite.priceAfterDiscount && (
             <span className="absolute top-5 start-6 bg-blue-600 text-white text-sm font-medium px-3 py-1 rounded">
               -
-              {Math.ceil(
-                100 * (1 - favourite.priceAfterDiscount / favourite.price)
+              {Number(
+                (
+                  100 *
+                  (1 - favourite.priceAfterDiscount / favourite.price)
+                ).toFixed(1)
               )}
               %
             </span>
