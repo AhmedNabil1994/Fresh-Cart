@@ -1,49 +1,42 @@
-import { useContext, useState } from "react";
-// css module
-// import style from "./Favourite.module.css";
 import toast from "react-hot-toast";
-import { CartContext } from "../../../context/CartContext";
 import { IoCartOutline } from "react-icons/io5";
-import { WishlistContext } from "../../../context/WishlistContext";
 import { Link } from "react-router-dom";
+import useMutationCart from "../../../hooks/cart/useMutationCart";
 
 export default function Favourite({ favourite, handleDelete }) {
-  const [isLoading, setIsLoading] = useState(false);
-  const { addToCart } = useContext(CartContext);
-  const { deleteWishlistItem } = useContext(WishlistContext);
-
-  // console.log(favourite, "favourite");
+  const { add } = useMutationCart();
+  const { isLoading, mutate } = add;
 
   const handleAddToCart = async (e, id) => {
-    setIsLoading(true);
     e.preventDefault();
     e.stopPropagation();
     const toastId = toast.loading("Adding product to cart...");
-    const data = await addToCart(id);
-    // console.log("data", data);
-    if (data.status === "success") {
-      setIsLoading(false);
-      toast.success(data.message, {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      setIsLoading(false);
-      toast.error(data.message, {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-    }
+    mutate(id, {
+      onSuccess: (data) => {
+        toast.success(data.message, {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message, {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
+      },
+    });
   };
 
   return (
     favourite && (
       <>
         <section className="relative w-full sm:w-6/12 md:w-4/12 lg:w-3/12 mb-[60px] group px-[15px] group">
-          <Link to={`/productdetails/${favourite.id}/${favourite.category.name}`}>
+          <Link
+            to={`/productdetails/${favourite.id}/${favourite.category.name}`}
+          >
             <div className="relative rounded mb-4 bg-gray-300 overflow-hidden">
               <img
                 src={favourite.imageCover}
@@ -74,8 +67,11 @@ export default function Favourite({ favourite, handleDelete }) {
           {favourite.priceAfterDiscount && (
             <span className="absolute top-5 start-6 bg-blue-600 text-white text-sm font-medium px-3 py-1 rounded">
               -
-              {Math.ceil(
-                100 * (1 - favourite.priceAfterDiscount / favourite.price)
+              {Number(
+                (
+                  100 *
+                  (1 - favourite.priceAfterDiscount / favourite.price)
+                ).toFixed(1)
               )}
               %
             </span>

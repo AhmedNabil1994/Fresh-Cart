@@ -1,128 +1,119 @@
-// import style from "./Cart.module.css";
-
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { CartContext } from "../../context/CartContext";
 import Loader from "../shared/Loader/Loader";
 import toast from "react-hot-toast";
 import EmptyCart from "./EmptyCart/EmptyCart";
-import { UserContext } from "../../context/UserContext";
-import Cookies from "js-cookie";
 import MetaTags from "../MetaTags/MetaTags";
-import { useQuery } from "@tanstack/react-query";
 import ApiError from "../shared/ApiError/ApiError";
+import useQueryCart from "../../hooks/cart/useQueryCart";
+import useMutationCart from "../../hooks/cart/useMutationCart";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Cart() {
-  const userToken = Cookies.get("token");
+  const { data: cartItems, isLoading, isError, error } = useQueryCart();
+  const { deleteFromCart, clearCartItems, updateCartItem } = useMutationCart();
+  const { mutate } = deleteFromCart;
+  const queryClient = useQueryClient();
 
-  const [cartDetails, setCartDetails] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [btnLoading, setBtnLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [error, setError] = useState(null);
-  const { getLoggedUserCart, updateCartProductQty, deleteCartItem, clearCart } =
-    useContext(CartContext);
+  const updateProduct = async ({ id, count }) => {
+    const toastId = toast.loading("Updating product in cart...");
+    count === 0 && deleteItem(id);
+    updateCartItem.mutate(
+      { id, count },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["cart-items"],
+          });
 
-  /*
-    with react-query 
-  */
-
-  // const getCartItems = async () => {
-  //   return await getLoggedUserCart();
-  // };
-
-  // const {
-  //   data: cartDetails,
-  //   isLoading,
-  //   isError,
-  //   error,
-  // } = useQuery({
-  //   queryKey: ["get-user-cart"],
-  //   queryFn: getCartItems,
-  //   select: (res) => res.data,
-  // });
-
-  /* 
-   -----------------------------------
-  */
-
-  const getCartItems = async () => {
-    setIsLoading(true);
-    const res = await getLoggedUserCart();
-    // console.log(res.data);
-    if (res.status === "success") {
-      setIsLoading(false);
-      setCartDetails(res.data);
-      setIsError(false);
-      setError(null);
-    } else {
-      setIsLoading(false);
-      setIsError(true);
-      setError(res);
-    }
+          toast.success("Product updated successfully.", {
+            position: "top-center",
+            style: { fontFamily: "sans-serif" },
+            duration: 3000,
+            id: toastId,
+          });
+        },
+        onError: () => {
+          toast.error("An error occured try again.", {
+            position: "top-center",
+            style: { fontFamily: "sans-serif" },
+            id: toastId,
+          });
+        },
+      }
+    );
+    // if (count === 0) {
+    //   deleteItem(id);
+    // } else {
+    //   const data = await updateCartProductQty(id, count);
+    //   if (data.status === "success") {
+    //     setCartDetails(data.data);
+    //     toast.success("Product updated successfully.", {
+    //       position: "top-center",
+    //       style: { fontFamily: "sans-serif" },
+    //       duration: 3000,
+    //       id: toastId,
+    //     });
+    //   } else {
+    //     toast.error("An error occured try again.", {
+    //       position: "top-center",
+    //       style: { fontFamily: "sans-serif" },
+    //       id: toastId,
+    //     });
+    //   }
+    // }
   };
 
-  const updateProduct = async (id, count) => {
-    const toastId = toast.loading("Updating product in cart...");
-    if (count === 0) {
-      deleteItem(id);
-    } else {
-      const data = await updateCartProductQty(id, count);
-      // console.log(data);
-      if (data.status === "success") {
-        setCartDetails(data.data);
-        toast.success("Product updated successfully.", {
+  const deleteItem = async (id) => {
+    const toastId = toast.loading("Deleting product from cart...");
+    mutate(id, {
+      onSuccess: () => {
+        // Refetch the cart data after deleting an item to update the UI
+        queryClient.invalidateQueries({
+          queryKey: ["cart-items"],
+        });
+
+        toast.success("Product deleted successfully from cart", {
           position: "top-center",
           style: { fontFamily: "sans-serif" },
           duration: 3000,
           id: toastId,
         });
-      } else {
-        toast.error("An error occured try again.", {
+      },
+      onError: () => {
+        toast.error("Error during deleting, try again.", {
           position: "top-center",
           style: { fontFamily: "sans-serif" },
           id: toastId,
         });
-      }
-    }
+      },
+    });
   };
 
-  const deleteItem = async (id) => {
-    const toastId = toast.loading("Deleting product from cart...");
-    const res = await deleteCartItem(id);
-    if (res.status === "success") {
-      // console.log(res.data, "data delete cart");
-      setCartDetails(res.data);
-      toast.success("Product deleted successfully from cart", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      toast.error("Error during deleting, try again.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-    }
-  };
-
+  /* 
+    In clear cart fn
+    we used different style unlike in delete or update fn
+    to avoid passing undefined in mutate payload param
+    mutate() method (payload, {onSuccess, onError})
+    in delete for example => payload is the id
+    in clear => no param so no payload => (pass undefined)
+    we used mutateAsync() method insted of mutate() method
+   */
   const clearUserCart = async () => {
-    setBtnLoading(true);
     const toastId = toast.loading("Clearing your cart...");
-    const res = await clearCart();
-    // console.log(res, "clear cart response");
-    if (res.message === "success") {
+    setBtnLoading(true);
+    try {
+      await clearCartItems.mutateAsync();
+      await queryClient.invalidateQueries({
+        queryKey: ["cart-items"],
+      });
       setBtnLoading(false);
-      setCartDetails({ products: [] });
       toast.success("Your cart cleared successfully", {
         position: "top-center",
         style: { fontFamily: "sans-serif" },
         duration: 3000,
         id: toastId,
       });
-    } else {
+    } catch (error) {
       setBtnLoading(false);
       toast.error("Error during clearing, try again.", {
         position: "top-center",
@@ -132,10 +123,6 @@ export default function Cart() {
     }
   };
 
-  useEffect(() => {
-    getCartItems();
-  }, [userToken]);
-
   return (
     <>
       <MetaTags metaTitle="Cart" />
@@ -144,9 +131,9 @@ export default function Cart() {
       ) : isError ? (
         <ApiError error={error.response?.data.message} />
       ) : (
-        cartDetails && (
+        cartItems && (
           <>
-            {cartDetails.products.length > 0 ? (
+            {cartItems.products.length > 0 ? (
               <>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                   <table className="w-full text-sm text-left rtl:text-right">
@@ -176,7 +163,7 @@ export default function Cart() {
                       </tr>
                     </thead>
                     <tbody>
-                      {cartDetails.products.map((product) => (
+                      {cartItems?.products.map((product) => (
                         <tr
                           className="bg-white border-b border-gray-200 text-base font-normal"
                           key={product._id}
@@ -204,38 +191,25 @@ export default function Cart() {
                               <div className="flex flex-col">
                                 <i
                                   onClick={() =>
-                                    updateProduct(
-                                      product.product.id,
-                                      product.count + 1
-                                    )
+                                    updateProduct({
+                                      id: product.product.id,
+                                      count: product.count + 1,
+                                    })
                                   }
                                   className="mb-2 text-xs cursor-pointer fa-solid fa-chevron-up"
                                 ></i>
                                 <i
                                   onClick={() =>
-                                    updateProduct(
-                                      product.product.id,
-                                      product.count - 1
-                                    )
+                                    updateProduct({
+                                      id: product.product.id,
+                                      count: product.count - 1,
+                                    })
                                   }
                                   className="mt-2 text-xs cursor-pointer fa-solid fa-chevron-down"
                                 ></i>
                               </div>
                             </div>
                           </td>
-                          {/* <td className="px-6 py-4">
-                            <div className="flex items-center">
-                              <div>
-                                <input
-                                  type="number"
-                                  id={`product_${product._id}`}
-                                  className="bg-gray-50 w-14 border border-slate-400 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 "
-                                  placeholder={product.count}
-                                  min="1"
-                                />
-                              </div>
-                            </div>
-                          </td> */}
                           <td className="px-6 py-4  text-gray-900 ">
                             ${product.price * product.count}
                           </td>
@@ -257,7 +231,7 @@ export default function Cart() {
                     onClick={clearUserCart}
                     className="w-full md:w-1/4 lg:w-1/5 capitalize mt-6 rounded bg-secondary text-white px-12 py-4 font-medium hover:bg-opacity-90 transition-colors duration-500"
                   >
-                    {btnLoading ? (
+                    {clearCartItems.isPending ? (
                       <i className="fas fa-spinner fa-spin"></i>
                     ) : (
                       "clear cart"
@@ -270,7 +244,7 @@ export default function Cart() {
                     <div className="flex flex-col justify-between mb-4 relative after:content-[''] after:w-full after:h-[2px] after:bg-slate-200 after:mt-4">
                       <div className="flex justify-between">
                         <p>Subtotal:</p>
-                        <p>${cartDetails?.totalCartPrice}</p>
+                        <p>${cartItems?.totalCartPrice}</p>
                       </div>
                     </div>
                     <div className="flex flex-col justify-between mb-4 relative after:content-[''] after:w-full after:h-[2px] after:bg-slate-200 after:mt-4">
@@ -281,7 +255,7 @@ export default function Cart() {
                     </div>
                     <div className="flex justify-between">
                       <p>Total:</p>
-                      <p>${cartDetails.totalCartPrice}</p>
+                      <p>${cartItems.totalCartPrice}</p>
                     </div>
                     <Link to="/checkout">
                       <button className=" mt-6 rounded bg-secondary sm:px-12 py-4 font-medium hover:bg-opacity-90  transition-colors duration-500 text-white w-full sm:w-auto mx-auto block">

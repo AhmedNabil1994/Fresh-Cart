@@ -9,23 +9,6 @@ export default function WishlistContextProvider({ children }) {
   const { userToken } = useContext(UserContext);
   const headers = { token: userToken };
 
-  const addToWishlist = async (productId) => {
-    return await axios
-      .post(
-        `https://ecommerce.routemisr.com/api/v1/wishlist`,
-        { productId },
-        { headers }
-      )
-      .then(({ data }) => {
-        if (data.status === "success") {
-          // console.log(data,"data when add  wishlist");
-          setWishlist(data);
-        }
-        return data;
-      })
-      .catch((error) => error);
-  };
-
   const getLoggedUserWishlist = async () => {
     return await axios
       .get(`https://ecommerce.routemisr.com/api/v1/wishlist`, {
@@ -34,21 +17,6 @@ export default function WishlistContextProvider({ children }) {
       .then(({ data }) => {
         if (data.status === "success") {
           setWishlist(data);
-        }
-        return data;
-      })
-      .catch((error) => error);
-  };
-
-  const deleteWishlistItem = async (productId) => {
-    return await axios
-      .delete(`https://ecommerce.routemisr.com/api/v1/wishlist/${productId}`, {
-        headers,
-      })
-      .then(({ data }) => {
-        if (data.status === "success") {
-          setWishlist(data);
-          // console.log("data in delete", wishlist);
         }
         return data;
       })
@@ -66,9 +34,6 @@ export default function WishlistContextProvider({ children }) {
       value={{
         wishlist,
         setWishlist,
-        addToWishlist,
-        getLoggedUserWishlist,
-        deleteWishlistItem,
       }}
     >
       {children}

@@ -3,23 +3,24 @@ import ApiError from "../../shared/ApiError/ApiError";
 import Loader from "../../shared/Loader/Loader";
 import StarRatings from "react-star-ratings";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
-import { CartContext } from "../../../context/CartContext";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { WishlistContext } from "../../../context/WishlistContext";
 import useProducts from "../../../hooks/useProducts";
 import MetaTags from "../../MetaTags/MetaTags";
 import useScrollToTop from "../../../hooks/useScrollToTop";
+import useMutationCart from "../../../hooks/cart/useMutationCart";
+import useMutationWishlist from "../../../hooks/wishlist/useMutationWishlist";
 
 export default function ProductDetails() {
-  const [btnLoading, setBtnLoading] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [imageIdx, setImageIdx] = useState(null);
-  const { addToCart } = useContext(CartContext);
+  const { add } = useMutationCart();
+  const { isLoading: btnLoading, mutate } = add;
   let { id } = useParams();
-  const { addToWishlist, deleteWishlistItem, wishlist } =
-    useContext(WishlistContext);
+  const { wishlist } = useContext(WishlistContext);
+  const { addWishlist, deleteFromWishlist } = useMutationWishlist();
 
   useScrollToTop(id);
 
@@ -35,66 +36,67 @@ export default function ProductDetails() {
   });
 
   const handleAddToCart = async (id) => {
-    setBtnLoading(true);
     const toastId = toast.loading("Adding product to cart...");
-    const data = await addToCart(id);
-    // console.log("data", data);
-    if (data.status === "success") {
-      setBtnLoading(false);
-      toast.success(data.message, {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      setBtnLoading(false);
-      toast.error(data.message, {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-    }
+    mutate(id, {
+      onSuccess: (data) => {
+        toast.success(data.message, {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message, {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
+      },
+    });
   };
 
   const handleAddToWishlist = async (id) => {
     const toastId = toast.loading("Adding product to wishlist...");
-    const data = await addToWishlist(id);
-    // console.log("heart clicked", data);
-    if (data.status === "success") {
-      toast.success("Product deleted successfully.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      toast.error(data.message, {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-    }
+    addWishlist.mutate(id, {
+      onSuccess: () => {
+        toast.success("Product added successfully.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
+      },
+      onError: (error) => {
+        toast.error(error?.response?.data?.message, {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
+        setIsInWishlist(false);
+      },
+    });
   };
 
   const handleDeleteWishlistItem = async (id) => {
     const toastId = toast.loading("Deleting product from wishlist...");
-    const data = await deleteWishlistItem(id);
-    if (data.status === "success") {
-      // console.log(data, "data in delete");
-      toast.success("Product deleted successfully.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        duration: 3000,
-        id: toastId,
-      });
-    } else {
-      toast.error("Error during deleting, try again.", {
-        position: "top-center",
-        style: { fontFamily: "sans-serif" },
-        id: toastId,
-      });
-    }
+    deleteFromWishlist.mutate(id, {
+      onSuccess: () => {
+        toast.success("Product deleted successfully.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          duration: 3000,
+          id: toastId,
+        });
+      },
+      onError: () => {
+        toast.error("Error during deleting, try again.", {
+          position: "top-center",
+          style: { fontFamily: "sans-serif" },
+          id: toastId,
+        });
+      },
+    });
   };
 
   const handleWishlist = (id) => {
